@@ -101,6 +101,7 @@ def lesson(lesson_id):
     return render_template(f'lesson{lesson_id}.html',
                          lesson=lesson_data,
                          lesson_id=lesson_id,
+                         lessons=LESSONS,
                          is_completed=is_completed,
                          total_lessons=len(LESSONS))
 
@@ -121,11 +122,10 @@ def complete_lesson(lesson_id):
     if progress:
         progress.completed = True
     else:
-        progress = LessonProgress(
-            session_id=session_id,
-            lesson_id=lesson_id,
-            completed=True
-        )
+        progress = LessonProgress()
+        progress.session_id = session_id
+        progress.lesson_id = lesson_id
+        progress.completed = True
         db.session.add(progress)
     
     db.session.commit()
@@ -139,7 +139,8 @@ def search():
     
     if query:
         # Log search query
-        search_log = SearchQuery(query=query)
+        search_log = SearchQuery()
+        search_log.query = query
         db.session.add(search_log)
         db.session.commit()
         
