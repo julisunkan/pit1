@@ -140,7 +140,7 @@ def search():
     if query:
         # Log search query
         search_log = SearchQuery()
-        search_log.query = query
+        search_log.query = str(query)
         db.session.add(search_log)
         db.session.commit()
         

@@ -2,8 +2,22 @@
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#212529">
+    <meta name="description" content="Learn ethical hacking and cybersecurity through comprehensive interactive lessons">
+    
     <title>{% block title %}Ethical Hacking Tutorial{% endblock %}</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='icon-512.png') }}">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
@@ -18,48 +32,57 @@
     <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-shield-alt me-2"></i>
-                Ethical Hacking Tutorial
-            </a>
+    <!-- Mobile App Header -->
+    <header class="mobile-header sticky-top">
+        <div class="mobile-nav-container">
+            <div class="mobile-nav-brand">
+                <a href="{{ url_for('index') }}" class="brand-link">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="brand-text">Ethical Hacking</span>
+                </a>
+            </div>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">
-                            <i class="fas fa-home me-1"></i>Home
-                        </a>
-                    </li>
-                    {% if lesson_id is defined %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-book me-1"></i>Lessons
-                        </a>
-                        <ul class="dropdown-menu">
-                            {% for lid, lesson_data in lessons.items() %}
-                            <li>
-                                <a class="dropdown-item" href="{{ url_for('lesson', lesson_id=lid) }}">
-                                    Lesson {{ lid }}: {{ lesson_data.title }}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                </ul>
+            {% if lesson_id is defined %}
+            <div class="mobile-nav-actions">
+                <button class="mobile-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#lessonMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Mobile Lesson Menu (Offcanvas) -->
+    {% if lesson_id is defined %}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="lessonMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">
+                <i class="fas fa-book me-2"></i>Lessons
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="lesson-menu-list">
+                {% for lid, lesson_data in lessons.items() %}
+                <a href="{{ url_for('lesson', lesson_id=lid) }}" 
+                   class="lesson-menu-item {% if lid == lesson_id %}active{% endif %}">
+                    <div class="lesson-number">{{ lid }}</div>
+                    <div class="lesson-info">
+                        <div class="lesson-title">{{ lesson_data.title }}</div>
+                        <div class="lesson-duration">{{ lesson_data.duration }}</div>
+                    </div>
+                    <div class="lesson-status">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
-    </nav>
+    </div>
+    {% endif %}
 
     <!-- Main Content -->
-    <main class="container my-4">
+    <main class="container mobile-main">
         {% block content %}{% endblock %}
     </main>
 
