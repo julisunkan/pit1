@@ -1,0 +1,644 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 4: Web Application Security Testing{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 4</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=3) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Vulnerability Assessment
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=5) }}" class="btn btn-outline-info">
+                    Next: Wireless Security <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Web Application Security Testing</h3>
+                <p>Web applications are common targets for attackers due to their accessibility and the valuable data they often handle. This lesson covers the most critical web application vulnerabilities and testing methodologies.</p>
+
+                <h4>OWASP Top 10 (2021)</h4>
+                <p>The Open Web Application Security Project (OWASP) maintains a list of the most critical web application security risks:</p>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger">A01: Broken Access Control</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Restrictions on authenticated users not properly enforced. Attackers can access unauthorized functionality or data.</p>
+                                <strong class="small">Examples:</strong>
+                                <ul class="small">
+                                    <li>Accessing admin functions as regular user</li>
+                                    <li>Viewing/editing other users' data</li>
+                                    <li>IDOR (Insecure Direct Object References)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger">A02: Cryptographic Failures</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Failures related to cryptography that often lead to sensitive data exposure.</p>
+                                <strong class="small">Examples:</strong>
+                                <ul class="small">
+                                    <li>Transmitting data in clear text</li>
+                                    <li>Using weak encryption algorithms</li>
+                                    <li>Poor key management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning">A03: Injection</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Untrusted data sent to interpreters as part of commands or queries.</p>
+                                <strong class="small">Examples:</strong>
+                                <ul class="small">
+                                    <li>SQL Injection</li>
+                                    <li>NoSQL Injection</li>
+                                    <li>Command Injection</li>
+                                    <li>LDAP Injection</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning">A04: Insecure Design</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Risks related to design and architectural flaws.</p>
+                                <strong class="small">Examples:</strong>
+                                <ul class="small">
+                                    <li>Missing security controls</li>
+                                    <li>Poor threat modeling</li>
+                                    <li>Insecure design patterns</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>SQL Injection Deep Dive</h4>
+                <p>SQL Injection occurs when malicious SQL code is inserted into application queries. It's one of the most serious web application vulnerabilities.</p>
+
+                <h5>Types of SQL Injection</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Detection Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Union-based</span></td>
+                                <td>Uses UNION SQL operator to combine results</td>
+                                <td>Error messages, data retrieval</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">Boolean-based</span></td>
+                                <td>Uses boolean logic to extract information</td>
+                                <td>True/false responses</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Time-based</span></td>
+                                <td>Uses database time delays to confirm injection</td>
+                                <td>Response time variations</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Out-of-band</span></td>
+                                <td>Uses alternative channels (DNS, HTTP) for data exfiltration</td>
+                                <td>External network requests</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5>SQL Injection Examples</h5>
+                <pre><code class="language-sql">-- Vulnerable query
+SELECT * FROM users WHERE username = '$username' AND password = '$password';
+
+-- Attack payload for authentication bypass
+Username: admin'--
+Password: anything
+
+-- Resulting query (password check bypassed)
+SELECT * FROM users WHERE username = 'admin'--' AND password = 'anything';
+
+-- Union-based data extraction
+Username: ' UNION SELECT username, password FROM users--
+Password: anything
+
+-- Time-based blind injection
+Username: admin'; IF (1=1) WAITFOR DELAY '00:00:05'--
+Password: anything</code></pre>
+
+                <h4>Cross-Site Scripting (XSS)</h4>
+                <p>XSS allows attackers to inject malicious scripts into web pages viewed by other users.</p>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0">Reflected XSS</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Malicious script reflected off a web server</p>
+                                <code class="small">?search=&lt;script&gt;alert('XSS')&lt;/script&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0">Stored XSS</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Malicious script permanently stored on target server</p>
+                                <code class="small">Comment: &lt;img src=x onerror=alert('XSS')&gt;</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0">DOM XSS</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Client-side script modifies DOM in unsafe way</p>
+                                <code class="small">document.innerHTML = userInput;</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Web Application Testing Tools</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-spider text-warning me-2"></i>Burp Suite</h6>
+                                <p class="small">Comprehensive web app security testing platform</p>
+                                <ul class="small">
+                                    <li>Proxy for intercepting requests</li>
+                                    <li>Scanner for automated testing</li>
+                                    <li>Intruder for custom attacks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-search text-info me-2"></i>OWASP ZAP</h6>
+                                <p class="small">Free and open-source web app scanner</p>
+                                <ul class="small">
+                                    <li>Automated scanning</li>
+                                    <li>Manual testing tools</li>
+                                    <li>API testing capabilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-database text-success me-2"></i>SQLMap</h6>
+                                <p class="small">Automated SQL injection testing tool</p>
+                                <ul class="small">
+                                    <li>Detects SQL injection vulnerabilities</li>
+                                    <li>Supports multiple database types</li>
+                                    <li>Data extraction capabilities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Python Web Application Security Scanner</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import requests
+from urllib.parse import urljoin, urlparse
+import re
+import sys
+from bs4 import BeautifulSoup
+
+class WebAppScanner:
+    def __init__(self, target_url):
+        self.target_url = target_url
+        self.session = requests.Session()
+        self.vulnerabilities = []
+        self.forms = []
+        
+    def extract_forms(self, url):
+        """
+        Extract all forms from a webpage
+        """
+        try:
+            response = self.session.get(url)
+            soup = BeautifulSoup(response.content, 'html.parser')
+            forms = soup.find_all('form')
+            
+            for form in forms:
+                form_details = {
+                    'action': form.get('action'),
+                    'method': form.get('method', 'get').lower(),
+                    'inputs': []
+                }
+                
+                # Extract form inputs
+                for input_tag in form.find_all(['input', 'textarea', 'select']):
+                    input_type = input_tag.get('type', 'text')
+                    input_name = input_tag.get('name')
+                    input_value = input_tag.get('value', '')
+                    
+                    form_details['inputs'].append({
+                        'type': input_type,
+                        'name': input_name,
+                        'value': input_value
+                    })
+                
+                self.forms.append(form_details)
+            
+            return forms
+        except Exception as e:
+            print(f"Error extracting forms: {e}")
+            return []
+    
+    def test_sql_injection(self, url, form_data=None):
+        """
+        Test for SQL injection vulnerabilities
+        """
+        sql_payloads = [
+            "'",
+            "1' OR '1'='1",
+            "1' AND 1=1--",
+            "1' UNION SELECT NULL--",
+            "'; DROP TABLE users; --"
+        ]
+        
+        sql_errors = [
+            "SQL syntax",
+            "mysql_fetch",
+            "ORA-01756",
+            "Microsoft JET Database",
+            "SQLServer JDBC Driver",
+            "PostgreSQL query failed",
+            "org.postgresql.util.PSQLException"
+        ]
+        
+        for payload in sql_payloads:
+            try:
+                if form_data:
+                    # Test form submission
+                    test_data = form_data.copy()
+                    for key in test_data:
+                        if test_data[key] != 'submit':
+                            test_data[key] = payload
+                    
+                    response = self.session.post(url, data=test_data)
+                else:
+                    # Test URL parameter
+                    response = self.session.get(f"{url}?id={payload}")
+                
+                # Check for SQL error messages
+                for error in sql_errors:
+                    if error.lower() in response.text.lower():
+                        self.vulnerabilities.append({
+                            'type': 'SQL Injection',
+                            'severity': 'High',
+                            'url': url,
+                            'payload': payload,
+                            'description': f'Possible SQL injection detected with payload: {payload}'
+                        })
+                        return True
+                        
+            except Exception as e:
+                continue
+        
+        return False
+    
+    def test_xss(self, url, form_data=None):
+        """
+        Test for Cross-Site Scripting vulnerabilities
+        """
+        xss_payloads = [
+            "<script>alert('XSS')</script>",
+            "<img src=x onerror=alert('XSS')>",
+            "javascript:alert('XSS')",
+            "<svg onload=alert('XSS')>",
+            "';alert('XSS');//"
+        ]
+        
+        for payload in xss_payloads:
+            try:
+                if form_data:
+                    # Test form submission
+                    test_data = form_data.copy()
+                    for key in test_data:
+                        if test_data[key] != 'submit':
+                            test_data[key] = payload
+                    
+                    response = self.session.post(url, data=test_data)
+                else:
+                    # Test URL parameter
+                    response = self.session.get(f"{url}?search={payload}")
+                
+                # Check if payload is reflected in response
+                if payload in response.text:
+                    self.vulnerabilities.append({
+                        'type': 'Cross-Site Scripting (XSS)',
+                        'severity': 'High',
+                        'url': url,
+                        'payload': payload,
+                        'description': f'Possible XSS vulnerability detected with payload: {payload}'
+                    })
+                    return True
+                    
+            except Exception as e:
+                continue
+        
+        return False
+    
+    def check_security_headers(self, url):
+        """
+        Check for missing security headers
+        """
+        try:
+            response = self.session.get(url)
+            headers = response.headers
+            
+            security_headers = {
+                'X-Frame-Options': 'Clickjacking protection',
+                'X-Content-Type-Options': 'MIME type sniffing protection', 
+                'X-XSS-Protection': 'XSS protection',
+                'Strict-Transport-Security': 'HTTPS enforcement',
+                'Content-Security-Policy': 'Content Security Policy'
+            }
+            
+            for header, description in security_headers.items():
+                if header not in headers:
+                    self.vulnerabilities.append({
+                        'type': 'Security Headers',
+                        'severity': 'Medium',
+                        'url': url,
+                        'description': f'Missing {header} header: {description}'
+                    })
+                    
+        except Exception as e:
+            print(f"Error checking security headers: {e}")
+    
+    def test_directory_traversal(self, url):
+        """
+        Test for directory traversal vulnerabilities
+        """
+        traversal_payloads = [
+            "../../../etc/passwd",
+            "..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+            "%2e%2e%2f%2e%2e%2f%2e%2e%2f%65%74%63%2f%70%61%73%73%77%64"
+        ]
+        
+        for payload in traversal_payloads:
+            try:
+                response = self.session.get(f"{url}?file={payload}")
+                
+                # Check for common file contents
+                if "root:" in response.text or "# Copyright" in response.text:
+                    self.vulnerabilities.append({
+                        'type': 'Directory Traversal',
+                        'severity': 'High',
+                        'url': url,
+                        'payload': payload,
+                        'description': f'Directory traversal vulnerability detected with payload: {payload}'
+                    })
+                    return True
+                    
+            except Exception as e:
+                continue
+        
+        return False
+    
+    def run_scan(self):
+        """
+        Run comprehensive web application security scan
+        """
+        print(f"Starting web application security scan on {self.target_url}")
+        print("=" * 60)
+        
+        # Check security headers
+        print("Checking security headers...")
+        self.check_security_headers(self.target_url)
+        
+        # Extract forms
+        print("Extracting forms...")
+        self.extract_forms(self.target_url)
+        
+        # Test for SQL injection
+        print("Testing for SQL injection...")
+        self.test_sql_injection(self.target_url)
+        
+        # Test forms for SQL injection and XSS
+        for form in self.forms:
+            form_url = urljoin(self.target_url, form['action'] or '')
+            form_data = {}
+            
+            # Prepare form data
+            for input_field in form['inputs']:
+                if input_field['name']:
+                    form_data[input_field['name']] = input_field['value'] or 'test'
+            
+            if form_data:
+                print(f"Testing form at {form_url}...")
+                self.test_sql_injection(form_url, form_data)
+                self.test_xss(form_url, form_data)
+        
+        # Test for XSS
+        print("Testing for Cross-Site Scripting...")
+        self.test_xss(self.target_url)
+        
+        # Test for directory traversal
+        print("Testing for directory traversal...")
+        self.test_directory_traversal(self.target_url)
+        
+        # Generate report
+        self.generate_report()
+    
+    def generate_report(self):
+        """
+        Generate vulnerability report
+        """
+        print("\n" + "=" * 60)
+        print("WEB APPLICATION SECURITY SCAN REPORT")
+        print("=" * 60)
+        
+        if not self.vulnerabilities:
+            print("No vulnerabilities detected.")
+            return
+        
+        # Group by severity
+        severity_order = ['High', 'Medium', 'Low']
+        for severity in severity_order:
+            vuln_list = [v for v in self.vulnerabilities if v['severity'] == severity]
+            if vuln_list:
+                print(f"\n{severity.upper()} SEVERITY ({len(vuln_list)} findings):")
+                print("-" * 40)
+                for i, vuln in enumerate(vuln_list, 1):
+                    print(f"{i}. {vuln['type']}")
+                    print(f"   URL: {vuln.get('url', 'N/A')}")
+                    print(f"   Description: {vuln['description']}")
+                    if 'payload' in vuln:
+                        print(f"   Payload: {vuln['payload']}")
+                    print()
+        
+        print(f"Total vulnerabilities found: {len(self.vulnerabilities)}")
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 webapp_scanner.py <target_url>")
+        print("Example: python3 webapp_scanner.py http://example.com")
+        sys.exit(1)
+    
+    target_url = sys.argv[1]
+    if not target_url.startswith(('http://', 'https://')):
+        target_url = 'http://' + target_url
+    
+    scanner = WebAppScanner(target_url)
+    scanner.run_scan()
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Secure Coding Practices</h4>
+                <div class="card bg-dark border-success">
+                    <div class="card-body">
+                        <h6 class="text-success">Prevention Techniques</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Input Validation</h6>
+                                <ul class="small">
+                                    <li>Whitelist acceptable inputs</li>
+                                    <li>Validate data types and formats</li>
+                                    <li>Use parameterized queries</li>
+                                    <li>Encode output properly</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Security Controls</h6>
+                                <ul class="small">
+                                    <li>Implement CSRF tokens</li>
+                                    <li>Use secure session management</li>
+                                    <li>Apply principle of least privilege</li>
+                                    <li>Implement proper error handling</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Web Application Security Testing Lab</h6>
+                        <p><strong>Objective:</strong> Practice identifying web application vulnerabilities.</p>
+                        <ol>
+                            <li>Set up a vulnerable web application:
+                                <ul>
+                                    <li>DVWA (Damn Vulnerable Web Application)</li>
+                                    <li>WebGoat</li>
+                                    <li>bWAPP</li>
+                                </ul>
+                            </li>
+                            <li>Use manual testing techniques to find:
+                                <ul>
+                                    <li>SQL injection vulnerabilities</li>
+                                    <li>XSS vulnerabilities</li>
+                                    <li>Authentication bypasses</li>
+                                </ul>
+                            </li>
+                            <li>Run the Python scanner script against the application</li>
+                            <li>Use Burp Suite or OWASP ZAP for automated scanning</li>
+                            <li>Compare results from manual vs automated testing</li>
+                        </ol>
+                        <div class="alert alert-danger mt-2">
+                            <small><i class="fas fa-exclamation-triangle me-1"></i>Only test applications you own or have explicit permission to test!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 4 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (4 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

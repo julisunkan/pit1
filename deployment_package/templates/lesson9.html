@@ -1,0 +1,862 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 9: Incident Response & Reporting{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 9</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=8) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Security Tools
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=10) }}" class="btn btn-outline-info">
+                    Next: Legal & Ethics <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Incident Response & Reporting</h3>
+                <p>Effective incident response is crucial for minimizing damage from security breaches and maintaining business continuity. This lesson covers incident response frameworks, processes, and professional reporting techniques.</p>
+
+                <h4>Incident Response Lifecycle</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card bg-dark border-info">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-2">
+                                        <i class="fas fa-clipboard-list fa-2x text-info mb-2"></i>
+                                        <h6>1. Preparation</h6>
+                                        <p class="small">Establish IR team, policies, and procedures</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-search fa-2x text-warning mb-2"></i>
+                                        <h6>2. Identification</h6>
+                                        <p class="small">Detect and analyze potential incidents</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-shield-alt fa-2x text-danger mb-2"></i>
+                                        <h6>3. Containment</h6>
+                                        <p class="small">Limit damage and prevent spread</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-broom fa-2x text-success mb-2"></i>
+                                        <h6>4. Eradication</h6>
+                                        <p class="small">Remove threats and vulnerabilities</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-tools fa-2x text-primary mb-2"></i>
+                                        <h6>5. Recovery</h6>
+                                        <p class="small">Restore systems and operations</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-graduation-cap fa-2x text-secondary mb-2"></i>
+                                        <h6>6. Lessons Learned</h6>
+                                        <p class="small">Review and improve processes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>NIST Incident Response Framework</h4>
+                <p>The NIST Computer Security Incident Handling Guide (SP 800-61) provides a comprehensive framework for incident response:</p>
+
+                <div class="accordion" id="nistFramework">
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#preparation">
+                                <i class="fas fa-clipboard-list me-2 text-info"></i>Phase 1: Preparation
+                            </button>
+                        </h2>
+                        <div id="preparation" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Key Activities:</h6>
+                                <ul class="small">
+                                    <li>Establish incident response team and roles</li>
+                                    <li>Develop incident response policies and procedures</li>
+                                    <li>Set up communication channels and escalation paths</li>
+                                    <li>Deploy monitoring and detection tools</li>
+                                    <li>Create incident response toolkit</li>
+                                    <li>Conduct training and tabletop exercises</li>
+                                </ul>
+                                <h6>Documentation Required:</h6>
+                                <ul class="small">
+                                    <li>Incident Response Plan</li>
+                                    <li>Contact lists and communication templates</li>
+                                    <li>Network diagrams and asset inventories</li>
+                                    <li>Baseline system configurations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#detection">
+                                <i class="fas fa-search me-2 text-warning"></i>Phase 2: Detection and Analysis
+                            </button>
+                        </h2>
+                        <div id="detection" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Detection Methods:</h6>
+                                <ul class="small">
+                                    <li>Automated monitoring systems (SIEM, IDS/IPS)</li>
+                                    <li>User reports and help desk tickets</li>
+                                    <li>Threat intelligence feeds</li>
+                                    <li>External notifications (vendors, law enforcement)</li>
+                                </ul>
+                                <h6>Analysis Process:</h6>
+                                <ul class="small">
+                                    <li>Validate the incident</li>
+                                    <li>Determine incident scope and impact</li>
+                                    <li>Classify incident severity</li>
+                                    <li>Document initial findings</li>
+                                    <li>Notify appropriate stakeholders</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#containment">
+                                <i class="fas fa-shield-alt me-2 text-danger"></i>Phase 3: Containment, Eradication, and Recovery
+                            </button>
+                        </h2>
+                        <div id="containment" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Containment Strategies:</h6>
+                                <ul class="small">
+                                    <li><strong>Short-term:</strong> Immediate isolation of affected systems</li>
+                                    <li><strong>Long-term:</strong> Temporary solutions while preparing permanent fixes</li>
+                                    <li>Network segmentation and access controls</li>
+                                    <li>System quarantine and traffic blocking</li>
+                                </ul>
+                                <h6>Eradication and Recovery:</h6>
+                                <ul class="small">
+                                    <li>Remove malware and close vulnerabilities</li>
+                                    <li>Apply security patches and updates</li>
+                                    <li>Restore systems from clean backups</li>
+                                    <li>Implement additional monitoring</li>
+                                    <li>Gradually return systems to production</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Incident Classification and Severity</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Impact</th>
+                                <th>Response Time</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td>Severe business disruption, data breach</td>
+                                <td>Immediate (0-1 hours)</td>
+                                <td>Ransomware, active data exfiltration</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td>Significant service impact</td>
+                                <td>4 hours</td>
+                                <td>System compromise, malware infection</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Medium</span></td>
+                                <td>Limited service impact</td>
+                                <td>24 hours</td>
+                                <td>Policy violations, suspicious activity</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Low</span></td>
+                                <td>Minimal or no service impact</td>
+                                <td>72 hours</td>
+                                <td>Failed login attempts, spam</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Digital Forensics and Evidence Collection</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info"><i class="fas fa-search me-2"></i>Evidence Collection</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Volatile Data:</strong> Memory dumps, network connections</li>
+                                    <li><strong>System Images:</strong> Complete disk copies</li>
+                                    <li><strong>Log Files:</strong> System, application, and security logs</li>
+                                    <li><strong>Network Data:</strong> Packet captures, flow records</li>
+                                    <li><strong>Documentation:</strong> Screenshots, photographs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-gavel me-2"></i>Chain of Custody</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Document who, what, when, where, why</li>
+                                    <li>Use tamper-evident storage and labeling</li>
+                                    <li>Maintain continuous documentation</li>
+                                    <li>Limit access to authorized personnel</li>
+                                    <li>Use cryptographic hashes for integrity</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Python Incident Response Toolkit</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import os
+import json
+import hashlib
+import subprocess
+import platform
+from datetime import datetime
+import psutil
+import logging
+
+class IncidentResponseToolkit:
+    def __init__(self, case_id, output_dir="ir_investigation"):
+        self.case_id = case_id
+        self.output_dir = f"{output_dir}_{case_id}"
+        self.evidence_log = []
+        
+        # Create output directory structure
+        self.create_directory_structure()
+        
+        # Set up logging
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(f"{self.output_dir}/investigation.log"),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger(__name__)
+        
+        self.logger.info(f"Incident Response investigation started for case: {case_id}")
+    
+    def create_directory_structure(self):
+        """Create standard IR directory structure"""
+        directories = [
+            self.output_dir,
+            f"{self.output_dir}/evidence",
+            f"{self.output_dir}/logs",
+            f"{self.output_dir}/memory",
+            f"{self.output_dir}/network",
+            f"{self.output_dir}/system",
+            f"{self.output_dir}/reports"
+        ]
+        
+        for directory in directories:
+            os.makedirs(directory, exist_ok=True)
+    
+    def collect_system_info(self):
+        """Collect basic system information"""
+        self.logger.info("Collecting system information...")
+        
+        system_info = {
+            'case_id': self.case_id,
+            'timestamp': datetime.now().isoformat(),
+            'hostname': platform.node(),
+            'operating_system': platform.system(),
+            'os_version': platform.version(),
+            'architecture': platform.architecture(),
+            'processor': platform.processor(),
+            'boot_time': datetime.fromtimestamp(psutil.boot_time()).isoformat(),
+            'current_users': [user.name for user in psutil.users()]
+        }
+        
+        # Save system info
+        with open(f"{self.output_dir}/system/system_info.json", 'w') as f:
+            json.dump(system_info, f, indent=2)
+        
+        self.add_evidence_entry("System Information", "system/system_info.json", "System metadata collection")
+        return system_info
+    
+    def collect_running_processes(self):
+        """Collect information about running processes"""
+        self.logger.info("Collecting running processes...")
+        
+        processes = []
+        for proc in psutil.process_iter(['pid', 'name', 'username', 'cmdline', 'create_time', 'memory_info']):
+            try:
+                proc_info = proc.info
+                proc_info['create_time'] = datetime.fromtimestamp(proc_info['create_time']).isoformat()
+                proc_info['memory_rss'] = proc_info['memory_info'].rss if proc_info['memory_info'] else 0
+                del proc_info['memory_info']  # Remove complex object
+                processes.append(proc_info)
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+        
+        # Save process list
+        with open(f"{self.output_dir}/system/processes.json", 'w') as f:
+            json.dump(processes, f, indent=2)
+        
+        # Create human-readable process list
+        with open(f"{self.output_dir}/system/processes.txt", 'w') as f:
+            f.write("RUNNING PROCESSES\n")
+            f.write("=" * 50 + "\n")
+            f.write(f"{'PID':<8} {'Name':<20} {'User':<15} {'Memory (MB)':<12} {'Command'}\n")
+            f.write("-" * 80 + "\n")
+            
+            for proc in sorted(processes, key=lambda x: x.get('memory_rss', 0), reverse=True):
+                memory_mb = proc.get('memory_rss', 0) / (1024 * 1024)
+                cmdline = ' '.join(proc.get('cmdline', [])) if proc.get('cmdline') else ''
+                f.write(f"{proc.get('pid', 'N/A'):<8} {proc.get('name', 'N/A'):<20} "
+                       f"{proc.get('username', 'N/A'):<15} {memory_mb:<12.2f} {cmdline[:40]}\n")
+        
+        self.add_evidence_entry("Running Processes", "system/processes.json", f"{len(processes)} processes captured")
+        return processes
+    
+    def collect_network_connections(self):
+        """Collect active network connections"""
+        self.logger.info("Collecting network connections...")
+        
+        connections = []
+        for conn in psutil.net_connections(kind='inet'):
+            conn_info = {
+                'fd': conn.fd,
+                'family': str(conn.family),
+                'type': str(conn.type),
+                'local_address': f"{conn.laddr.ip}:{conn.laddr.port}" if conn.laddr else None,
+                'remote_address': f"{conn.raddr.ip}:{conn.raddr.port}" if conn.raddr else None,
+                'status': conn.status,
+                'pid': conn.pid
+            }
+            
+            # Try to get process name
+            if conn.pid:
+                try:
+                    proc = psutil.Process(conn.pid)
+                    conn_info['process_name'] = proc.name()
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    conn_info['process_name'] = 'Unknown'
+            
+            connections.append(conn_info)
+        
+        # Save network connections
+        with open(f"{self.output_dir}/network/connections.json", 'w') as f:
+            json.dump(connections, f, indent=2)
+        
+        # Create human-readable connections list
+        with open(f"{self.output_dir}/network/connections.txt", 'w') as f:
+            f.write("ACTIVE NETWORK CONNECTIONS\n")
+            f.write("=" * 50 + "\n")
+            f.write(f"{'Protocol':<8} {'Local Address':<22} {'Remote Address':<22} {'Status':<12} {'PID':<8} {'Process'}\n")
+            f.write("-" * 90 + "\n")
+            
+            for conn in connections:
+                protocol = "TCP" if "SOCK_STREAM" in conn['type'] else "UDP"
+                f.write(f"{protocol:<8} {conn.get('local_address', 'N/A'):<22} "
+                       f"{conn.get('remote_address', 'N/A'):<22} {conn.get('status', 'N/A'):<12} "
+                       f"{conn.get('pid', 'N/A'):<8} {conn.get('process_name', 'N/A')}\n")
+        
+        self.add_evidence_entry("Network Connections", "network/connections.json", f"{len(connections)} connections captured")
+        return connections
+    
+    def collect_system_logs(self):
+        """Collect relevant system logs"""
+        self.logger.info("Collecting system logs...")
+        
+        log_files = []
+        
+        # Common log locations by OS
+        if platform.system() == "Linux":
+            potential_logs = [
+                "/var/log/syslog",
+                "/var/log/auth.log",
+                "/var/log/secure",
+                "/var/log/messages",
+                "/var/log/kern.log"
+            ]
+        elif platform.system() == "Windows":
+            # On Windows, we would typically use Windows Event Log API
+            # This is a simplified approach
+            potential_logs = [
+                "C:\\Windows\\System32\\winevt\\Logs\\Security.evtx",
+                "C:\\Windows\\System32\\winevt\\Logs\\System.evtx",
+                "C:\\Windows\\System32\\winevt\\Logs\\Application.evtx"
+            ]
+        else:
+            potential_logs = []
+        
+        for log_path in potential_logs:
+            if os.path.exists(log_path) and os.access(log_path, os.R_OK):
+                try:
+                    # Copy log file with timestamp
+                    log_name = os.path.basename(log_path)
+                    dest_path = f"{self.output_dir}/logs/{log_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+                    
+                    # For large log files, copy recent entries only
+                    if os.path.getsize(log_path) > 100 * 1024 * 1024:  # 100MB
+                        self.logger.info(f"Large log file detected: {log_path}, copying recent entries only")
+                        self.copy_recent_log_entries(log_path, dest_path, lines=10000)
+                    else:
+                        subprocess.run(['cp', log_path, dest_path], check=True)
+                    
+                    log_files.append(dest_path)
+                    self.add_evidence_entry(f"System Log: {log_name}", dest_path, f"System log file from {log_path}")
+                    
+                except Exception as e:
+                    self.logger.error(f"Failed to copy log {log_path}: {e}")
+        
+        return log_files
+    
+    def copy_recent_log_entries(self, source_path, dest_path, lines=10000):
+        """Copy recent entries from large log files"""
+        try:
+            # Use tail command to get recent entries
+            with open(dest_path, 'w') as dest_file:
+                subprocess.run(['tail', '-n', str(lines), source_path], stdout=dest_file, check=True)
+        except Exception as e:
+            self.logger.error(f"Failed to copy recent log entries: {e}")
+    
+    def collect_file_hashes(self, target_directories=None):
+        """Collect file hashes for integrity verification"""
+        self.logger.info("Collecting file hashes...")
+        
+        if target_directories is None:
+            # Default directories to hash
+            if platform.system() == "Linux":
+                target_directories = ["/bin", "/sbin", "/usr/bin", "/usr/sbin"]
+            elif platform.system() == "Windows":
+                target_directories = ["C:\\Windows\\System32"]
+            else:
+                target_directories = []
+        
+        file_hashes = {}
+        
+        for directory in target_directories:
+            if os.path.exists(directory):
+                self.logger.info(f"Hashing files in {directory}...")
+                for root, dirs, files in os.walk(directory):
+                    for file in files[:100]:  # Limit to first 100 files per directory
+                        file_path = os.path.join(root, file)
+                        try:
+                            if os.path.isfile(file_path) and os.access(file_path, os.R_OK):
+                                file_hash = self.calculate_file_hash(file_path)
+                                file_hashes[file_path] = {
+                                    'sha256': file_hash,
+                                    'size': os.path.getsize(file_path),
+                                    'modified': datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
+                                }
+                        except Exception as e:
+                            self.logger.debug(f"Could not hash {file_path}: {e}")
+        
+        # Save file hashes
+        with open(f"{self.output_dir}/system/file_hashes.json", 'w') as f:
+            json.dump(file_hashes, f, indent=2)
+        
+        self.add_evidence_entry("File Hashes", "system/file_hashes.json", f"{len(file_hashes)} files hashed")
+        return file_hashes
+    
+    def calculate_file_hash(self, file_path):
+        """Calculate SHA256 hash of a file"""
+        sha256_hash = hashlib.sha256()
+        try:
+            with open(file_path, "rb") as f:
+                for chunk in iter(lambda: f.read(4096), b""):
+                    sha256_hash.update(chunk)
+            return sha256_hash.hexdigest()
+        except Exception as e:
+            self.logger.debug(f"Hash calculation failed for {file_path}: {e}")
+            return None
+    
+    def add_evidence_entry(self, name, file_path, description):
+        """Add entry to evidence log"""
+        evidence_entry = {
+            'timestamp': datetime.now().isoformat(),
+            'name': name,
+            'file_path': file_path,
+            'description': description,
+            'file_hash': self.calculate_file_hash(os.path.join(self.output_dir, file_path)) if os.path.exists(os.path.join(self.output_dir, file_path)) else None,
+            'collected_by': os.getenv('USER', 'unknown')
+        }
+        
+        self.evidence_log.append(evidence_entry)
+    
+    def generate_timeline(self):
+        """Generate timeline of collected evidence"""
+        self.logger.info("Generating evidence timeline...")
+        
+        timeline_entries = []
+        
+        # Add evidence collection events
+        for evidence in self.evidence_log:
+            timeline_entries.append({
+                'timestamp': evidence['timestamp'],
+                'event_type': 'Evidence Collection',
+                'description': f"Collected: {evidence['name']}",
+                'source': 'IR Toolkit'
+            })
+        
+        # Sort by timestamp
+        timeline_entries.sort(key=lambda x: x['timestamp'])
+        
+        # Save timeline
+        with open(f"{self.output_dir}/reports/timeline.json", 'w') as f:
+            json.dump(timeline_entries, f, indent=2)
+        
+        # Create human-readable timeline
+        with open(f"{self.output_dir}/reports/timeline.txt", 'w') as f:
+            f.write("INCIDENT RESPONSE TIMELINE\n")
+            f.write("=" * 50 + "\n")
+            f.write(f"Case ID: {self.case_id}\n")
+            f.write(f"Generated: {datetime.now().isoformat()}\n\n")
+            
+            for entry in timeline_entries:
+                f.write(f"{entry['timestamp']} - {entry['event_type']}\n")
+                f.write(f"  {entry['description']}\n")
+                f.write(f"  Source: {entry['source']}\n\n")
+        
+        return timeline_entries
+    
+    def generate_incident_report(self):
+        """Generate comprehensive incident response report"""
+        self.logger.info("Generating incident response report...")
+        
+        report = {
+            'case_id': self.case_id,
+            'report_generated': datetime.now().isoformat(),
+            'investigator': os.getenv('USER', 'unknown'),
+            'evidence_collected': len(self.evidence_log),
+            'evidence_log': self.evidence_log,
+            'system_summary': {
+                'hostname': platform.node(),
+                'os': f"{platform.system()} {platform.version()}",
+                'architecture': platform.architecture()[0]
+            }
+        }
+        
+        # Save detailed report
+        with open(f"{self.output_dir}/reports/incident_report.json", 'w') as f:
+            json.dump(report, f, indent=2)
+        
+        # Create executive summary
+        with open(f"{self.output_dir}/reports/executive_summary.txt", 'w') as f:
+            f.write("INCIDENT RESPONSE EXECUTIVE SUMMARY\n")
+            f.write("=" * 50 + "\n")
+            f.write(f"Case ID: {self.case_id}\n")
+            f.write(f"Investigation Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Investigator: {report['investigator']}\n")
+            f.write(f"Target System: {report['system_summary']['hostname']}\n")
+            f.write(f"Operating System: {report['system_summary']['os']}\n")
+            f.write(f"Evidence Items Collected: {report['evidence_collected']}\n\n")
+            
+            f.write("EVIDENCE SUMMARY:\n")
+            f.write("-" * 20 + "\n")
+            for evidence in self.evidence_log:
+                f.write(f"• {evidence['name']}: {evidence['description']}\n")
+            
+            f.write(f"\nAll evidence has been collected and stored in: {self.output_dir}\n")
+            f.write("Chain of custody has been maintained throughout the investigation.\n")
+        
+        self.logger.info(f"Incident response investigation completed for case: {self.case_id}")
+        self.logger.info(f"All evidence stored in: {self.output_dir}")
+        
+        return report
+    
+    def run_full_collection(self):
+        """Run complete evidence collection process"""
+        self.logger.info("Starting full evidence collection...")
+        
+        try:
+            # Collect all available evidence
+            self.collect_system_info()
+            self.collect_running_processes()
+            self.collect_network_connections()
+            self.collect_system_logs()
+            self.collect_file_hashes()
+            
+            # Generate reports
+            self.generate_timeline()
+            self.generate_incident_report()
+            
+            print(f"\n{'='*50}")
+            print("INCIDENT RESPONSE COLLECTION COMPLETED")
+            print(f"{'='*50}")
+            print(f"Case ID: {self.case_id}")
+            print(f"Evidence Directory: {self.output_dir}")
+            print(f"Evidence Items: {len(self.evidence_log)}")
+            print("Generated Reports:")
+            print("- incident_report.json (detailed findings)")
+            print("- executive_summary.txt (summary report)")
+            print("- timeline.txt (evidence timeline)")
+            
+        except Exception as e:
+            self.logger.error(f"Evidence collection failed: {e}")
+            raise
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 incident_response.py <case_id>")
+        print("Example: python3 incident_response.py CASE-2024-001")
+        sys.exit(1)
+    
+    case_id = sys.argv[1]
+    
+    print("Incident Response Toolkit")
+    print(f"Case ID: {case_id}")
+    print("=" * 40)
+    
+    # Initialize IR toolkit
+    ir_toolkit = IncidentResponseToolkit(case_id)
+    
+    try:
+        # Run full evidence collection
+        ir_toolkit.run_full_collection()
+        
+    except KeyboardInterrupt:
+        print("\nCollection interrupted by user")
+    except Exception as e:
+        print(f"Collection failed: {e}")
+
+if __name__ == "__main__":
+    import sys
+    main()
+</code></pre>
+
+                <h4>Professional Reporting Standards</h4>
+                <div class="card bg-dark border-success">
+                    <div class="card-body">
+                        <h6 class="text-success">Report Structure Best Practices</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Executive Summary</h6>
+                                <ul class="small">
+                                    <li>High-level incident overview</li>
+                                    <li>Business impact assessment</li>
+                                    <li>Key findings and recommendations</li>
+                                    <li>Resource requirements</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Technical Details</h6>
+                                <ul class="small">
+                                    <li>Detailed timeline of events</li>
+                                    <li>Technical analysis and evidence</li>
+                                    <li>Attack vectors and methods</li>
+                                    <li>Remediation steps taken</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Communication and Stakeholder Management</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Stakeholder</th>
+                                <th>Information Needed</th>
+                                <th>Communication Method</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Executive Leadership</td>
+                                <td>Business impact, costs, timeline</td>
+                                <td>Executive briefings, dashboards</td>
+                                <td>Initial + daily updates</td>
+                            </tr>
+                            <tr>
+                                <td>IT Operations</td>
+                                <td>Technical details, system status</td>
+                                <td>Technical calls, email updates</td>
+                                <td>Continuous during response</td>
+                            </tr>
+                            <tr>
+                                <td>Legal/Compliance</td>
+                                <td>Regulatory implications, evidence</td>
+                                <td>Secure communications</td>
+                                <td>As needed</td>
+                            </tr>
+                            <tr>
+                                <td>Public Relations</td>
+                                <td>Public disclosure requirements</td>
+                                <td>Prepared statements</td>
+                                <td>If public disclosure needed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Post-Incident Activities</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info"><i class="fas fa-clipboard-check me-2"></i>Lessons Learned Review</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Conduct post-incident review meeting</li>
+                                    <li>Document what worked well</li>
+                                    <li>Identify areas for improvement</li>
+                                    <li>Update incident response procedures</li>
+                                    <li>Enhance detection capabilities</li>
+                                    <li>Conduct additional training if needed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-shield-alt me-2"></i>Security Improvements</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Implement additional security controls</li>
+                                    <li>Update security policies</li>
+                                    <li>Enhance monitoring and alerting</li>
+                                    <li>Conduct vulnerability assessments</li>
+                                    <li>Update incident response plan</li>
+                                    <li>Share threat intelligence</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Incident Response Simulation</h6>
+                        <p><strong>Objective:</strong> Practice incident response procedures using a simulated security incident.</p>
+                        <ol>
+                            <li><strong>Scenario Setup:</strong>
+                                <ul>
+                                    <li>Create a simulated security incident scenario</li>
+                                    <li>Define roles and responsibilities</li>
+                                    <li>Set up communication channels</li>
+                                </ul>
+                            </li>
+                            <li><strong>Evidence Collection:</strong>
+                                <ul>
+                                    <li>Run the Python IR toolkit on a test system</li>
+                                    <li>Practice proper evidence handling procedures</li>
+                                    <li>Document chain of custody</li>
+                                </ul>
+                            </li>
+                            <li><strong>Analysis and Reporting:</strong>
+                                <ul>
+                                    <li>Analyze collected evidence</li>
+                                    <li>Create incident timeline</li>
+                                    <li>Write executive summary and technical report</li>
+                                    <li>Present findings to stakeholders</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lessons Learned:</strong>
+                                <ul>
+                                    <li>Conduct post-incident review</li>
+                                    <li>Identify process improvements</li>
+                                    <li>Update procedures based on findings</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-info mt-2">
+                            <small><i class="fas fa-info-circle me-1"></i>Use only test systems and simulated scenarios for this exercise.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Legal and Regulatory Considerations</h4>
+                <div class="alert alert-warning">
+                    <h6><i class="fas fa-balance-scale me-2"></i>Important Legal Aspects</h6>
+                    <ul class="mb-0">
+                        <li><strong>Notification Requirements:</strong> Many jurisdictions require breach notification within specific timeframes</li>
+                        <li><strong>Evidence Preservation:</strong> Legal hold requirements may apply to prevent evidence destruction</li>
+                        <li><strong>Privacy Laws:</strong> GDPR, CCPA, and other privacy regulations may impact response procedures</li>
+                        <li><strong>Industry Regulations:</strong> HIPAA, PCI DSS, SOX, and other sector-specific requirements</li>
+                        <li><strong>Law Enforcement:</strong> When and how to engage law enforcement agencies</li>
+                        <li><strong>Insurance Claims:</strong> Cyber insurance may have specific documentation requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 9 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (9 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 2: Network Scanning & Reconnaissance{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 2</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=1) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Introduction
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=3) }}" class="btn btn-outline-info">
+                    Next: Vulnerability Assessment <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Network Scanning & Reconnaissance</h3>
+                <p>Reconnaissance is the first phase of any penetration test. It involves gathering as much information as possible about the target system, network, or organization before attempting to exploit vulnerabilities.</p>
+
+                <h4>Types of Reconnaissance</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-body">
+                                <h6><i class="fas fa-eye text-info me-2"></i>Passive Reconnaissance</h6>
+                                <p class="small">Gathering information without directly interacting with the target system. This includes:</p>
+                                <ul class="small">
+                                    <li>WHOIS lookups</li>
+                                    <li>DNS enumeration</li>
+                                    <li>Social media research</li>
+                                    <li>Google dorking</li>
+                                    <li>Public records</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-body">
+                                <h6><i class="fas fa-radar-dish text-warning me-2"></i>Active Reconnaissance</h6>
+                                <p class="small">Directly interacting with the target system to gather information:</p>
+                                <ul class="small">
+                                    <li>Port scanning</li>
+                                    <li>Network mapping</li>
+                                    <li>Service enumeration</li>
+                                    <li>OS fingerprinting</li>
+                                    <li>Banner grabbing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Network Scanning Techniques</h4>
+                
+                <h5>1. Host Discovery</h5>
+                <p>Identifying live hosts on a network:</p>
+                <pre><code class="language-bash"># Ping sweep to find live hosts
+nmap -sn 192.168.1.0/24
+
+# ARP scan for local network
+nmap -PR 192.168.1.0/24
+
+# TCP SYN ping
+nmap -PS 192.168.1.0/24</code></pre>
+
+                <h5>2. Port Scanning</h5>
+                <p>Different types of port scans serve different purposes:</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Scan Type</th>
+                                <th>Nmap Option</th>
+                                <th>Description</th>
+                                <th>Stealth Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TCP Connect</td>
+                                <td>-sT</td>
+                                <td>Completes full TCP handshake</td>
+                                <td><span class="badge bg-danger">Low</span></td>
+                            </tr>
+                            <tr>
+                                <td>TCP SYN</td>
+                                <td>-sS</td>
+                                <td>Half-open scan, more stealthy</td>
+                                <td><span class="badge bg-warning">Medium</span></td>
+                            </tr>
+                            <tr>
+                                <td>UDP Scan</td>
+                                <td>-sU</td>
+                                <td>Scans UDP ports</td>
+                                <td><span class="badge bg-info">Variable</span></td>
+                            </tr>
+                            <tr>
+                                <td>FIN Scan</td>
+                                <td>-sF</td>
+                                <td>Sends FIN packets</td>
+                                <td><span class="badge bg-success">High</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5>3. Service and Version Detection</h5>
+                <pre><code class="language-bash"># Service version detection
+nmap -sV 192.168.1.100
+
+# Aggressive scan with OS detection
+nmap -A 192.168.1.100
+
+# Specific scripts for service enumeration
+nmap --script=http-enum 192.168.1.100 -p 80,443</code></pre>
+
+                <h4>Information Gathering Tools</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-search text-primary me-2"></i>Nmap</h6>
+                                <p class="small">Network mapper for host discovery and port scanning</p>
+                                <code class="small">nmap -A target.com</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-globe text-success me-2"></i>Nslookup/Dig</h6>
+                                <p class="small">DNS lookup utilities for domain information</p>
+                                <code class="small">dig target.com ANY</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-link text-warning me-2"></i>Whois</h6>
+                                <p class="small">Domain registration information</p>
+                                <code class="small">whois target.com</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Python Script: Advanced Port Scanner</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import socket
+import threading
+import argparse
+from datetime import datetime
+
+class PortScanner:
+    def __init__(self, target, threads=100):
+        self.target = target
+        self.threads = threads
+        self.open_ports = []
+        
+    def scan_port(self, port):
+        """
+        Scan a single port
+        """
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex((self.target, port))
+            
+            if result == 0:
+                self.open_ports.append(port)
+                # Try to grab banner
+                try:
+                    sock.send(b'HEAD / HTTP/1.0\r\n\r\n')
+                    banner = sock.recv(1024).decode().strip()
+                    print(f"Port {port}: Open - {banner[:50]}...")
+                except:
+                    print(f"Port {port}: Open")
+            
+            sock.close()
+        except Exception as e:
+            pass
+    
+    def scan_range(self, start_port, end_port):
+        """
+        Scan a range of ports using threading
+        """
+        print(f"Scanning {self.target} from port {start_port} to {end_port}")
+        print("-" * 50)
+        
+        threads = []
+        for port in range(start_port, end_port + 1):
+            thread = threading.Thread(target=self.scan_port, args=(port,))
+            threads.append(thread)
+            thread.start()
+            
+            # Limit concurrent threads
+            if len(threads) >= self.threads:
+                for t in threads:
+                    t.join()
+                threads = []
+        
+        # Join remaining threads
+        for t in threads:
+            t.join()
+        
+        print("-" * 50)
+        print(f"Scan completed. Open ports: {sorted(self.open_ports)}")
+        return sorted(self.open_ports)
+
+def main():
+    parser = argparse.ArgumentParser(description='Advanced Port Scanner')
+    parser.add_argument('target', help='Target hostname or IP address')
+    parser.add_argument('-p', '--ports', default='1-1000', 
+                       help='Port range (e.g., 1-1000 or 80,443,8080)')
+    parser.add_argument('-t', '--threads', type=int, default=100,
+                       help='Number of threads (default: 100)')
+    
+    args = parser.parse_args()
+    
+    # Parse port range
+    if '-' in args.ports:
+        start_port, end_port = map(int, args.ports.split('-'))
+    else:
+        ports = [int(p) for p in args.ports.split(',')]
+        start_port, end_port = min(ports), max(ports)
+    
+    # Create scanner and scan
+    scanner = PortScanner(args.target, args.threads)
+    open_ports = scanner.scan_range(start_port, end_port)
+    
+    # Service identification for open ports
+    if open_ports:
+        print("\nCommon services on open ports:")
+        services = {
+            21: 'FTP', 22: 'SSH', 23: 'Telnet', 25: 'SMTP',
+            53: 'DNS', 80: 'HTTP', 110: 'POP3', 143: 'IMAP',
+            443: 'HTTPS', 993: 'IMAPS', 995: 'POP3S'
+        }
+        
+        for port in open_ports:
+            service = services.get(port, 'Unknown')
+            print(f"  Port {port}: {service}")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Reconnaissance Checklist</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h6><i class="fas fa-list-check text-info me-2"></i>Pre-Engagement Information Gathering</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-warning">Target Organization</h6>
+                                <ul class="small">
+                                    <li>Company information</li>
+                                    <li>Employee details (LinkedIn)</li>
+                                    <li>Email formats</li>
+                                    <li>Physical locations</li>
+                                    <li>Technology stack</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-warning">Network Infrastructure</h6>
+                                <ul class="small">
+                                    <li>IP address ranges</li>
+                                    <li>Domain and subdomain enumeration</li>
+                                    <li>DNS records</li>
+                                    <li>Network topology</li>
+                                    <li>Open ports and services</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Hands-On Practice</h6>
+                        <p><strong>Objective:</strong> Perform reconnaissance on a test target (use your own system or a VM).</p>
+                        <ol>
+                            <li>Use <code>nmap</code> to perform a ping sweep on your local network</li>
+                            <li>Conduct a port scan on your own system</li>
+                            <li>Try different scan types (-sS, -sT, -sU) and compare results</li>
+                            <li>Use service detection (-sV) to identify services</li>
+                            <li>Document your findings in a simple report format</li>
+                        </ol>
+                        <div class="alert alert-danger mt-2">
+                            <small><i class="fas fa-exclamation-triangle me-1"></i>Remember: Only scan systems you own or have permission to test!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Common Ports Reference</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Well-Known Ports (0-1023)</h6>
+                        <ul class="small">
+                            <li><strong>21:</strong> FTP</li>
+                            <li><strong>22:</strong> SSH</li>
+                            <li><strong>23:</strong> Telnet</li>
+                            <li><strong>25:</strong> SMTP</li>
+                            <li><strong>53:</strong> DNS</li>
+                            <li><strong>80:</strong> HTTP</li>
+                            <li><strong>443:</strong> HTTPS</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Registered Ports (1024-49151)</h6>
+                        <ul class="small">
+                            <li><strong>1433:</strong> SQL Server</li>
+                            <li><strong>3306:</strong> MySQL</li>
+                            <li><strong>3389:</strong> RDP</li>
+                            <li><strong>5432:</strong> PostgreSQL</li>
+                            <li><strong>8080:</strong> HTTP Proxy</li>
+                            <li><strong>8443:</strong> HTTPS Alt</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 2 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (2 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

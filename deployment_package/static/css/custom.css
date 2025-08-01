@@ -1,0 +1,871 @@
+/* Mobile Web App CSS for Ethical Hacking Tutorial */
+
+/* Mobile-first CSS variables */
+:root {
+    --primary-color: var(--bs-info);
+    --secondary-color: var(--bs-secondary);
+    --success-color: var(--bs-success);
+    --warning-color: var(--bs-warning);
+    --danger-color: var(--bs-danger);
+    --mobile-padding: 1rem;
+    --mobile-card-radius: 12px;
+    --mobile-button-height: 48px;
+    --mobile-touch-target: 44px;
+}
+
+/* Mobile-optimized base styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile viewport optimizations */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+/* Mobile App Header */
+.mobile-header {
+    background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1030;
+}
+
+.mobile-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem var(--mobile-padding);
+    height: 60px;
+}
+
+.mobile-nav-brand .brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.mobile-nav-brand .brand-link i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    color: var(--bs-info);
+}
+
+.mobile-nav-brand .brand-text {
+    display: inline-block;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    min-width: var(--mobile-touch-target);
+    min-height: var(--mobile-touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-btn:hover,
+.mobile-menu-btn:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Mobile Lesson Menu */
+.lesson-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lesson-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--mobile-card-radius);
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.lesson-menu-item:hover,
+.lesson-menu-item:focus {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+    transform: translateX(4px);
+}
+
+.lesson-menu-item.active {
+    background: rgba(13, 202, 240, 0.15);
+    border-color: var(--bs-info);
+    color: var(--bs-info);
+}
+
+.lesson-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bs-info);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.lesson-menu-item.active .lesson-number {
+    background: var(--bs-info);
+    box-shadow: 0 0 10px rgba(13, 202, 240, 0.4);
+}
+
+.lesson-info {
+    flex: 1;
+}
+
+.lesson-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+}
+
+.lesson-duration {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.lesson-status {
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.2s ease;
+}
+
+.lesson-menu-item:hover .lesson-status {
+    color: var(--bs-info);
+}
+
+/* Mobile-optimized lesson cards */
+.lesson-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--mobile-card-radius);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.lesson-card:hover,
+.lesson-card:active {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border-color: var(--bs-info);
+    background: linear-gradient(135deg, rgba(13, 202, 240, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+/* Touch-friendly card content */
+.lesson-card .card-body {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.lesson-card .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #fff;
+}
+
+.lesson-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+}
+
+/* Mobile lesson badge */
+.lesson-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bs-info);
+    color: #000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Code block enhancements */
+pre {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.875rem;
+}
+
+code {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e83e8c !important;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Navigation enhancements */
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--bs-info) !important;
+}
+
+/* Progress bar styling */
+.progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.progress-bar {
+    transition: width 0.4s ease-in-out;
+    border-radius: 10px;
+}
+
+/* Badge enhancements */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Alert customizations */
+.alert {
+    border: none;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    border-left-color: var(--bs-info);
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+.alert-warning {
+    border-left-color: var(--bs-warning);
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.alert-danger {
+    border-left-color: var(--bs-danger);
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.alert-success {
+    border-left-color: var(--bs-success);
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+/* Table improvements */
+.table-dark {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.table-dark thead th {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-dark tbody tr {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-dark tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Mobile-optimized buttons */
+.btn {
+    transition: all 0.2s ease;
+    font-weight: 500;
+    border-radius: 12px;
+    min-height: var(--mobile-button-height);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    border-width: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover,
+.btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary,
+.btn-success,
+.btn-info {
+    background: linear-gradient(135deg, var(--bs-info) 0%, #0ea5e9 100%);
+    border-color: var(--bs-info);
+    color: #000;
+    font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+.btn-info:hover {
+    box-shadow: 0 4px 15px rgba(13, 202, 240, 0.4);
+    background: linear-gradient(135deg, #0ea5e9 0%, var(--bs-info) 100%);
+}
+
+.btn-outline-primary,
+.btn-outline-info {
+    background: rgba(13, 202, 240, 0.1);
+    border-color: var(--bs-info);
+    color: var(--bs-info);
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-info:hover {
+    background: var(--bs-info);
+    color: #000;
+    border-color: var(--bs-info);
+}
+
+.btn-outline-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-outline-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+/* Mobile touch feedback */
+.btn:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Mobile main content styling */
+.mobile-main {
+    padding-top: 1rem;
+    padding-bottom: 4rem; /* Space for mobile navigation */
+    min-height: calc(100vh - 120px);
+}
+
+/* Mobile app specific improvements */
+.mobile-hero {
+    text-align: center;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, rgba(13, 202, 240, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: var(--mobile-card-radius);
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-hero h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.mobile-hero .lead {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+}
+
+/* Progress section mobile styling */
+.progress-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--mobile-card-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.progress-section h5 {
+    color: var(--bs-info);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+/* Search section mobile styling */
+.search-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--mobile-card-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-section .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+}
+
+.search-section .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--bs-info);
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+    color: #fff;
+}
+
+.search-section .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Lesson grid mobile optimization */
+.lesson-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 576px) {
+    .lesson-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+/* Mobile lesson card enhancements */
+.lesson-card {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lesson-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(13, 202, 240, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: var(--mobile-card-radius);
+}
+
+.lesson-card:hover::before,
+.lesson-card:active::before {
+    opacity: 1;
+}
+
+/* Completion badge styling */
+.completion-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bs-success);
+    color: #000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Footer mobile optimization */
+footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #212529 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
+}
+
+footer .container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    footer .row {
+        text-align: center;
+    }
+    
+    footer .col-md-4 {
+        margin-top: 1rem;
+    }
+}
+
+/* Card border variations */
+.border-info {
+    border-color: var(--bs-info) !important;
+}
+
+.border-warning {
+    border-color: var(--bs-warning) !important;
+}
+
+.border-danger {
+    border-color: var(--bs-danger) !important;
+}
+
+.border-success {
+    border-color: var(--bs-success) !important;
+}
+
+/* Accordion customizations */
+.accordion-button {
+    transition: all 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(13, 202, 240, 0.1);
+    border-color: var(--bs-info);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+    /* Typography adjustments */
+    .display-4 {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .lead {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+    
+    h1, h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    /* Container adjustments */
+    .container {
+        padding-left: var(--mobile-padding);
+        padding-right: var(--mobile-padding);
+    }
+    
+    main.container {
+        padding-top: 1rem;
+        margin-top: 0;
+    }
+    
+    /* Card improvements */
+    .lesson-card {
+        margin-bottom: 1rem;
+        border-radius: var(--mobile-card-radius);
+    }
+    
+    .lesson-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    /* Code block mobile optimization */
+    pre {
+        font-size: 0.8rem;
+        padding: 1rem;
+        border-radius: var(--mobile-card-radius);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Table responsiveness */
+    .table-responsive {
+        font-size: 0.85rem;
+        border-radius: var(--mobile-card-radius);
+        overflow: hidden;
+    }
+    
+    /* Alert mobile optimization */
+    .alert {
+        border-radius: var(--mobile-card-radius);
+        margin-bottom: 1rem;
+    }
+    
+    /* Progress bar mobile styling */
+    .progress {
+        height: 8px;
+        border-radius: 4px;
+    }
+}
+
+/* Small screen optimizations */
+@media (max-width: 576px) {
+    /* Ultra-mobile container */
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    /* Mobile header adjustments */
+    .mobile-nav-container {
+        padding: 0.5rem 0.75rem;
+        height: 56px;
+    }
+    
+    .mobile-nav-brand .brand-text {
+        font-size: 1rem;
+    }
+    
+    /* Content spacing */
+    main.container {
+        padding-top: 0.75rem;
+    }
+    
+    /* Card mobile optimization */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .lesson-card .card-body {
+        padding: 1rem;
+    }
+    
+    /* Button mobile optimization */
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.65rem 1.25rem;
+        min-height: var(--mobile-touch-target);
+    }
+    
+    .btn-sm {
+        padding: 0.5rem 1rem;
+        min-height: 36px;
+    }
+    
+    /* Badge and text sizing */
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+    }
+    
+    /* Typography ultra-mobile */
+    .display-4 {
+        font-size: 1.5rem;
+    }
+    
+    .lead {
+        font-size: 0.95rem;
+    }
+    
+    /* Search input mobile */
+    .form-control-lg {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    /* Table ultra-mobile */
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+    
+    /* Code block ultra-mobile */
+    pre {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+    }
+    
+    /* Offcanvas mobile optimization */
+    .offcanvas {
+        max-width: 85vw;
+    }
+    
+    .lesson-menu-item {
+        padding: 0.75rem;
+    }
+    
+    .lesson-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Loading animation for dynamic content */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--bs-info);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Focus improvements for accessibility */
+.btn:focus,
+.form-control:focus,
+.nav-link:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Search functionality enhancements */
+.form-control-lg {
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control-lg:focus {
+    border-color: var(--bs-info);
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Lesson navigation improvements */
+.lesson-navigation {
+    position: sticky;
+    top: 80px;
+    z-index: 1000;
+    background-color: rgba(33, 37, 41, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Typography scale for better readability */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: var(--bs-info);
+    border-bottom: 2px solid rgba(13, 202, 240, 0.3);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* List styling improvements */
+ul, ol {
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.25rem;
+}
+
+/* Dark mode specific enhancements */
+[data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #ffffff;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.125);
+}
+
+[data-bs-theme="dark"] .navbar {
+    background-color: #1a1a1a !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Utility classes for spacing */
+.mt-6 { margin-top: 4rem !important; }
+.mb-6 { margin-bottom: 4rem !important; }
+.py-6 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+
+/* Icon enhancements */
+.fas, .fab {
+    transition: color 0.2s ease-in-out;
+}
+
+.text-info .fas:hover,
+.text-warning .fas:hover,
+.text-success .fas:hover,
+.text-danger .fas:hover {
+    opacity: 0.8;
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .lesson-navigation,
+    .btn,
+    footer {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    pre, code {
+        background-color: #f8f9fa !important;
+        color: #000 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+}

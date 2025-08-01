@@ -1,0 +1,809 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 7: Penetration Testing Methodologies{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 7</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=6) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Social Engineering
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=8) }}" class="btn btn-outline-info">
+                    Next: Security Tools <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Penetration Testing Methodologies</h3>
+                <p>Penetration testing follows structured methodologies to ensure comprehensive coverage and consistent results. This lesson covers the most widely used frameworks and approaches.</p>
+
+                <h4>Popular Penetration Testing Frameworks</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info"><i class="fas fa-shield-alt me-2"></i>OWASP Testing Guide</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Comprehensive web application security testing methodology</p>
+                                <ul class="small">
+                                    <li>Information Gathering</li>
+                                    <li>Configuration and Deployment Management</li>
+                                    <li>Identity Management</li>
+                                    <li>Authentication/Authorization Testing</li>
+                                    <li>Session Management</li>
+                                    <li>Input Validation</li>
+                                    <li>Error Handling</li>
+                                    <li>Business Logic Testing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-crosshairs me-2"></i>NIST SP 800-115</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Technical Guide to Information Security Testing and Assessment</p>
+                                <ul class="small">
+                                    <li>Planning Phase</li>
+                                    <li>Discovery Phase</li>
+                                    <li>Attack Phase</li>
+                                    <li>Reporting Phase</li>
+                                </ul>
+                                <p class="small mt-2"><strong>Focus:</strong> Government and enterprise environments</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success"><i class="fas fa-bug me-2"></i>OSSTMM</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Open Source Security Testing Methodology Manual</p>
+                                <ul class="small">
+                                    <li>Human Security</li>
+                                    <li>Physical Security</li>
+                                    <li>Wireless Security</li>
+                                    <li>Telecommunications Security</li>
+                                    <li>Data Networks Security</li>
+                                </ul>
+                                <p class="small mt-2"><strong>Focus:</strong> Scientific approach to security testing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-hammer me-2"></i>PTES</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Penetration Testing Execution Standard</p>
+                                <ul class="small">
+                                    <li>Pre-engagement Interactions</li>
+                                    <li>Intelligence Gathering</li>
+                                    <li>Threat Modeling</li>
+                                    <li>Vulnerability Analysis</li>
+                                    <li>Exploitation</li>
+                                    <li>Post Exploitation</li>
+                                    <li>Reporting</li>
+                                </ul>
+                                <p class="small mt-2"><strong>Focus:</strong> Comprehensive penetration testing lifecycle</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>PTES Methodology Deep Dive</h4>
+                <p>The Penetration Testing Execution Standard provides a comprehensive framework that we'll explore in detail:</p>
+
+                <div class="accordion" id="ptesAccordion">
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#phase1">
+                                <i class="fas fa-handshake me-2 text-info"></i>Phase 1: Pre-engagement Interactions
+                            </button>
+                        </h2>
+                        <div id="phase1" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Key Activities:</h6>
+                                <ul class="small">
+                                    <li>Scope definition and rules of engagement</li>
+                                    <li>Statement of work (SOW) creation</li>
+                                    <li>Timeline and resource allocation</li>
+                                    <li>Legal agreements and authorization</li>
+                                    <li>Emergency contact procedures</li>
+                                </ul>
+                                <h6>Deliverables:</h6>
+                                <ul class="small">
+                                    <li>Signed SOW and contracts</li>
+                                    <li>Project timeline</li>
+                                    <li>Contact list</li>
+                                    <li>Testing methodology agreement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#phase2">
+                                <i class="fas fa-search me-2 text-warning"></i>Phase 2: Intelligence Gathering
+                            </button>
+                        </h2>
+                        <div id="phase2" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>OSINT (Open Source Intelligence):</h6>
+                                <ul class="small">
+                                    <li>Company information research</li>
+                                    <li>Employee information gathering</li>
+                                    <li>Technology footprinting</li>
+                                    <li>Network enumeration</li>
+                                    <li>Application fingerprinting</li>
+                                </ul>
+                                <h6>Tools and Techniques:</h6>
+                                <ul class="small">
+                                    <li>Google dorking</li>
+                                    <li>Social media research</li>
+                                    <li>DNS enumeration</li>
+                                    <li>WHOIS lookups</li>
+                                    <li>Shodan searches</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#phase3">
+                                <i class="fas fa-exclamation-triangle me-2 text-danger"></i>Phase 3: Threat Modeling
+                            </button>
+                        </h2>
+                        <div id="phase3" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Attack Vector Analysis:</h6>
+                                <ul class="small">
+                                    <li>Business asset identification</li>
+                                    <li>Attack surface mapping</li>
+                                    <li>Threat actor profiling</li>
+                                    <li>Attack path analysis</li>
+                                    <li>Risk prioritization</li>
+                                </ul>
+                                <h6>Modeling Techniques:</h6>
+                                <ul class="small">
+                                    <li>STRIDE methodology</li>
+                                    <li>Attack trees</li>
+                                    <li>Data flow diagrams</li>
+                                    <li>Kill chain analysis</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Python Penetration Testing Framework</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import subprocess
+import json
+import time
+import os
+from datetime import datetime
+import sys
+
+class PenetrationTestFramework:
+    def __init__(self, target, output_dir="pentest_results"):
+        self.target = target
+        self.output_dir = output_dir
+        self.results = {
+            'target': target,
+            'start_time': datetime.now().isoformat(),
+            'phases': {}
+        }
+        
+        # Create output directory
+        os.makedirs(output_dir, exist_ok=True)
+    
+    def log_phase_start(self, phase_name):
+        """Log the start of a testing phase"""
+        print(f"\n{'='*50}")
+        print(f"Starting Phase: {phase_name}")
+        print(f"Target: {self.target}")
+        print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"{'='*50}")
+        
+        self.results['phases'][phase_name] = {
+            'start_time': datetime.now().isoformat(),
+            'findings': []
+        }
+    
+    def log_finding(self, phase, severity, description, details=None):
+        """Log a security finding"""
+        finding = {
+            'timestamp': datetime.now().isoformat(),
+            'severity': severity,
+            'description': description,
+            'details': details or {}
+        }
+        
+        self.results['phases'][phase]['findings'].append(finding)
+        
+        # Print finding
+        color_map = {
+            'Critical': '\033[91m',  # Red
+            'High': '\033[93m',      # Yellow
+            'Medium': '\033[94m',    # Blue
+            'Low': '\033[92m',       # Green
+            'Info': '\033[96m'       # Cyan
+        }
+        
+        color = color_map.get(severity, '\033[0m')
+        print(f"{color}[{severity}] {description}\033[0m")
+        if details:
+            for key, value in details.items():
+                print(f"  {key}: {value}")
+    
+    def phase1_reconnaissance(self):
+        """Phase 1: Intelligence Gathering and Reconnaissance"""
+        self.log_phase_start("Reconnaissance")
+        
+        # DNS enumeration
+        print("Performing DNS enumeration...")
+        self.dns_enumeration()
+        
+        # Port scanning
+        print("Performing port scan...")
+        self.port_scan()
+        
+        # Service detection
+        print("Performing service detection...")
+        self.service_detection()
+        
+        # SSL/TLS analysis
+        print("Analyzing SSL/TLS configuration...")
+        self.ssl_analysis()
+        
+        self.results['phases']['Reconnaissance']['end_time'] = datetime.now().isoformat()
+    
+    def dns_enumeration(self):
+        """Perform DNS enumeration"""
+        try:
+            # Basic DNS lookup
+            result = subprocess.run(['nslookup', self.target], 
+                                  capture_output=True, text=True, timeout=30)
+            
+            if result.returncode == 0:
+                self.log_finding('Reconnaissance', 'Info', 
+                               'DNS resolution successful', 
+                               {'output': result.stdout.strip()})
+            
+            # Try common subdomains
+            subdomains = ['www', 'mail', 'ftp', 'admin', 'test', 'dev', 'api']
+            found_subdomains = []
+            
+            for subdomain in subdomains:
+                full_domain = f"{subdomain}.{self.target}"
+                try:
+                    result = subprocess.run(['nslookup', full_domain], 
+                                          capture_output=True, text=True, timeout=10)
+                    if result.returncode == 0 and 'NXDOMAIN' not in result.stdout:
+                        found_subdomains.append(full_domain)
+                except subprocess.TimeoutExpired:
+                    continue
+            
+            if found_subdomains:
+                self.log_finding('Reconnaissance', 'Info',
+                               'Subdomains discovered',
+                               {'subdomains': found_subdomains})
+        
+        except Exception as e:
+            self.log_finding('Reconnaissance', 'Info',
+                           'DNS enumeration failed',
+                           {'error': str(e)})
+    
+    def port_scan(self):
+        """Perform port scanning"""
+        try:
+            # Common ports to scan
+            common_ports = "21,22,23,25,53,80,110,143,443,993,995,8080,8443"
+            
+            result = subprocess.run([
+                'nmap', '-sS', '-p', common_ports, '--open', self.target
+            ], capture_output=True, text=True, timeout=300)
+            
+            if result.returncode == 0:
+                output_lines = result.stdout.split('\n')
+                open_ports = []
+                
+                for line in output_lines:
+                    if '/tcp' in line and 'open' in line:
+                        port_info = line.strip()
+                        open_ports.append(port_info)
+                
+                if open_ports:
+                    self.log_finding('Reconnaissance', 'Info',
+                                   'Open ports discovered',
+                                   {'ports': open_ports})
+                    
+                    # Check for dangerous services
+                    dangerous_ports = {
+                        '21': 'FTP - Often allows anonymous access',
+                        '23': 'Telnet - Unencrypted remote access',
+                        '25': 'SMTP - May allow mail relay',
+                        '53': 'DNS - May allow zone transfers'
+                    }
+                    
+                    for port_line in open_ports:
+                        port_num = port_line.split('/')[0]
+                        if port_num in dangerous_ports:
+                            self.log_finding('Reconnaissance', 'Medium',
+                                           f'Potentially dangerous service on port {port_num}',
+                                           {'service': dangerous_ports[port_num]})
+                else:
+                    self.log_finding('Reconnaissance', 'Info',
+                                   'No common ports found open')
+        
+        except subprocess.TimeoutExpired:
+            self.log_finding('Reconnaissance', 'Info',
+                           'Port scan timeout - target may be filtered')
+        except Exception as e:
+            self.log_finding('Reconnaissance', 'Info',
+                           'Port scan failed',
+                           {'error': str(e)})
+    
+    def service_detection(self):
+        """Perform service version detection"""
+        try:
+            result = subprocess.run([
+                'nmap', '-sV', '--version-intensity', '5', self.target
+            ], capture_output=True, text=True, timeout=300)
+            
+            if result.returncode == 0:
+                output_lines = result.stdout.split('\n')
+                services = []
+                
+                for line in output_lines:
+                    if '/tcp' in line and 'open' in line:
+                        services.append(line.strip())
+                
+                if services:
+                    self.log_finding('Reconnaissance', 'Info',
+                                   'Service versions detected',
+                                   {'services': services})
+                    
+                    # Check for outdated services
+                    outdated_indicators = ['2008', '2010', '2012', 'old', 'legacy']
+                    for service in services:
+                        service_lower = service.lower()
+                        if any(indicator in service_lower for indicator in outdated_indicators):
+                            self.log_finding('Reconnaissance', 'Medium',
+                                           'Potentially outdated service detected',
+                                           {'service': service})
+        
+        except Exception as e:
+            self.log_finding('Reconnaissance', 'Info',
+                           'Service detection failed',
+                           {'error': str(e)})
+    
+    def ssl_analysis(self):
+        """Analyze SSL/TLS configuration"""
+        try:
+            # Check if SSL is available on common ports
+            ssl_ports = [443, 8443, 993, 995]
+            
+            for port in ssl_ports:
+                try:
+                    result = subprocess.run([
+                        'nmap', '--script', 'ssl-enum-ciphers', '-p', str(port), self.target
+                    ], capture_output=True, text=True, timeout=60)
+                    
+                    if 'ssl-enum-ciphers' in result.stdout:
+                        self.log_finding('Reconnaissance', 'Info',
+                                       f'SSL/TLS service found on port {port}')
+                        
+                        # Check for weak ciphers
+                        if 'weak' in result.stdout.lower() or 'rc4' in result.stdout.lower():
+                            self.log_finding('Reconnaissance', 'Medium',
+                                           f'Weak SSL ciphers detected on port {port}',
+                                           {'details': 'Manual review recommended'})
+                
+                except subprocess.TimeoutExpired:
+                    continue
+        
+        except Exception as e:
+            self.log_finding('Reconnaissance', 'Info',
+                           'SSL analysis failed',
+                           {'error': str(e)})
+    
+    def phase2_vulnerability_assessment(self):
+        """Phase 2: Vulnerability Assessment"""
+        self.log_phase_start("Vulnerability Assessment")
+        
+        # Web application testing
+        if self.has_web_service():
+            print("Testing web application...")
+            self.web_application_tests()
+        
+        # Network vulnerability scanning
+        print("Performing network vulnerability scan...")
+        self.network_vulnerability_scan()
+        
+        self.results['phases']['Vulnerability Assessment']['end_time'] = datetime.now().isoformat()
+    
+    def has_web_service(self):
+        """Check if target has web services"""
+        # Simple check - look for common web ports in previous results
+        recon_findings = self.results['phases'].get('Reconnaissance', {}).get('findings', [])
+        
+        for finding in recon_findings:
+            if finding.get('description') == 'Open ports discovered':
+                ports = finding.get('details', {}).get('ports', [])
+                for port_info in ports:
+                    if any(web_port in port_info for web_port in ['80/', '443/', '8080/', '8443/']):
+                        return True
+        return False
+    
+    def web_application_tests(self):
+        """Perform basic web application tests"""
+        try:
+            # Test HTTP methods
+            import requests
+            
+            url = f"http://{self.target}"
+            
+            # Test for common vulnerabilities
+            test_cases = [
+                {
+                    'name': 'Directory traversal',
+                    'payload': '/../../../etc/passwd',
+                    'check': lambda r: 'root:' in r.text
+                },
+                {
+                    'name': 'XSS',
+                    'payload': '<script>alert("XSS")</script>',
+                    'check': lambda r: '<script>' in r.text
+                },
+                {
+                    'name': 'SQL injection',
+                    'payload': "' OR '1'='1",
+                    'check': lambda r: 'sql' in r.text.lower() or 'mysql' in r.text.lower()
+                }
+            ]
+            
+            for test in test_cases:
+                try:
+                    response = requests.get(f"{url}?test={test['payload']}", timeout=10)
+                    if test['check'](response):
+                        self.log_finding('Vulnerability Assessment', 'High',
+                                       f'Potential {test["name"]} vulnerability',
+                                       {'payload': test['payload']})
+                except:
+                    continue
+                    
+        except Exception as e:
+            self.log_finding('Vulnerability Assessment', 'Info',
+                           'Web application tests failed',
+                           {'error': str(e)})
+    
+    def network_vulnerability_scan(self):
+        """Perform network vulnerability scanning"""
+        try:
+            # Use nmap vulnerability scripts
+            result = subprocess.run([
+                'nmap', '--script', 'vuln', self.target
+            ], capture_output=True, text=True, timeout=600)
+            
+            if result.returncode == 0:
+                # Parse vulnerability script output
+                if 'VULNERABLE' in result.stdout:
+                    self.log_finding('Vulnerability Assessment', 'High',
+                                   'Network vulnerabilities detected',
+                                   {'scan_output': result.stdout})
+                elif 'CVE' in result.stdout:
+                    self.log_finding('Vulnerability Assessment', 'Medium',
+                                   'Potential CVEs identified',
+                                   {'details': 'Manual verification required'})
+                else:
+                    self.log_finding('Vulnerability Assessment', 'Info',
+                                   'Vulnerability scan completed - no obvious issues')
+        
+        except Exception as e:
+            self.log_finding('Vulnerability Assessment', 'Info',
+                           'Network vulnerability scan failed',
+                           {'error': str(e)})
+    
+    def generate_report(self):
+        """Generate final penetration test report"""
+        self.results['end_time'] = datetime.now().isoformat()
+        
+        # Save JSON results
+        with open(f"{self.output_dir}/pentest_results.json", 'w') as f:
+            json.dump(self.results, f, indent=2)
+        
+        # Generate summary report
+        report_lines = []
+        report_lines.append("PENETRATION TEST REPORT")
+        report_lines.append("=" * 50)
+        report_lines.append(f"Target: {self.target}")
+        report_lines.append(f"Test Date: {self.results['start_time']}")
+        report_lines.append("")
+        
+        # Executive summary
+        total_findings = 0
+        severity_counts = {'Critical': 0, 'High': 0, 'Medium': 0, 'Low': 0, 'Info': 0}
+        
+        for phase_name, phase_data in self.results['phases'].items():
+            for finding in phase_data.get('findings', []):
+                total_findings += 1
+                severity = finding.get('severity', 'Info')
+                severity_counts[severity] += 1
+        
+        report_lines.append("EXECUTIVE SUMMARY")
+        report_lines.append("-" * 20)
+        report_lines.append(f"Total Findings: {total_findings}")
+        for severity, count in severity_counts.items():
+            if count > 0:
+                report_lines.append(f"{severity}: {count}")
+        report_lines.append("")
+        
+        # Detailed findings by phase
+        for phase_name, phase_data in self.results['phases'].items():
+            findings = phase_data.get('findings', [])
+            if findings:
+                report_lines.append(f"{phase_name.upper()} PHASE FINDINGS")
+                report_lines.append("-" * (len(phase_name) + 15))
+                
+                for i, finding in enumerate(findings, 1):
+                    report_lines.append(f"{i}. [{finding['severity']}] {finding['description']}")
+                    if finding.get('details'):
+                        for key, value in finding['details'].items():
+                            if isinstance(value, list):
+                                report_lines.append(f"   {key}: {', '.join(map(str, value))}")
+                            else:
+                                report_lines.append(f"   {key}: {value}")
+                    report_lines.append("")
+        
+        # Save text report
+        with open(f"{self.output_dir}/pentest_report.txt", 'w') as f:
+            f.write('\n'.join(report_lines))
+        
+        print("\n" + "=" * 50)
+        print("PENETRATION TEST COMPLETED")
+        print("=" * 50)
+        print(f"Results saved to: {self.output_dir}/")
+        print("Files generated:")
+        print("- pentest_results.json (detailed results)")
+        print("- pentest_report.txt (summary report)")
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 pentest_framework.py <target>")
+        print("Example: python3 pentest_framework.py example.com")
+        sys.exit(1)
+    
+    target = sys.argv[1]
+    
+    print("Penetration Testing Framework")
+    print(f"Target: {target}")
+    print("=" * 50)
+    
+    # Initialize framework
+    pentest = PenetrationTestFramework(target)
+    
+    try:
+        # Execute testing phases
+        pentest.phase1_reconnaissance()
+        pentest.phase2_vulnerability_assessment()
+        
+        # Generate report
+        pentest.generate_report()
+        
+    except KeyboardInterrupt:
+        print("\nTest interrupted by user")
+        pentest.generate_report()
+    except Exception as e:
+        print(f"Test failed: {e}")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Test Planning and Documentation</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h6 class="text-info">Essential Documentation</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Pre-Test Documents</h6>
+                                <ul class="small">
+                                    <li>Rules of Engagement (RoE)</li>
+                                    <li>Statement of Work (SOW)</li>
+                                    <li>Legal authorization letters</li>
+                                    <li>Emergency contact procedures</li>
+                                    <li>Scope definition and exclusions</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Post-Test Documents</h6>
+                                <ul class="small">
+                                    <li>Executive summary</li>
+                                    <li>Technical findings report</li>
+                                    <li>Risk assessment matrix</li>
+                                    <li>Remediation recommendations</li>
+                                    <li>Evidence and screenshots</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Risk Rating and Prioritization</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Risk Level</th>
+                                <th>CVSS Score</th>
+                                <th>Business Impact</th>
+                                <th>Remediation Timeline</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td>9.0 - 10.0</td>
+                                <td>Severe business disruption</td>
+                                <td>Immediate (0-7 days)</td>
+                                <td>Remote code execution</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td>7.0 - 8.9</td>
+                                <td>Significant impact</td>
+                                <td>Short term (30 days)</td>
+                                <td>SQL injection with data access</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Medium</span></td>
+                                <td>4.0 - 6.9</td>
+                                <td>Moderate impact</td>
+                                <td>Medium term (90 days)</td>
+                                <td>Cross-site scripting</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Low</span></td>
+                                <td>0.1 - 3.9</td>
+                                <td>Minimal impact</td>
+                                <td>Long term (180 days)</td>
+                                <td>Information disclosure</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Penetration Testing Methodology Lab</h6>
+                        <p><strong>Objective:</strong> Apply a structured penetration testing methodology.</p>
+                        <ol>
+                            <li><strong>Pre-engagement Planning:</strong>
+                                <ul>
+                                    <li>Define scope for a test environment</li>
+                                    <li>Create a rules of engagement document</li>
+                                    <li>Establish testing timeline</li>
+                                </ul>
+                            </li>
+                            <li><strong>Execute Testing Phases:</strong>
+                                <ul>
+                                    <li>Run the Python penetration testing framework</li>
+                                    <li>Document all findings systematically</li>
+                                    <li>Follow the PTES methodology phases</li>
+                                </ul>
+                            </li>
+                            <li><strong>Report Generation:</strong>
+                                <ul>
+                                    <li>Create executive summary</li>
+                                    <li>Detail technical findings</li>
+                                    <li>Provide remediation recommendations</li>
+                                    <li>Include risk ratings for each finding</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-danger mt-2">
+                            <small><i class="fas fa-exclamation-triangle me-1"></i>Only test systems you own or have explicit written authorization to test!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Professional Standards and Certifications</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-certificate text-warning me-2"></i>Industry Certifications</h6>
+                        <ul class="small">
+                            <li><strong>OSCP:</strong> Offensive Security Certified Professional</li>
+                            <li><strong>CEH:</strong> Certified Ethical Hacker</li>
+                            <li><strong>GPEN:</strong> GIAC Penetration Tester</li>
+                            <li><strong>CPT:</strong> Certified Penetration Tester</li>
+                            <li><strong>GCIH:</strong> GIAC Certified Incident Handler</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-balance-scale text-success me-2"></i>Professional Ethics</h6>
+                        <ul class="small">
+                            <li>Always obtain written authorization</li>
+                            <li>Stay within defined scope</li>
+                            <li>Minimize business disruption</li>
+                            <li>Protect client confidentiality</li>
+                            <li>Report findings responsibly</li>
+                            <li>Maintain professional competence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 7 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (7 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

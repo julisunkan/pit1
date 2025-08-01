@@ -58,3 +58,5 @@ Preferred communication style: Simple, everyday language.
 - **Environment Variables**: SESSION_SECRET for security, DATABASE_URL for database configuration
 - **WSGI Support**: Production-ready with ProxyFix middleware for reverse proxy deployment
 - **Port Configuration**: Configurable host and port settings for various deployment scenarios
+- **PythonAnywhere Ready**: Includes wsgi.py, requirements_pythonanywhere.txt, and deployment guide
+- **Database Path Handling**: Automatic absolute path conversion for cross-platform compatibility

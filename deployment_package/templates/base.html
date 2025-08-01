@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#212529">
+    <meta name="description" content="Learn ethical hacking and cybersecurity through comprehensive interactive lessons">
+    
+    <title>{% block title %}Ethical Hacking Tutorial{% endblock %}</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='icon-512.png') }}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Mobile App Header -->
+    <header class="mobile-header sticky-top">
+        <div class="mobile-nav-container">
+            <div class="mobile-nav-brand">
+                <a href="{{ url_for('index') }}" class="brand-link">
+                    <i class="fas fa-shield-alt"></i>
+                    <span class="brand-text">Ethical Hacking</span>
+                </a>
+            </div>
+            
+            {% if lesson_id is defined %}
+            <div class="mobile-nav-actions">
+                <button class="mobile-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#lessonMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Mobile Lesson Menu (Offcanvas) -->
+    {% if lesson_id is defined %}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="lessonMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">
+                <i class="fas fa-book me-2"></i>Lessons
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="lesson-menu-list">
+                {% for lid, lesson_data in lessons.items() %}
+                <a href="{{ url_for('lesson', lesson_id=lid) }}" 
+                   class="lesson-menu-item {% if lid == lesson_id %}active{% endif %}">
+                    <div class="lesson-number">{{ lid }}</div>
+                    <div class="lesson-info">
+                        <div class="lesson-title">{{ lesson_data.title }}</div>
+                        <div class="lesson-duration">{{ lesson_data.duration }}</div>
+                    </div>
+                    <div class="lesson-status">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="container mobile-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Ethical Hacking Tutorial</h5>
+                    <p class="mb-0">Learn cybersecurity and ethical hacking through comprehensive, hands-on lessons.</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-0">
+                        <small class="text-muted">
+                            <i class="fas fa-exclamation-triangle me-1"></i>
+                            For educational purposes only
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>
