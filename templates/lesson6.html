@@ -1,0 +1,719 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 6: Social Engineering Awareness{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 6</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=5) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Wireless Security
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=7) }}" class="btn btn-outline-info">
+                    Next: Penetration Testing <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Social Engineering Awareness</h3>
+                <p>Social engineering exploits human psychology rather than technical vulnerabilities. It's often the weakest link in cybersecurity and can bypass even the strongest technical defenses.</p>
+
+                <div class="alert alert-warning">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Important Note</h6>
+                    <p class="mb-0">This lesson is for educational and defensive purposes only. Never use social engineering techniques without explicit authorization and for legitimate security testing purposes.</p>
+                </div>
+
+                <h4>Types of Social Engineering Attacks</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-phone me-2"></i>Vishing (Voice Phishing)</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Phone-based social engineering attacks</p>
+                                <strong class="small">Common Scenarios:</strong>
+                                <ul class="small">
+                                    <li>Fake IT support calls</li>
+                                    <li>Bank verification calls</li>
+                                    <li>Survey/prize scams</li>
+                                    <li>Emergency pretexts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-envelope me-2"></i>Phishing</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Email-based deceptive communications</p>
+                                <strong class="small">Variations:</strong>
+                                <ul class="small">
+                                    <li>Spear phishing (targeted)</li>
+                                    <li>Whaling (executives)</li>
+                                    <li>Clone phishing</li>
+                                    <li>Business Email Compromise (BEC)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info"><i class="fas fa-user-secret me-2"></i>Pretexting</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">Creating false scenarios to gain trust</p>
+                                <strong class="small">Examples:</strong>
+                                <ul class="small">
+                                    <li>Impersonating authority figures</li>
+                                    <li>Fake vendors/contractors</li>
+                                    <li>Emergency situations</li>
+                                    <li>Research surveys</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success"><i class="fas fa-building me-2"></i>Physical Social Engineering</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small">In-person manipulation tactics</p>
+                                <strong class="small">Techniques:</strong>
+                                <ul class="small">
+                                    <li>Tailgating/Piggybacking</li>
+                                    <li>Shoulder surfing</li>
+                                    <li>Dumpster diving</li>
+                                    <li>Badge cloning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Psychological Principles Exploited</h4>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Principle</th>
+                                <th>Description</th>
+                                <th>Attack Example</th>
+                                <th>Defense</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Authority</span></td>
+                                <td>People comply with authority figures</td>
+                                <td>"This is the CEO, I need your password immediately"</td>
+                                <td>Verify identity through official channels</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">Urgency</span></td>
+                                <td>Creating time pressure</td>
+                                <td>"Your account will be closed in 1 hour"</td>
+                                <td>Take time to verify urgent requests</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Reciprocity</span></td>
+                                <td>People feel obligated to return favors</td>
+                                <td>Offering help before asking for information</td>
+                                <td>Question unexpected favors or gifts</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Social Proof</span></td>
+                                <td>Following what others do</td>
+                                <td>"Everyone in your department already did this"</td>
+                                <td>Independently verify claims about others</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Phishing Email Analysis</h4>
+                <p>Learning to identify phishing emails is crucial for cybersecurity professionals and users alike:</p>
+
+                <h5>Red Flags in Phishing Emails</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-eye text-warning me-2"></i>Visual Indicators</h6>
+                        <ul class="small">
+                            <li>Sender name doesn't match email address</li>
+                            <li>Generic greetings ("Dear Customer")</li>
+                            <li>Urgent or threatening language</li>
+                            <li>Spelling and grammar errors</li>
+                            <li>Mismatched URLs and domains</li>
+                            <li>Suspicious attachments</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-code text-info me-2"></i>Technical Indicators</h6>
+                        <ul class="small">
+                            <li>Spoofed sender addresses</li>
+                            <li>Suspicious reply-to addresses</li>
+                            <li>Hidden or shortened URLs</li>
+                            <li>Embedded forms requesting credentials</li>
+                            <li>Suspicious email headers</li>
+                            <li>Malicious attachments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Python Email Header Analysis Tool</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import email
+import re
+import urllib.parse
+from email.header import decode_header
+import dns.resolver
+import sys
+
+class PhishingAnalyzer:
+    def __init__(self):
+        self.suspicious_indicators = []
+        self.risk_score = 0
+        
+    def analyze_email_file(self, email_file_path):
+        """
+        Analyze an email file for phishing indicators
+        """
+        try:
+            with open(email_file_path, 'r', encoding='utf-8') as f:
+                email_content = f.read()
+            
+            # Parse email
+            msg = email.message_from_string(email_content)
+            
+            # Analyze different components
+            self.analyze_headers(msg)
+            self.analyze_sender(msg)
+            self.analyze_subject(msg)
+            self.analyze_body(msg)
+            self.analyze_links(msg)
+            
+            return self.generate_report(msg)
+            
+        except Exception as e:
+            return f"Error analyzing email: {e}"
+    
+    def analyze_headers(self, msg):
+        """
+        Analyze email headers for suspicious patterns
+        """
+        # Check SPF, DKIM, DMARC
+        received_headers = msg.get_all('Received', [])
+        
+        # Look for suspicious routing
+        if len(received_headers) > 10:
+            self.add_indicator("Excessive mail hops", 2)
+        
+        # Check for authentication results
+        auth_results = msg.get('Authentication-Results', '')
+        if auth_results:
+            if 'spf=fail' in auth_results.lower():
+                self.add_indicator("SPF authentication failed", 3)
+            if 'dkim=fail' in auth_results.lower():
+                self.add_indicator("DKIM authentication failed", 2)
+            if 'dmarc=fail' in auth_results.lower():
+                self.add_indicator("DMARC authentication failed", 3)
+        
+        # Check X-Originating-IP
+        orig_ip = msg.get('X-Originating-IP', '')
+        if orig_ip:
+            # Simple check for suspicious IPs (this is basic)
+            ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+            ip_match = re.search(ip_pattern, orig_ip)
+            if ip_match:
+                ip_addr = ip_match.group()
+                if self.is_suspicious_ip(ip_addr):
+                    self.add_indicator(f"Email from suspicious IP: {ip_addr}", 2)
+    
+    def analyze_sender(self, msg):
+        """
+        Analyze sender information
+        """
+        from_header = msg.get('From', '')
+        reply_to = msg.get('Reply-To', '')
+        return_path = msg.get('Return-Path', '')
+        
+        # Extract email addresses
+        from_email = self.extract_email(from_header)
+        reply_email = self.extract_email(reply_to) if reply_to else None
+        
+        # Check for mismatched From and Reply-To
+        if reply_email and from_email != reply_email:
+            self.add_indicator(f"From and Reply-To mismatch: {from_email} vs {reply_email}", 2)
+        
+        # Check for suspicious domains
+        if from_email:
+            domain = from_email.split('@')[-1] if '@' in from_email else ''
+            if domain:
+                if self.is_suspicious_domain(domain):
+                    self.add_indicator(f"Suspicious sender domain: {domain}", 3)
+                
+                # Check for domain spoofing (simplified)
+                if self.is_likely_spoofed_domain(domain):
+                    self.add_indicator(f"Possible domain spoofing: {domain}", 4)
+    
+    def analyze_subject(self, msg):
+        """
+        Analyze subject line for phishing indicators
+        """
+        subject = msg.get('Subject', '')
+        if not subject:
+            return
+        
+        # Decode subject if needed
+        decoded_subject = self.decode_header_value(subject)
+        
+        # Common phishing keywords
+        phishing_keywords = [
+            'urgent', 'immediate', 'action required', 'verify account',
+            'suspend', 'confirm', 'update payment', 'security alert',
+            'winner', 'congratulations', 'free', 'limited time'
+        ]
+        
+        subject_lower = decoded_subject.lower()
+        found_keywords = [kw for kw in phishing_keywords if kw in subject_lower]
+        
+        if found_keywords:
+            self.add_indicator(f"Suspicious keywords in subject: {', '.join(found_keywords)}", 2)
+        
+        # Check for excessive punctuation or caps
+        if subject.count('!') > 2:
+            self.add_indicator("Excessive exclamation marks in subject", 1)
+        
+        caps_ratio = sum(1 for c in subject if c.isupper()) / len(subject) if subject else 0
+        if caps_ratio > 0.5:
+            self.add_indicator("Excessive capitalization in subject", 1)
+    
+    def analyze_body(self, msg):
+        """
+        Analyze email body content
+        """
+        body = self.get_email_body(msg)
+        if not body:
+            return
+        
+        body_lower = body.lower()
+        
+        # Look for credential harvesting attempts
+        cred_patterns = [
+            r'password', r'username', r'login', r'account.*details',
+            r'credit.*card', r'social.*security', r'bank.*account'
+        ]
+        
+        for pattern in cred_patterns:
+            if re.search(pattern, body_lower):
+                self.add_indicator(f"Requests sensitive information: {pattern}", 2)
+        
+        # Look for urgency language
+        urgency_patterns = [
+            r'immediately', r'urgent', r'asap', r'expire.*today',
+            r'within.*\d+.*hours?', r'act.*now', r'time.*sensitive'
+        ]
+        
+        urgency_matches = []
+        for pattern in urgency_patterns:
+            if re.search(pattern, body_lower):
+                urgency_matches.append(pattern)
+        
+        if urgency_matches:
+            self.add_indicator(f"Urgency language detected: {', '.join(urgency_matches)}", 1)
+        
+        # Check for generic greetings
+        if re.search(r'dear\s+(customer|user|sir|madam)', body_lower):
+            self.add_indicator("Generic greeting used", 1)
+    
+    def analyze_links(self, msg):
+        """
+        Analyze links in the email
+        """
+        body = self.get_email_body(msg)
+        if not body:
+            return
+        
+        # Find URLs
+        url_pattern = r'https?://[^\s<>"]{2,}'
+        urls = re.findall(url_pattern, body, re.IGNORECASE)
+        
+        for url in urls:
+            parsed_url = urllib.parse.urlparse(url)
+            domain = parsed_url.netloc.lower()
+            
+            # Check for suspicious domains
+            if self.is_suspicious_domain(domain):
+                self.add_indicator(f"Suspicious link domain: {domain}", 3)
+            
+            # Check for URL shorteners
+            shorteners = ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'ow.ly']
+            if any(short in domain for short in shorteners):
+                self.add_indicator(f"URL shortener used: {domain}", 2)
+            
+            # Check for homograph attacks (simplified)
+            if self.has_suspicious_characters(domain):
+                self.add_indicator(f"Domain uses suspicious characters: {domain}", 3)
+    
+    def is_suspicious_domain(self, domain):
+        """
+        Check if domain appears suspicious
+        """
+        # Check for common typosquatting patterns
+        legitimate_domains = [
+            'google.com', 'microsoft.com', 'apple.com', 'amazon.com',
+            'paypal.com', 'ebay.com', 'facebook.com', 'twitter.com'
+        ]
+        
+        for legit_domain in legitimate_domains:
+            if self.similar_domain(domain, legit_domain) and domain != legit_domain:
+                return True
+        
+        # Check for suspicious TLDs
+        suspicious_tlds = ['.tk', '.ml', '.ga', '.cf', '.click', '.download']
+        if any(domain.endswith(tld) for tld in suspicious_tlds):
+            return True
+        
+        return False
+    
+    def is_likely_spoofed_domain(self, domain):
+        """
+        Check for likely domain spoofing
+        """
+        # Simple check for character substitution
+        substitutions = {'0': 'o', '1': 'l', '3': 'e', '5': 's'}
+        for char, replacement in substitutions.items():
+            if char in domain:
+                return True
+        return False
+    
+    def similar_domain(self, domain1, domain2):
+        """
+        Check if domains are suspiciously similar
+        """
+        # Simple Levenshtein distance check
+        if abs(len(domain1) - len(domain2)) > 2:
+            return False
+        
+        differences = sum(c1 != c2 for c1, c2 in zip(domain1, domain2))
+        return differences <= 2 and differences > 0
+    
+    def has_suspicious_characters(self, domain):
+        """
+        Check for homograph attack characters
+        """
+        # Look for mixed scripts or suspicious Unicode
+        suspicious_chars = ['а', 'е', 'о', 'р', 'с', 'х', 'у']  # Cyrillic that look like Latin
+        return any(char in domain for char in suspicious_chars)
+    
+    def is_suspicious_ip(self, ip):
+        """
+        Basic check for suspicious IP addresses
+        """
+        # Check for private IP ranges (simplified)
+        private_ranges = ['10.', '192.168.', '172.']
+        return any(ip.startswith(range_) for range_ in private_ranges)
+    
+    def extract_email(self, header_value):
+        """
+        Extract email address from header
+        """
+        if not header_value:
+            return None
+        
+        email_pattern = r'[\w\.-]+@[\w\.-]+\.\w+'
+        match = re.search(email_pattern, header_value)
+        return match.group() if match else None
+    
+    def decode_header_value(self, header_value):
+        """
+        Decode email header value
+        """
+        decoded_parts = decode_header(header_value)
+        decoded_string = ''
+        
+        for part, encoding in decoded_parts:
+            if isinstance(part, bytes):
+                decoded_string += part.decode(encoding or 'utf-8')
+            else:
+                decoded_string += part
+        
+        return decoded_string
+    
+    def get_email_body(self, msg):
+        """
+        Extract email body content
+        """
+        body = ""
+        
+        if msg.is_multipart():
+            for part in msg.walk():
+                if part.get_content_type() == "text/plain":
+                    body += part.get_payload(decode=True).decode('utf-8', errors='ignore')
+        else:
+            body = msg.get_payload(decode=True).decode('utf-8', errors='ignore')
+        
+        return body
+    
+    def add_indicator(self, description, score):
+        """
+        Add suspicious indicator
+        """
+        self.suspicious_indicators.append(description)
+        self.risk_score += score
+    
+    def generate_report(self, msg):
+        """
+        Generate analysis report
+        """
+        report = []
+        report.append("PHISHING EMAIL ANALYSIS REPORT")
+        report.append("=" * 40)
+        
+        # Basic email info
+        report.append(f"From: {msg.get('From', 'Unknown')}")
+        report.append(f"Subject: {msg.get('Subject', 'No Subject')}")
+        report.append(f"Date: {msg.get('Date', 'Unknown')}")
+        report.append("")
+        
+        # Risk assessment
+        risk_level = self.get_risk_level()
+        report.append(f"Risk Level: {risk_level}")
+        report.append(f"Risk Score: {self.risk_score}")
+        report.append("")
+        
+        # Suspicious indicators
+        if self.suspicious_indicators:
+            report.append("Suspicious Indicators:")
+            for i, indicator in enumerate(self.suspicious_indicators, 1):
+                report.append(f"  {i}. {indicator}")
+        else:
+            report.append("No suspicious indicators detected.")
+        
+        report.append("")
+        report.append("Recommendation:")
+        if self.risk_score >= 5:
+            report.append("HIGH RISK - Likely phishing email. Do not interact.")
+        elif self.risk_score >= 3:
+            report.append("MEDIUM RISK - Exercise caution. Verify sender independently.")
+        else:
+            report.append("LOW RISK - Email appears legitimate but remain vigilant.")
+        
+        return "\n".join(report)
+    
+    def get_risk_level(self):
+        """
+        Determine risk level based on score
+        """
+        if self.risk_score >= 5:
+            return "HIGH"
+        elif self.risk_score >= 3:
+            return "MEDIUM"
+        else:
+            return "LOW"
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 phishing_analyzer.py <email_file.eml>")
+        sys.exit(1)
+    
+    email_file = sys.argv[1]
+    analyzer = PhishingAnalyzer()
+    report = analyzer.analyze_email_file(email_file)
+    print(report)
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Social Engineering Defense Strategies</h4>
+                <div class="card bg-dark border-success">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-success"><i class="fas fa-shield-alt me-2"></i>Technical Controls</h6>
+                                <ul class="small">
+                                    <li>Email filtering and anti-phishing tools</li>
+                                    <li>Multi-factor authentication (MFA)</li>
+                                    <li>Email authentication (SPF, DKIM, DMARC)</li>
+                                    <li>Web content filtering</li>
+                                    <li>Endpoint protection</li>
+                                    <li>Network segmentation</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-success"><i class="fas fa-graduation-cap me-2"></i>Human Controls</h6>
+                                <ul class="small">
+                                    <li>Security awareness training</li>
+                                    <li>Phishing simulation exercises</li>
+                                    <li>Clear reporting procedures</li>
+                                    <li>Verification protocols</li>
+                                    <li>Incident response training</li>
+                                    <li>Regular security reminders</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Building a Security Culture</h4>
+                <h5>Training Program Components</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-info h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-lightbulb fa-2x text-info mb-2"></i>
+                                <h6>Awareness</h6>
+                                <p class="small">Recognize social engineering tactics and understand their impact on organizational security</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-warning h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-tools fa-2x text-warning mb-2"></i>
+                                <h6>Skills</h6>
+                                <p class="small">Develop practical skills to identify and respond to social engineering attempts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-2x text-success mb-2"></i>
+                                <h6>Culture</h6>
+                                <p class="small">Foster a security-conscious culture where reporting is encouraged and mistakes are learning opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Social Engineering Assessment Exercise</h6>
+                        <p><strong>Objective:</strong> Practice identifying and analyzing social engineering attempts.</p>
+                        <ol>
+                            <li><strong>Phishing Email Analysis:</strong>
+                                <ul>
+                                    <li>Collect sample phishing emails (use online repositories)</li>
+                                    <li>Analyze them using the Python script</li>
+                                    <li>Identify red flags and attack techniques</li>
+                                </ul>
+                            </li>
+                            <li><strong>Create Awareness Materials:</strong>
+                                <ul>
+                                    <li>Design a phishing awareness poster</li>
+                                    <li>Write guidelines for verifying suspicious requests</li>
+                                    <li>Create a reporting procedure flowchart</li>
+                                </ul>
+                            </li>
+                            <li><strong>Conduct a Tabletop Exercise:</strong>
+                                <ul>
+                                    <li>Create realistic scenarios</li>
+                                    <li>Practice response procedures</li>
+                                    <li>Document lessons learned</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-info mt-2">
+                            <small><i class="fas fa-info-circle me-1"></i>Focus on defense and awareness - never conduct actual social engineering attacks without explicit authorization.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Incident Response for Social Engineering</h4>
+                <div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>If You Suspect a Social Engineering Attack</h6>
+                    <ol class="mb-0">
+                        <li><strong>Don't Panic:</strong> Stay calm and think critically</li>
+                        <li><strong>Stop Interaction:</strong> End the communication immediately</li>
+                        <li><strong>Don't Provide Information:</strong> Never give out sensitive data</li>
+                        <li><strong>Verify Independently:</strong> Contact the supposed sender through official channels</li>
+                        <li><strong>Report Immediately:</strong> Inform your security team or IT department</li>
+                        <li><strong>Document Everything:</strong> Save emails, record call details, take screenshots</li>
+                    </ol>
+                </div>
+
+                <h4>Legal and Ethical Considerations</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6 class="text-warning">Important Guidelines</h6>
+                        <ul class="small">
+                            <li><strong>Authorized Testing Only:</strong> Social engineering tests must be authorized by senior management</li>
+                            <li><strong>Clear Scope:</strong> Define boundaries and limitations clearly</li>
+                            <li><strong>Professional Standards:</strong> Follow ethical guidelines and industry standards</li>
+                            <li><strong>Legal Compliance:</strong> Ensure compliance with local laws and regulations</li>
+                            <li><strong>Privacy Respect:</strong> Respect individual privacy and dignity</li>
+                            <li><strong>Educational Purpose:</strong> Focus on improving security awareness and defenses</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 6 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (6 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

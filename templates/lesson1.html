@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 1: Introduction to Ethical Hacking{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 1</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Home
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=2) }}" class="btn btn-outline-info">
+                    Next: Network Scanning <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>What is Ethical Hacking?</h3>
+                <p>Ethical hacking, also known as penetration testing or white-hat hacking, is the practice of intentionally probing systems, networks, and applications for security vulnerabilities in a legal and authorized manner.</p>
+
+                <h4>Key Concepts</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-shield fa-2x text-success mb-2"></i>
+                                <h6>White Hat Hackers</h6>
+                                <p class="small">Ethical hackers who work to protect systems and help organizations improve security.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-ninja fa-2x text-warning mb-2"></i>
+                                <h6>Gray Hat Hackers</h6>
+                                <p class="small">Hackers who may violate laws but don't have malicious intent.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-body text-center">
+                                <i class="fas fa-user-secret fa-2x text-danger mb-2"></i>
+                                <h6>Black Hat Hackers</h6>
+                                <p class="small">Malicious hackers who exploit vulnerabilities for personal gain or to cause harm.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>The Ethical Hacking Process</h4>
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-info-circle me-2"></i>Important Note</h6>
+                    <p class="mb-0">Always ensure you have explicit written permission before testing any system that you don't own. Unauthorized access is illegal and can result in serious legal consequences.</p>
+                </div>
+
+                <ol class="list-group list-group-numbered">
+                    <li class="list-group-item">
+                        <strong>Planning and Reconnaissance</strong>
+                        <p class="mb-0">Gather information about the target system and define the scope of testing.</p>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Scanning</strong>
+                        <p class="mb-0">Use tools to discover live systems, open ports, and services.</p>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Gaining Access</strong>
+                        <p class="mb-0">Exploit vulnerabilities to gain unauthorized access to systems.</p>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Maintaining Access</strong>
+                        <p class="mb-0">Establish persistent access to demonstrate the impact of vulnerabilities.</p>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Analysis and Reporting</strong>
+                        <p class="mb-0">Document findings and provide recommendations for remediation.</p>
+                    </li>
+                </ol>
+
+                <h4>Essential Skills for Ethical Hackers</h4>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-code text-info me-2"></i>Technical Skills</h6>
+                        <ul>
+                            <li>Programming (Python, JavaScript, C++)</li>
+                            <li>Networking fundamentals</li>
+                            <li>Operating systems (Linux, Windows)</li>
+                            <li>Web technologies</li>
+                            <li>Database systems</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-brain text-info me-2"></i>Soft Skills</h6>
+                        <ul>
+                            <li>Problem-solving abilities</li>
+                            <li>Attention to detail</li>
+                            <li>Communication skills</li>
+                            <li>Continuous learning mindset</li>
+                            <li>Ethical decision-making</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Sample Code: Simple Port Scanner</h4>
+                <p>Here's a basic example of a port scanner written in Python:</p>
+                
+                <pre><code class="language-python">#!/usr/bin/env python3
+import socket
+import sys
+from datetime import datetime
+
+def scan_port(target, port):
+    """
+    Scan a specific port on the target host
+    """
+    try:
+        # Create a socket object
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)  # 1 second timeout
+        
+        # Attempt to connect to the target and port
+        result = sock.connect_ex((target, port))
+        sock.close()
+        
+        # Port is open if result is 0
+        return result == 0
+    except socket.gaierror:
+        # Hostname could not be resolved
+        return False
+    except Exception as e:
+        print(f"Error scanning port {port}: {e}")
+        return False
+
+def main():
+    """
+    Simple port scanner example
+    """
+    if len(sys.argv) != 2:
+        print("Usage: python3 port_scanner.py <host>")
+        sys.exit(1)
+    
+    target = sys.argv[1]
+    print(f"Starting port scan on {target}")
+    print(f"Time started: {datetime.now()}")
+    print("-" * 50)
+    
+    # Common ports to scan
+    common_ports = [22, 23, 53, 80, 110, 443, 993, 995]
+    
+    open_ports = []
+    for port in common_ports:
+        if scan_port(target, port):
+            print(f"Port {port}: Open")
+            open_ports.append(port)
+        else:
+            print(f"Port {port}: Closed")
+    
+    print("-" * 50)
+    print(f"Scan completed. Open ports: {open_ports}")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <div class="alert alert-warning mt-3">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Legal Warning</h6>
+                    <p class="mb-0">This code is for educational purposes only. Only use it on systems you own or have explicit permission to test. Unauthorized port scanning may be illegal in your jurisdiction.</p>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h6>Practice Activity</h6>
+                        <p>Research and write a short summary (2-3 paragraphs) about a famous ethical hacker and their contributions to cybersecurity. Some suggestions:</p>
+                        <ul>
+                            <li>Kevin Mitnick</li>
+                            <li>Steve Wozniak</li>
+                            <li>Dan Kaminsky</li>
+                            <li>Charlie Miller</li>
+                        </ul>
+                        <p class="mb-0">Focus on how they transitioned from potentially malicious activities to helping improve security.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 1 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (1 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

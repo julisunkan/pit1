@@ -1,0 +1,689 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 10: Legal & Ethical Considerations{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 10</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=9) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Incident Response
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-outline-success">
+                    <i class="fas fa-home me-1"></i>Complete Course
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Legal & Ethical Considerations</h3>
+                <p>Understanding the legal and ethical framework surrounding cybersecurity and ethical hacking is crucial for professionals in the field. This final lesson covers laws, regulations, professional ethics, and responsible disclosure practices.</p>
+
+                <div class="alert alert-danger">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Critical Reminder</h6>
+                    <p class="mb-0">The techniques and tools covered in this course are for educational and authorized testing purposes only. Unauthorized access to computer systems is illegal and can result in severe criminal and civil penalties.</p>
+                </div>
+
+                <h4>Legal Framework Overview</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-gavel me-2"></i>Criminal Laws</h6>
+                            </div>
+                            <div class="card-body">
+                                <h6>United States</h6>
+                                <ul class="small">
+                                    <li><strong>Computer Fraud and Abuse Act (CFAA)</strong> - Primary federal cybercrime law</li>
+                                    <li><strong>Digital Millennium Copyright Act (DMCA)</strong> - Copyright protections</li>
+                                    <li><strong>Electronic Communications Privacy Act (ECPA)</strong> - Privacy protections</li>
+                                    <li><strong>State Laws</strong> - Varying state-level cybercrime statutes</li>
+                                </ul>
+                                <h6>International</h6>
+                                <ul class="small">
+                                    <li>European Union: Network and Information Security Directive</li>
+                                    <li>UK: Computer Misuse Act 1990</li>
+                                    <li>Canada: Criminal Code provisions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-balance-scale me-2"></i>Civil Liabilities</h6>
+                            </div>
+                            <div class="card-body">
+                                <h6>Potential Civil Consequences</h6>
+                                <ul class="small">
+                                    <li>Monetary damages for system disruption</li>
+                                    <li>Loss of business and reputation damages</li>
+                                    <li>Injunctive relief to prevent further actions</li>
+                                    <li>Legal fees and court costs</li>
+                                </ul>
+                                <h6>Professional Consequences</h6>
+                                <ul class="small">
+                                    <li>Loss of professional certifications</li>
+                                    <li>Employment termination</li>
+                                    <li>Industry blacklisting</li>
+                                    <li>Professional license revocation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Computer Fraud and Abuse Act (CFAA) Deep Dive</h4>
+                <p>The CFAA is the primary federal law addressing computer crimes in the United States. Understanding its provisions is essential for ethical hackers.</p>
+
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Section</th>
+                                <th>Violation</th>
+                                <th>Description</th>
+                                <th>Penalties</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>§1030(a)(1)</td>
+                                <td>Espionage</td>
+                                <td>Accessing classified information</td>
+                                <td>Up to 20 years imprisonment</td>
+                            </tr>
+                            <tr>
+                                <td>§1030(a)(2)</td>
+                                <td>Privacy Violation</td>
+                                <td>Accessing protected information</td>
+                                <td>Up to 10 years for repeat offenders</td>
+                            </tr>
+                            <tr>
+                                <td>§1030(a)(3)</td>
+                                <td>Government Computer</td>
+                                <td>Accessing government computers</td>
+                                <td>Up to 10 years imprisonment</td>
+                            </tr>
+                            <tr>
+                                <td>§1030(a)(4)</td>
+                                <td>Fraud</td>
+                                <td>Accessing for fraudulent purposes</td>
+                                <td>Up to 20 years imprisonment</td>
+                            </tr>
+                            <tr>
+                                <td>§1030(a)(5)</td>
+                                <td>Damage</td>
+                                <td>Causing damage through computer access</td>
+                                <td>Up to 20 years imprisonment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Authorized vs. Unauthorized Access</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success"><i class="fas fa-check-circle me-2"></i>Authorized Testing</h6>
+                            </div>
+                            <div class="card-body">
+                                <h6>Required Elements:</h6>
+                                <ul class="small">
+                                    <li><strong>Written Permission:</strong> Explicit authorization from system owner</li>
+                                    <li><strong>Scope Definition:</strong> Clear boundaries and limitations</li>
+                                    <li><strong>Time Limits:</strong> Specific testing windows</li>
+                                    <li><strong>Contact Information:</strong> Emergency contacts and procedures</li>
+                                    <li><strong>Legal Agreements:</strong> Contracts and liability waivers</li>
+                                </ul>
+                                <h6>Documentation Requirements:</h6>
+                                <ul class="small">
+                                    <li>Signed statement of work</li>
+                                    <li>Rules of engagement</li>
+                                    <li>Non-disclosure agreements</li>
+                                    <li>Insurance certificates</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-times-circle me-2"></i>Unauthorized Access</h6>
+                            </div>
+                            <div class="card-body">
+                                <h6>Prohibited Activities:</h6>
+                                <ul class="small">
+                                    <li>Accessing systems without permission</li>
+                                    <li>Exceeding authorized access levels</li>
+                                    <li>Testing outside defined scope</li>
+                                    <li>Continuing after authorization expires</li>
+                                    <li>Sharing access with unauthorized parties</li>
+                                </ul>
+                                <h6>Common Misconceptions:</h6>
+                                <ul class="small">
+                                    <li>"It's for security research" - Not a legal defense</li>
+                                    <li>"I didn't cause damage" - Access alone may be illegal</li>
+                                    <li>"The system was unsecured" - Not an invitation to access</li>
+                                    <li>"I reported the vulnerability" - Doesn't authorize initial access</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>International Legal Considerations</h4>
+                <div class="accordion" id="internationalLaws">
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#europeanUnion">
+                                <i class="fas fa-flag me-2 text-info"></i>European Union
+                            </button>
+                        </h2>
+                        <div id="europeanUnion" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Key Legislation:</h6>
+                                <ul class="small">
+                                    <li><strong>General Data Protection Regulation (GDPR):</strong> Comprehensive data protection law</li>
+                                    <li><strong>Network and Information Security (NIS) Directive:</strong> Cybersecurity requirements</li>
+                                    <li><strong>Cybersecurity Act:</strong> EU-wide cybersecurity framework</li>
+                                </ul>
+                                <h6>GDPR Implications for Security Testing:</h6>
+                                <ul class="small">
+                                    <li>Data processing must have legal basis</li>
+                                    <li>Privacy by design requirements</li>
+                                    <li>Breach notification within 72 hours</li>
+                                    <li>Data protection impact assessments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#unitedKingdom">
+                                <i class="fas fa-flag me-2 text-warning"></i>United Kingdom
+                            </button>
+                        </h2>
+                        <div id="unitedKingdom" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <h6>Computer Misuse Act 1990:</h6>
+                                <ul class="small">
+                                    <li><strong>Section 1:</strong> Unauthorized access to computer material</li>
+                                    <li><strong>Section 2:</strong> Unauthorized access with intent to commit further offenses</li>
+                                    <li><strong>Section 3:</strong> Unauthorized acts impairing computer operation</li>
+                                    <li><strong>Section 3A:</strong> Making, supplying, or obtaining articles for computer misuse offenses</li>
+                                </ul>
+                                <h6>Recent Updates:</h6>
+                                <ul class="small">
+                                    <li>Increased penalties for serious computer misuse</li>
+                                    <li>Expanded definition of computer-related offenses</li>
+                                    <li>Extraterritorial jurisdiction provisions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Professional Ethics and Standards</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h6 class="text-info">Core Ethical Principles</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-heart text-danger me-2"></i>Fundamental Values</h6>
+                                <ul class="small">
+                                    <li><strong>Integrity:</strong> Act honestly and transparently</li>
+                                    <li><strong>Respect:</strong> Honor others' rights and dignity</li>
+                                    <li><strong>Responsibility:</strong> Accept accountability for actions</li>
+                                    <li><strong>Fairness:</strong> Treat all parties equitably</li>
+                                    <li><strong>Competence:</strong> Maintain professional skills</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-shield-alt text-success me-2"></i>Professional Conduct</h6>
+                                <ul class="small">
+                                    <li>Obtain proper authorization before testing</li>
+                                    <li>Stay within agreed-upon scope</li>
+                                    <li>Protect confidential information</li>
+                                    <li>Report findings responsibly</li>
+                                    <li>Avoid conflicts of interest</li>
+                                    <li>Maintain professional development</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Professional Certifications and Codes of Ethics</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-warning h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-certificate fa-2x text-warning mb-2"></i>
+                                <h6>(ISC)² Code of Ethics</h6>
+                                <p class="small">CISSP, CCSP, and other (ISC)² certifications</p>
+                                <ul class="small text-start">
+                                    <li>Protect society and infrastructure</li>
+                                    <li>Act honorably and responsibly</li>
+                                    <li>Provide diligent service</li>
+                                    <li>Advance the profession</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-info h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-certificate fa-2x text-info mb-2"></i>
+                                <h6>EC-Council Code of Ethics</h6>
+                                <p class="small">CEH, ECSA, and other EC-Council certifications</p>
+                                <ul class="small text-start">
+                                    <li>Keep private information confidential</li>
+                                    <li>Not use skills for destructive purposes</li>
+                                    <li>Disclose vulnerabilities responsibly</li>
+                                    <li>Uphold professional standards</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-certificate fa-2x text-success mb-2"></i>
+                                <h6>CompTIA Code of Ethics</h6>
+                                <p class="small">Security+, PenTest+, and other CompTIA certifications</p>
+                                <ul class="small text-start">
+                                    <li>Perform duties with integrity</li>
+                                    <li>Maintain objectivity</li>
+                                    <li>Maintain confidentiality</li>
+                                    <li>Support professional development</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Responsible Disclosure</h4>
+                <p>Responsible disclosure is the practice of reporting security vulnerabilities to affected parties before public disclosure, allowing time for remediation.</p>
+
+                <h5>Responsible Disclosure Process</h5>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card bg-dark border-secondary">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-2">
+                                        <i class="fas fa-search fa-2x text-info mb-2"></i>
+                                        <h6>1. Discovery</h6>
+                                        <p class="small">Identify vulnerability through authorized research</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-clipboard-check fa-2x text-warning mb-2"></i>
+                                        <h6>2. Documentation</h6>
+                                        <p class="small">Document technical details and impact</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-envelope fa-2x text-success mb-2"></i>
+                                        <h6>3. Initial Contact</h6>
+                                        <p class="small">Contact vendor through proper channels</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-handshake fa-2x text-primary mb-2"></i>
+                                        <h6>4. Coordination</h6>
+                                        <p class="small">Work with vendor on disclosure timeline</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-tools fa-2x text-secondary mb-2"></i>
+                                        <h6>5. Remediation</h6>
+                                        <p class="small">Allow time for patch development</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-bullhorn fa-2x text-danger mb-2"></i>
+                                        <h6>6. Public Disclosure</h6>
+                                        <p class="small">Coordinate public announcement</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5>Disclosure Timeline Best Practices</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Severity</th>
+                                <th>Recommended Timeline</th>
+                                <th>Considerations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td>30-45 days</td>
+                                <td>Active exploitation, high impact</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td>60-90 days</td>
+                                <td>Significant security impact</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Medium</span></td>
+                                <td>90-120 days</td>
+                                <td>Moderate impact, complex fixes</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Low</span></td>
+                                <td>120+ days</td>
+                                <td>Minor impact, architectural changes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Bug Bounty Programs and Legal Protections</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success"><i class="fas fa-bug me-2"></i>Bug Bounty Benefits</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Legal Protection:</strong> Clear authorization for testing</li>
+                                    <li><strong>Defined Scope:</strong> Explicit boundaries and rules</li>
+                                    <li><strong>Financial Rewards:</strong> Compensation for findings</li>
+                                    <li><strong>Professional Recognition:</strong> Industry credibility</li>
+                                    <li><strong>Coordinated Disclosure:</strong> Structured reporting process</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-shield-alt me-2"></i>Safe Harbor Provisions</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Good faith security research protection</li>
+                                    <li>Compliance with program terms</li>
+                                    <li>No malicious intent or damage</li>
+                                    <li>Responsible disclosure practices</li>
+                                    <li>Cooperation with remediation efforts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Privacy and Data Protection</h4>
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-user-shield me-2"></i>Privacy Considerations in Security Testing</h6>
+                    <ul class="mb-0">
+                        <li><strong>Data Minimization:</strong> Access only data necessary for testing</li>
+                        <li><strong>Purpose Limitation:</strong> Use data only for authorized security testing</li>
+                        <li><strong>Storage Limitation:</strong> Delete or return data after testing</li>
+                        <li><strong>Confidentiality:</strong> Protect any accessed personal data</li>
+                        <li><strong>Transparency:</strong> Document data handling procedures</li>
+                        <li><strong>Accountability:</strong> Demonstrate compliance with privacy laws</li>
+                    </ul>
+                </div>
+
+                <h4>Contract and Legal Documentation</h4>
+                <pre><code class="language-text">SAMPLE PENETRATION TESTING AGREEMENT CLAUSES
+
+1. SCOPE OF WORK
+   - Specific systems and networks to be tested
+   - Testing methodologies to be employed
+   - Exclusions and out-of-scope items
+   - Testing timeframes and windows
+
+2. AUTHORIZATION
+   - Explicit permission to conduct security testing
+   - Authority of signatory to grant permission
+   - Limitation of testing to specified scope
+   - Right to terminate testing if needed
+
+3. CONFIDENTIALITY
+   - Protection of client confidential information
+   - Non-disclosure of vulnerabilities to third parties
+   - Secure handling and storage of test data
+   - Return or destruction of data after testing
+
+4. LIABILITY AND INDEMNIFICATION
+   - Limitation of consultant liability
+   - Client indemnification provisions
+   - Insurance requirements
+   - Force majeure clauses
+
+5. REPORTING AND DISCLOSURE
+   - Report format and delivery requirements
+   - Timeline for vulnerability disclosure
+   - Restrictions on public disclosure
+   - Remediation support provisions
+
+IMPORTANT: This is a sample for educational purposes only.
+Always consult with qualified legal counsel for actual agreements.
+</code></pre>
+
+                <h4>Ethical Decision-Making Framework</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6 class="text-warning">Decision-Making Questions</h6>
+                        <p class="small">When facing ethical dilemmas in cybersecurity, consider these questions:</p>
+                        <ol class="small">
+                            <li><strong>Legal:</strong> Is this action legal in all applicable jurisdictions?</li>
+                            <li><strong>Authorization:</strong> Do I have explicit permission for this action?</li>
+                            <li><strong>Harm:</strong> Could this action cause harm to individuals or organizations?</li>
+                            <li><strong>Intent:</strong> What is my motivation for taking this action?</li>
+                            <li><strong>Consequences:</strong> What are the potential outcomes of this action?</li>
+                            <li><strong>Alternatives:</strong> Are there better ways to achieve the same goal?</li>
+                            <li><strong>Transparency:</strong> Would I be comfortable if this action became public?</li>
+                            <li><strong>Professional Standards:</strong> Does this align with professional codes of ethics?</li>
+                        </ol>
+                        <p class="small"><strong>Golden Rule:</strong> If you have any doubt about the legality or ethics of an action, don't do it. Consult with legal counsel and experienced professionals.</p>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Legal and Ethical Analysis</h6>
+                        <p><strong>Objective:</strong> Analyze legal and ethical scenarios in cybersecurity.</p>
+                        <ol>
+                            <li><strong>Case Study Analysis:</strong>
+                                <ul>
+                                    <li>Research real-world legal cases involving cybersecurity</li>
+                                    <li>Identify key legal principles and precedents</li>
+                                    <li>Analyze the ethical dimensions of each case</li>
+                                </ul>
+                            </li>
+                            <li><strong>Contract Review:</strong>
+                                <ul>
+                                    <li>Review sample penetration testing agreements</li>
+                                    <li>Identify key legal protections and obligations</li>
+                                    <li>Draft a rules of engagement document</li>
+                                </ul>
+                            </li>
+                            <li><strong>Responsible Disclosure Simulation:</strong>
+                                <ul>
+                                    <li>Practice the responsible disclosure process</li>
+                                    <li>Draft vulnerability reports</li>
+                                    <li>Create disclosure timelines</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ethical Dilemma Discussion:</strong>
+                                <ul>
+                                    <li>Discuss challenging ethical scenarios</li>
+                                    <li>Apply ethical decision-making framework</li>
+                                    <li>Develop personal code of ethics</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-info mt-2">
+                            <small><i class="fas fa-info-circle me-1"></i>This exercise is for educational purposes to develop ethical reasoning skills.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Professional Development and Continuing Education</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-info h-100">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info">Staying Current</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Follow legal developments in cybersecurity</li>
+                                    <li>Attend professional conferences and workshops</li>
+                                    <li>Participate in professional organizations</li>
+                                    <li>Engage in continuing education programs</li>
+                                    <li>Maintain professional certifications</li>
+                                    <li>Network with other professionals</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-dark border-success h-100">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success">Building Credibility</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Demonstrate consistent ethical behavior</li>
+                                    <li>Build reputation through quality work</li>
+                                    <li>Contribute to the security community</li>
+                                    <li>Share knowledge through teaching and mentoring</li>
+                                    <li>Participate in responsible disclosure programs</li>
+                                    <li>Maintain transparency in professional activities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-success mt-4">
+                    <h5><i class="fas fa-graduation-cap me-2"></i>Congratulations!</h5>
+                    <p>You have completed all 10 lessons of the Modern Ethical Hacking Guide & Tools course. You now have a comprehensive understanding of:</p>
+                    <ul class="mb-3">
+                        <li>Ethical hacking fundamentals and methodologies</li>
+                        <li>Network scanning and reconnaissance techniques</li>
+                        <li>Vulnerability assessment and web application testing</li>
+                        <li>Wireless security and social engineering awareness</li>
+                        <li>Penetration testing frameworks and security tools</li>
+                        <li>Incident response and professional reporting</li>
+                        <li>Legal requirements and ethical considerations</li>
+                    </ul>
+                    <p class="mb-0"><strong>Remember:</strong> With great knowledge comes great responsibility. Use these skills ethically and legally to improve cybersecurity and protect digital assets.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 10 of {{ total_lessons }} - Course Complete!</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-success" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show completion celebration
+            if (lessonId === 10) {
+                showCourseCompletionModal();
+            } else {
+                location.reload();
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function showCourseCompletionModal() {
+    // Create a simple completion modal
+    const modal = document.createElement('div');
+    modal.innerHTML = `
+        <div class="modal fade" id="completionModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark border-success">
+                    <div class="modal-header border-success">
+                        <h5 class="modal-title text-success">🎉 Course Completed!</h5>
+                    </div>
+                    <div class="modal-body text-center">
+                        <i class="fas fa-trophy fa-4x text-warning mb-3"></i>
+                        <h4>Congratulations!</h4>
+                        <p>You have successfully completed all 10 lessons of the Modern Ethical Hacking Guide & Tools course.</p>
+                        <p class="small text-muted">You are now ready to apply ethical hacking principles responsibly and professionally.</p>
+                    </div>
+                    <div class="modal-footer border-success">
+                        <button type="button" class="btn btn-success" onclick="window.location.href='{{ url_for('index') }}'">
+                            Return to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    const bootstrapModal = new bootstrap.Modal(document.getElementById('completionModal'));
+    bootstrapModal.show();
+    
+    // Auto-reload after modal closes
+    document.getElementById('completionModal').addEventListener('hidden.bs.modal', function() {
+        location.reload();
+    });
+}
+</script>
+{% endblock %}

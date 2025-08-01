@@ -1,0 +1,358 @@
+/* Custom CSS for Ethical Hacking Tutorial */
+
+/* Use CSS variables for consistent theming */
+:root {
+    --primary-color: var(--bs-info);
+    --secondary-color: var(--bs-secondary);
+    --success-color: var(--bs-success);
+    --warning-color: var(--bs-warning);
+    --danger-color: var(--bs-danger);
+}
+
+/* Base typography and spacing improvements */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Enhanced card styling for lessons */
+.lesson-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-color: var(--bs-info);
+}
+
+/* Code block enhancements */
+pre {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.875rem;
+}
+
+code {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e83e8c !important;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Navigation enhancements */
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--bs-info) !important;
+}
+
+/* Progress bar styling */
+.progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.progress-bar {
+    transition: width 0.4s ease-in-out;
+    border-radius: 10px;
+}
+
+/* Badge enhancements */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Alert customizations */
+.alert {
+    border: none;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    border-left-color: var(--bs-info);
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+.alert-warning {
+    border-left-color: var(--bs-warning);
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.alert-danger {
+    border-left-color: var(--bs-danger);
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.alert-success {
+    border-left-color: var(--bs-success);
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+/* Table improvements */
+.table-dark {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.table-dark thead th {
+    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-dark tbody tr {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-dark tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Button enhancements */
+.btn {
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-info:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(13, 202, 240, 0.3);
+}
+
+.btn-outline-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+}
+
+/* Card border variations */
+.border-info {
+    border-color: var(--bs-info) !important;
+}
+
+.border-warning {
+    border-color: var(--bs-warning) !important;
+}
+
+.border-danger {
+    border-color: var(--bs-danger) !important;
+}
+
+.border-success {
+    border-color: var(--bs-success) !important;
+}
+
+/* Accordion customizations */
+.accordion-button {
+    transition: all 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(13, 202, 240, 0.1);
+    border-color: var(--bs-info);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    .lesson-card {
+        margin-bottom: 1rem;
+    }
+    
+    pre {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Small screen optimizations */
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+    }
+}
+
+/* Loading animation for dynamic content */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--bs-info);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Focus improvements for accessibility */
+.btn:focus,
+.form-control:focus,
+.nav-link:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Search functionality enhancements */
+.form-control-lg {
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control-lg:focus {
+    border-color: var(--bs-info);
+    box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Lesson navigation improvements */
+.lesson-navigation {
+    position: sticky;
+    top: 80px;
+    z-index: 1000;
+    background-color: rgba(33, 37, 41, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Typography scale for better readability */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: var(--bs-info);
+    border-bottom: 2px solid rgba(13, 202, 240, 0.3);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* List styling improvements */
+ul, ol {
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.25rem;
+}
+
+/* Dark mode specific enhancements */
+[data-bs-theme="dark"] {
+    --bs-body-bg: #121212;
+    --bs-body-color: #ffffff;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.125);
+}
+
+[data-bs-theme="dark"] .navbar {
+    background-color: #1a1a1a !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Utility classes for spacing */
+.mt-6 { margin-top: 4rem !important; }
+.mb-6 { margin-bottom: 4rem !important; }
+.py-6 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+
+/* Icon enhancements */
+.fas, .fab {
+    transition: color 0.2s ease-in-out;
+}
+
+.text-info .fas:hover,
+.text-warning .fas:hover,
+.text-success .fas:hover,
+.text-danger .fas:hover {
+    opacity: 0.8;
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .lesson-navigation,
+    .btn,
+    footer {
+        display: none !important;
+    }
+    
+    .container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+    }
+    
+    pre, code {
+        background-color: #f8f9fa !important;
+        color: #000 !important;
+        border: 1px solid #dee2e6 !important;
+    }
+}

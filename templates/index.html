@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Ethical Hacking Tutorial{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-shield-alt text-info me-3"></i>
+                Modern Ethical Hacking Guide
+            </h1>
+            <p class="lead">Master cybersecurity through 10 comprehensive lessons covering essential ethical hacking techniques and tools.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <form method="GET" action="{{ url_for('search') }}" class="d-flex">
+                    <input type="text" class="form-control form-control-lg" name="q" 
+                           placeholder="Search lessons..." value="{{ search_query or '' }}">
+                    <button class="btn btn-outline-info ms-2" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Progress Overview -->
+        {% set completed_count = completed_lessons|length %}
+        {% set total_count = lessons|length %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Your Progress
+                    </h5>
+                    <span class="badge bg-info">{{ completed_count }}/{{ total_count }} Complete</span>
+                </div>
+                <div class="progress mb-3" style="height: 10px;">
+                    <div class="progress-bar bg-info" style="width: {{ (completed_count / total_count * 100) if total_count > 0 else 0 }}%"></div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <small class="text-muted">{{ completed_count }} lessons completed</small>
+                    {% if completed_count > 0 %}
+                    <form method="POST" action="{{ url_for('reset_progress') }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary" 
+                                onclick="return confirm('Reset all progress?')">
+                            <i class="fas fa-redo me-1"></i>Reset Progress
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        {% if search_query %}
+        <div class="alert alert-info">
+            <i class="fas fa-search me-2"></i>
+            Search results for "<strong>{{ search_query }}</strong>"
+            {% if search_results %}
+            ({{ search_results|length }} found)
+            {% else %}
+            (no results found)
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Lessons Grid -->
+        <div class="row">
+            {% set display_lessons = search_results if search_query and search_results else lessons.items() %}
+            {% for lesson_item in display_lessons %}
+                {% if search_query and search_results %}
+                    {% set lesson_id = lesson_item.id %}
+                    {% set lesson_data = lesson_item %}
+                {% else %}
+                    {% set lesson_id = lesson_item[0] %}
+                    {% set lesson_data = lesson_item[1] %}
+                {% endif %}
+                
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 lesson-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">Lesson {{ lesson_id }}</h6>
+                            {% if lesson_id in completed_lessons %}
+                            <span class="badge bg-success">
+                                <i class="fas fa-check me-1"></i>Complete
+                            </span>
+                            {% else %}
+                            <span class="badge bg-secondary">Not Started</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ lesson_data.title }}</h5>
+                            <p class="card-text">{{ lesson_data.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>{{ lesson_data.duration }}
+                                </small>
+                                {% if lesson_id in completed_lessons %}
+                                <i class="fas fa-medal text-warning"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('lesson', lesson_id=lesson_id) }}" class="btn btn-outline-info btn-sm w-100">
+                                {% if lesson_id in completed_lessons %}
+                                <i class="fas fa-eye me-1"></i>Review Lesson
+                                {% else %}
+                                <i class="fas fa-play me-1"></i>Start Lesson
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if search_query and not search_results %}
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4>No lessons found</h4>
+            <p class="text-muted">Try searching with different keywords or browse all lessons above.</p>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-info">View All Lessons</a>
+        </div>
+        {% endif %}
+
+        <!-- Learning Path Info -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">
+                            <i class="fas fa-route me-2"></i>Recommended Learning Path
+                        </h5>
+                        <p class="card-text">
+                            Follow the lessons in order for the best learning experience. Each lesson builds upon previous concepts and introduces new tools and techniques.
+                        </p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6 class="text-warning">Beginner (Lessons 1-3)</h6>
+                                <p class="small">Fundamentals and basic concepts</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-warning">Intermediate (Lessons 4-7)</h6>
+                                <p class="small">Practical techniques and tools</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-warning">Advanced (Lessons 8-10)</h6>
+                                <p class="small">Professional practices and ethics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
