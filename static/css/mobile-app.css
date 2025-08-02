@@ -949,6 +949,185 @@
     pointer-events: none;
 }
 
+/* Light Theme Styles */
+.light-theme {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #212529;
+}
+
+.light-theme .mobile-app-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.light-theme .mobile-status-bar {
+    background: rgba(255, 255, 255, 0.95);
+    color: #212529;
+}
+
+.light-theme .mobile-app-header {
+    background: rgba(13, 110, 253, 0.95);
+}
+
+.light-theme .mobile-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #212529;
+}
+
+.light-theme .mobile-card .card-header {
+    background: rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #212529;
+}
+
+.light-theme .mobile-card .card-header h6 {
+    color: #212529;
+}
+
+.light-theme .action-btn {
+    background: rgba(13, 110, 253, 0.1);
+    border-color: rgba(13, 110, 253, 0.3);
+    color: #212529;
+}
+
+.light-theme .action-btn:hover {
+    background: rgba(13, 110, 253, 0.2);
+    color: #212529;
+}
+
+.light-theme .lesson-item {
+    color: #212529;
+}
+
+.light-theme .lesson-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #212529;
+}
+
+.light-theme .lesson-content h6 {
+    color: #212529;
+}
+
+.light-theme .lesson-content p {
+    color: #6c757d;
+}
+
+.light-theme .lesson-number {
+    background: rgba(0, 0, 0, 0.1);
+    color: #212529;
+}
+
+.light-theme .mobile-bottom-nav {
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .nav-item {
+    color: rgba(33, 37, 41, 0.6);
+}
+
+.light-theme .nav-item.active,
+.light-theme .nav-item:hover {
+    color: var(--primary-color);
+}
+
+.light-theme .mobile-offcanvas {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.light-theme .mobile-offcanvas .offcanvas-title {
+    color: #212529;
+}
+
+.light-theme .lesson-list-item {
+    color: #212529;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .lesson-list-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #212529;
+}
+
+.light-theme .lesson-list-item .lesson-content h6 {
+    color: #212529;
+}
+
+.light-theme .lesson-list-item .lesson-content small {
+    color: #6c757d;
+}
+
+.light-theme .search-overlay {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.light-theme .search-input {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #212529;
+}
+
+.light-theme .search-input::placeholder {
+    color: rgba(33, 37, 41, 0.5);
+}
+
+.light-theme .search-close {
+    background: rgba(0, 0, 0, 0.1);
+    color: #212529;
+}
+
+.light-theme .mobile-modal {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.light-theme .mobile-modal .modal-title {
+    color: #212529;
+}
+
+.light-theme .progress-info h6 {
+    color: #212529;
+}
+
+.light-theme .progress-info p {
+    color: #6c757d;
+}
+
+.light-theme .setting-content h6 {
+    color: #212529;
+}
+
+.light-theme .setting-content small {
+    color: #6c757d;
+}
+
+.light-theme .stage-content h6 {
+    color: #212529;
+}
+
+.light-theme .stage-content p {
+    color: #6c757d;
+}
+
+.light-theme .empty-state h6 {
+    color: #212529;
+}
+
+.light-theme .empty-state p {
+    color: #6c757d;
+}
+
+/* Theme transition animations */
+.mobile-app-container,
+.mobile-card,
+.mobile-status-bar,
+.mobile-app-header,
+.mobile-bottom-nav,
+.mobile-offcanvas,
+.search-overlay,
+.mobile-modal {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Safe Area Handling */
 @supports (padding: max(0px)) {
     .mobile-bottom-nav {

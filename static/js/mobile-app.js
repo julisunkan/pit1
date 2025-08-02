@@ -38,6 +38,9 @@ class MobileApp {
 
     // Initialize event listeners
     initializeEventListeners() {
+        // Handle dark mode toggle
+        this.initializeDarkModeToggle();
+
         // Handle search overlay
         window.toggleSearch = () => {
             const overlay = document.getElementById('searchOverlay');
@@ -434,6 +437,75 @@ class MobileApp {
         
         // Add fade-in animation
         container.classList.add('fade-in');
+    }
+
+    // Initialize dark mode toggle
+    initializeDarkModeToggle() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const darkModeDescription = document.getElementById('darkModeDescription');
+        
+        if (!darkModeToggle) return;
+
+        // Get current theme preference
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        const isDark = currentTheme === 'dark';
+        
+        // Set initial state
+        darkModeToggle.checked = isDark;
+        this.updateThemeUI(isDark, darkModeIcon, darkModeDescription);
+        this.applyTheme(currentTheme);
+
+        // Handle toggle change
+        darkModeToggle.addEventListener('change', (e) => {
+            const isDarkMode = e.target.checked;
+            const theme = isDarkMode ? 'dark' : 'light';
+            
+            // Save preference
+            localStorage.setItem('theme', theme);
+            
+            // Apply theme
+            this.applyTheme(theme);
+            this.updateThemeUI(isDarkMode, darkModeIcon, darkModeDescription);
+            
+            // Show feedback
+            this.showNotification(
+                `${isDarkMode ? 'Dark' : 'Light'} mode enabled`, 
+                'success'
+            );
+            
+            // Haptic feedback
+            this.hapticFeedback('light');
+        });
+    }
+
+    // Apply theme to the document
+    applyTheme(theme) {
+        const html = document.documentElement;
+        const body = document.body;
+        
+        if (theme === 'dark') {
+            html.setAttribute('data-bs-theme', 'dark');
+            body.classList.remove('light-theme');
+            body.classList.add('dark-theme');
+        } else {
+            html.setAttribute('data-bs-theme', 'light');
+            body.classList.remove('dark-theme');
+            body.classList.add('light-theme');
+        }
+    }
+
+    // Update theme UI elements
+    updateThemeUI(isDark, iconElement, descriptionElement) {
+        if (iconElement) {
+            iconElement.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        }
+        
+        if (descriptionElement) {
+            descriptionElement.textContent = isDark 
+                ? 'Dark theme for cybersecurity focus'
+                : 'Light theme for better visibility';
+        }
     }
 }
 
