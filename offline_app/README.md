@@ -10,6 +10,7 @@
 ## Features
 
 - ✅ 10 comprehensive ethical hacking lessons
+- ✅ Complete original Flask templates included
 - ✅ Interactive content with code examples
 - ✅ Progress tracking with local storage
 - ✅ Responsive design for all device sizes
@@ -56,18 +57,33 @@ offline_app/
 ├── manifest.json           # PWA manifest
 ├── sw.js                   # Service worker for offline functionality
 ├── README.md              # This file
+├── templates/             # Original Flask lesson templates
+│   ├── base.html
+│   ├── index.html
+│   ├── lesson1.html
+│   ├── lesson2.html
+│   ├── lesson3.html
+│   ├── lesson4.html
+│   ├── lesson5.html
+│   ├── lesson6.html
+│   ├── lesson7.html
+│   ├── lesson8.html
+│   ├── lesson9.html
+│   └── lesson10.html
 ├── css/                   # Stylesheets
 │   ├── bootstrap.min.css
 │   ├── fontawesome.min.css
 │   ├── prism.min.css
 │   ├── mobile-app.css
+│   ├── custom.css
 │   └── responsive.css
 ├── js/                    # JavaScript files
 │   ├── bootstrap.min.js
 │   ├── prism-core.min.js
 │   ├── responsive.js
 │   ├── mobile-app.js
-│   └── offline-app.js     # Main app logic
+│   ├── app.js
+│   └── offline-app.js     # Main app logic with embedded content
 └── images/                # App icons
     ├── icon-192.png
     └── icon-512.png

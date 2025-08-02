@@ -15,23 +15,32 @@ def extract_lesson_content(lesson_file):
         with open(lesson_file, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # Find the lesson content section
-        start_marker = '<!-- Lesson Content -->'
-        start_pos = content.find(start_marker)
+        # Find the card-body section which contains the lesson content
+        start_pattern = r'<div class="card-body">\s*<h3>'
+        match = re.search(start_pattern, content)
+        if not match:
+            return ""
+        
+        # Start from the h3 tag
+        start_pos = content.find('<h3>', match.start())
         if start_pos == -1:
             return ""
         
-        # Extract content after the marker
-        content_section = content[start_pos + len(start_marker):]
+        # Extract content from h3 onwards
+        content_section = content[start_pos:]
         
-        # Find the end of the content section
-        end_markers = ['{% endblock %}', '</div>\n    </div>\n</div>']
+        # Find the end of the content section - look for closing patterns
+        end_patterns = [
+            r'</div>\s*</div>\s*</div>\s*{% endblock %}',
+            r'</div>\s*</div>\s*{% endblock %}',
+            r'{% endblock %}'
+        ]
+        
         end_pos = len(content_section)
-        
-        for marker in end_markers:
-            pos = content_section.find(marker)
-            if pos != -1 and pos < end_pos:
-                end_pos = pos
+        for pattern in end_patterns:
+            match = re.search(pattern, content_section)
+            if match and match.start() < end_pos:
+                end_pos = match.start()
         
         lesson_content = content_section[:end_pos]
         
@@ -40,14 +49,10 @@ def extract_lesson_content(lesson_file):
         lesson_content = re.sub(r'{%.*?%}', '', lesson_content)
         lesson_content = re.sub(r'{{.*?}}', '', lesson_content)
         
-        # Remove wrapper divs
-        lesson_content = lesson_content.replace('<div class="card">', '')
-        lesson_content = lesson_content.replace('<div class="card-body">', '')
-        
         # Clean up excessive </div> tags at the end
-        lesson_content = re.sub(r'(\s*</div>\s*){2,}$', '', lesson_content)
+        lesson_content = re.sub(r'(\s*</div>\s*){1,}$', '', lesson_content)
         
-        # Strip whitespace
+        # Strip whitespace but preserve internal formatting
         lesson_content = lesson_content.strip()
         
         return lesson_content
@@ -72,57 +77,70 @@ def create_complete_offline_app():
     with open('offline_app/js/offline-app.js', 'r', encoding='utf-8') as f:
         js_content = f.read()
     
-    # Update lessons 3-10 with real content
-    lesson_updates = {
-        3: '''            3: {
-                title: 'Vulnerability Assessment',
-                description: 'Understand how to identify, classify, and prioritize security vulnerabilities in systems.',
-                duration: '55 minutes',
-                content: `''' + lessons_content.get(3, '').replace('`', '\\`') + '''`
-            },''',
-        4: '''            4: {
-                title: 'Web Application Security Testing',
-                description: 'Explore common web vulnerabilities like XSS, SQL injection, and CSRF attacks.',
-                duration: '70 minutes',
-                content: `''' + lessons_content.get(4, '').replace('`', '\\`') + '''`
-            },''',
-        5: '''            5: {
-                title: 'Wireless Network Security',
-                description: 'Learn about WiFi security protocols, wireless attack vectors, and protection methods.',
-                duration: '50 minutes',
-                content: `''' + lessons_content.get(5, '').replace('`', '\\`') + '''`
-            },''',
-        6: '''            6: {
-                title: 'Social Engineering Awareness',
-                description: 'Understand human psychology in cybersecurity and common social engineering tactics.',
-                duration: '40 minutes',
-                content: `''' + lessons_content.get(6, '').replace('`', '\\`') + '''`
-            },''',
-        7: '''            7: {
-                title: 'Penetration Testing Methodologies',
-                description: 'Master structured approaches to penetration testing and security assessments.',
-                duration: '65 minutes',
-                content: `''' + lessons_content.get(7, '').replace('`', '\\`') + '''`
-            },''',
-        8: '''            8: {
-                title: 'Security Tools & Frameworks',
-                description: 'Get hands-on with popular security tools like Nmap, Wireshark, Metasploit, and Burp Suite.',
-                duration: '80 minutes',
-                content: `''' + lessons_content.get(8, '').replace('`', '\\`') + '''`
-            },''',
-        9: '''            9: {
-                title: 'Incident Response & Reporting',
-                description: 'Learn how to respond to security incidents and create professional security reports.',
-                duration: '55 minutes',
-                content: `''' + lessons_content.get(9, '').replace('`', '\\`') + '''`
-            },''',
-        10: '''            10: {
-                title: 'Legal & Ethical Considerations',
-                description: 'Understand the legal framework, ethics, and professional responsibilities in cybersecurity.',
-                duration: '45 minutes',
-                content: `''' + lessons_content.get(10, '').replace('`', '\\`') + '''`
-            }'''
+    # Get actual titles and descriptions from Flask routes.py
+    lesson_metadata = {
+        3: {
+            'title': 'Vulnerability Assessment',
+            'description': 'Understand how to identify, classify, and prioritize security vulnerabilities in systems.',
+            'duration': '55 minutes'
+        },
+        4: {
+            'title': 'Web Application Security Testing', 
+            'description': 'Explore common web vulnerabilities like XSS, SQL injection, and CSRF attacks.',
+            'duration': '70 minutes'
+        },
+        5: {
+            'title': 'Wireless Network Security',
+            'description': 'Learn about WiFi security protocols, wireless attack vectors, and protection methods.',
+            'duration': '50 minutes'
+        },
+        6: {
+            'title': 'Social Engineering Awareness',
+            'description': 'Understand human psychology in cybersecurity and common social engineering tactics.',
+            'duration': '40 minutes'
+        },
+        7: {
+            'title': 'Penetration Testing Methodologies',
+            'description': 'Master structured approaches to penetration testing and security assessments.',
+            'duration': '65 minutes'
+        },
+        8: {
+            'title': 'Security Tools & Frameworks',
+            'description': 'Get hands-on with popular security tools like Nmap, Wireshark, Metasploit, and Burp Suite.',
+            'duration': '80 minutes'
+        },
+        9: {
+            'title': 'Incident Response & Reporting',
+            'description': 'Learn how to respond to security incidents and create professional security reports.',
+            'duration': '55 minutes'
+        },
+        10: {
+            'title': 'Legal & Ethical Considerations',
+            'description': 'Understand the legal framework, ethics, and professional responsibilities in cybersecurity.',
+            'duration': '45 minutes'
+        }
     }
+
+    # Update lessons 3-10 with real content
+    lesson_updates = {}
+    for lesson_num in range(3, 11):
+        content = lessons_content.get(lesson_num, '').replace('`', '\\`')
+        metadata = lesson_metadata[lesson_num]
+        
+        if lesson_num == 10:  # Last lesson without comma
+            lesson_updates[lesson_num] = f'''            {lesson_num}: {{
+                title: '{metadata["title"]}',
+                description: '{metadata["description"]}',
+                duration: '{metadata["duration"]}',
+                content: `{content}`
+            }}'''
+        else:
+            lesson_updates[lesson_num] = f'''            {lesson_num}: {{
+                title: '{metadata["title"]}',
+                description: '{metadata["description"]}',
+                duration: '{metadata["duration"]}',
+                content: `{content}`
+            }},'''
     
     # Replace placeholder content with real content
     updated_js = js_content

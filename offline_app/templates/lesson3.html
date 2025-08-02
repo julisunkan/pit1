@@ -1,0 +1,529 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 3: Vulnerability Assessment{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 3</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=2) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Network Scanning
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=4) }}" class="btn btn-outline-info">
+                    Next: Web App Security <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Vulnerability Assessment</h3>
+                <p>Vulnerability assessment is the systematic process of identifying, classifying, and prioritizing security vulnerabilities in systems, networks, and applications. It's a critical component of any security program.</p>
+
+                <h4>Vulnerability Assessment vs Penetration Testing</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-search text-info me-2"></i>Vulnerability Assessment</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Identifies vulnerabilities</li>
+                                    <li>Automated scanning</li>
+                                    <li>Broad coverage</li>
+                                    <li>Less intrusive</li>
+                                    <li>Compliance focused</li>
+                                    <li>Regular/scheduled</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-crosshairs text-warning me-2"></i>Penetration Testing</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li>Exploits vulnerabilities</li>
+                                    <li>Manual testing</li>
+                                    <li>Focused scope</li>
+                                    <li>More intrusive</li>
+                                    <li>Risk assessment focused</li>
+                                    <li>Point-in-time</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Vulnerability Assessment Process</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card bg-dark border-secondary">
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-2">
+                                        <i class="fas fa-bullseye fa-2x text-info mb-2"></i>
+                                        <h6>1. Scope Definition</h6>
+                                        <p class="small">Define targets and objectives</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-radar-dish fa-2x text-info mb-2"></i>
+                                        <h6>2. Discovery</h6>
+                                        <p class="small">Identify assets and services</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-scanner fa-2x text-info mb-2"></i>
+                                        <h6>3. Scanning</h6>
+                                        <p class="small">Automated vulnerability detection</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-clipboard-check fa-2x text-info mb-2"></i>
+                                        <h6>4. Analysis</h6>
+                                        <p class="small">Validate and classify findings</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-sort-amount-down fa-2x text-info mb-2"></i>
+                                        <h6>5. Prioritization</h6>
+                                        <p class="small">Risk-based ranking</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-file-alt fa-2x text-info mb-2"></i>
+                                        <h6>6. Reporting</h6>
+                                        <p class="small">Document findings and recommendations</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Vulnerability Classification Systems</h4>
+                <h5>CVSS (Common Vulnerability Scoring System)</h5>
+                <p>CVSS provides a standardized method for rating vulnerabilities based on their characteristics:</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>CVSS Score</th>
+                                <th>Severity</th>
+                                <th>Color Code</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>9.0 - 10.0</td>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td>Red</td>
+                                <td>Immediate action required</td>
+                            </tr>
+                            <tr>
+                                <td>7.0 - 8.9</td>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td>Orange</td>
+                                <td>Fix within 30 days</td>
+                            </tr>
+                            <tr>
+                                <td>4.0 - 6.9</td>
+                                <td><span class="badge bg-info">Medium</span></td>
+                                <td>Yellow</td>
+                                <td>Fix within 90 days</td>
+                            </tr>
+                            <tr>
+                                <td>0.1 - 3.9</td>
+                                <td><span class="badge bg-success">Low</span></td>
+                                <td>Green</td>
+                                <td>Fix when convenient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>Common Vulnerability Categories</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-server text-primary me-2"></i>Network Vulnerabilities</h6>
+                        <ul class="small">
+                            <li>Unencrypted services</li>
+                            <li>Default credentials</li>
+                            <li>Unnecessary open ports</li>
+                            <li>Weak protocols (Telnet, FTP)</li>
+                            <li>Missing security patches</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-globe text-success me-2"></i>Web Application Vulnerabilities</h6>
+                        <ul class="small">
+                            <li>SQL Injection</li>
+                            <li>Cross-Site Scripting (XSS)</li>
+                            <li>Broken Authentication</li>
+                            <li>Security Misconfiguration</li>
+                            <li>Insecure Direct Object References</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Vulnerability Scanning Tools</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-shield-alt text-success me-2"></i>OpenVAS</h6>
+                                <p class="small">Open-source vulnerability scanner with comprehensive vulnerability database</p>
+                                <span class="badge bg-success">Free</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-eye text-info me-2"></i>Nessus</h6>
+                                <p class="small">Commercial vulnerability scanner with extensive plugin library</p>
+                                <span class="badge bg-warning">Commercial</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-secondary h-100">
+                            <div class="card-body">
+                                <h6><i class="fas fa-search text-primary me-2"></i>Nikto</h6>
+                                <p class="small">Web vulnerability scanner for identifying common web server issues</p>
+                                <span class="badge bg-success">Free</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Python Script: Simple Vulnerability Scanner</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import requests
+import socket
+import ssl
+import subprocess
+from urllib.parse import urljoin, urlparse
+import sys
+
+class VulnerabilityScanner:
+    def __init__(self, target):
+        self.target = target
+        self.vulnerabilities = []
+    
+    def check_ssl_configuration(self, host, port=443):
+        """
+        Check SSL/TLS configuration
+        """
+        try:
+            context = ssl.create_default_context()
+            with socket.create_connection((host, port), timeout=5) as sock:
+                with context.wrap_socket(sock, server_hostname=host) as ssock:
+                    cert = ssock.getpeercert()
+                    cipher = ssock.cipher()
+                    
+                    # Check for weak ciphers
+                    weak_ciphers = ['RC4', 'DES', 'MD5', 'NULL']
+                    if any(weak in cipher[0] for weak in weak_ciphers):
+                        self.vulnerabilities.append({
+                            'type': 'SSL/TLS',
+                            'severity': 'Medium',
+                            'description': f'Weak cipher detected: {cipher[0]}'
+                        })
+                    
+                    # Check certificate validity
+                    if cert:
+                        print(f"SSL Certificate valid for: {cert.get('subject', 'Unknown')}")
+                    
+        except Exception as e:
+            self.vulnerabilities.append({
+                'type': 'SSL/TLS',
+                'severity': 'High',
+                'description': f'SSL/TLS connection failed: {str(e)}'
+            })
+    
+    def check_web_vulnerabilities(self, url):
+        """
+        Basic web vulnerability checks
+        """
+        try:
+            # Check for common web vulnerabilities
+            response = requests.get(url, timeout=10)
+            headers = response.headers
+            
+            # Check security headers
+            security_headers = {
+                'X-Frame-Options': 'Clickjacking protection missing',
+                'X-Content-Type-Options': 'MIME type sniffing protection missing',
+                'X-XSS-Protection': 'XSS protection header missing',
+                'Strict-Transport-Security': 'HSTS header missing',
+                'Content-Security-Policy': 'CSP header missing'
+            }
+            
+            for header, description in security_headers.items():
+                if header not in headers:
+                    self.vulnerabilities.append({
+                        'type': 'Web Security',
+                        'severity': 'Medium',
+                        'description': description
+                    })
+            
+            # Check for server information disclosure
+            if 'Server' in headers:
+                server_info = headers['Server']
+                if any(tech in server_info.lower() for tech in ['apache', 'nginx', 'iis']):
+                    self.vulnerabilities.append({
+                        'type': 'Information Disclosure',
+                        'severity': 'Low',
+                        'description': f'Server information disclosed: {server_info}'
+                    })
+            
+            # Check for directory listing
+            dir_test_url = urljoin(url, '/admin/')
+            dir_response = requests.get(dir_test_url, timeout=5)
+            if 'Index of' in dir_response.text:
+                self.vulnerabilities.append({
+                    'type': 'Directory Listing',
+                    'severity': 'Medium',
+                    'description': 'Directory listing enabled on /admin/'
+                })
+            
+        except requests.RequestException as e:
+            print(f"Web vulnerability check failed: {e}")
+    
+    def check_open_ports(self, host, ports=None):
+        """
+        Check for unnecessary open ports
+        """
+        if ports is None:
+            ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3389, 5432, 3306]
+        
+        dangerous_ports = {
+            21: 'FTP - Unencrypted file transfer',
+            23: 'Telnet - Unencrypted remote access',
+            25: 'SMTP - Mail server (check for relay)',
+            3389: 'RDP - Remote desktop (brute force target)'
+        }
+        
+        open_ports = []
+        for port in ports:
+            try:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(1)
+                result = sock.connect_ex((host, port))
+                
+                if result == 0:
+                    open_ports.append(port)
+                    if port in dangerous_ports:
+                        self.vulnerabilities.append({
+                            'type': 'Network Security',
+                            'severity': 'High' if port in [21, 23] else 'Medium',
+                            'description': f'Port {port} open: {dangerous_ports[port]}'
+                        })
+                
+                sock.close()
+            except Exception:
+                pass
+        
+        return open_ports
+    
+    def run_scan(self):
+        """
+        Run comprehensive vulnerability scan
+        """
+        print(f"Starting vulnerability scan on {self.target}")
+        print("=" * 50)
+        
+        # Parse target
+        if self.target.startswith('http'):
+            parsed = urlparse(self.target)
+            host = parsed.hostname
+            url = self.target
+        else:
+            host = self.target
+            url = f"http://{self.target}"
+        
+        # Check open ports
+        print("Checking for open ports...")
+        open_ports = self.check_open_ports(host)
+        print(f"Open ports found: {open_ports}")
+        
+        # Check SSL if HTTPS is available
+        if 443 in open_ports:
+            print("Checking SSL/TLS configuration...")
+            self.check_ssl_configuration(host)
+        
+        # Check web vulnerabilities if HTTP/HTTPS is available
+        if 80 in open_ports or 443 in open_ports:
+            print("Checking web vulnerabilities...")
+            self.check_web_vulnerabilities(url)
+        
+        # Generate report
+        self.generate_report()
+    
+    def generate_report(self):
+        """
+        Generate vulnerability report
+        """
+        print("\n" + "=" * 50)
+        print("VULNERABILITY SCAN REPORT")
+        print("=" * 50)
+        
+        if not self.vulnerabilities:
+            print("No vulnerabilities detected.")
+            return
+        
+        # Group by severity
+        severity_order = ['High', 'Medium', 'Low']
+        for severity in severity_order:
+            vuln_list = [v for v in self.vulnerabilities if v['severity'] == severity]
+            if vuln_list:
+                print(f"\n{severity.upper()} SEVERITY ({len(vuln_list)} findings):")
+                print("-" * 30)
+                for i, vuln in enumerate(vuln_list, 1):
+                    print(f"{i}. Type: {vuln['type']}")
+                    print(f"   Description: {vuln['description']}")
+                    print()
+        
+        print(f"Total vulnerabilities found: {len(self.vulnerabilities)}")
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 vuln_scanner.py <target>")
+        print("Example: python3 vuln_scanner.py example.com")
+        sys.exit(1)
+    
+    target = sys.argv[1]
+    scanner = VulnerabilityScanner(target)
+    scanner.run_scan()
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Best Practices for Vulnerability Assessment</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-info">Pre-Assessment</h6>
+                                <ul class="small">
+                                    <li>Define clear scope and objectives</li>
+                                    <li>Obtain proper authorization</li>
+                                    <li>Schedule scans during maintenance windows</li>
+                                    <li>Notify relevant stakeholders</li>
+                                    <li>Prepare rollback procedures</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-info">Post-Assessment</h6>
+                                <ul class="small">
+                                    <li>Validate findings to reduce false positives</li>
+                                    <li>Prioritize based on business risk</li>
+                                    <li>Provide clear remediation guidance</li>
+                                    <li>Track remediation progress</li>
+                                    <li>Schedule follow-up scans</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Vulnerability Assessment Lab</h6>
+                        <p><strong>Objective:</strong> Perform a vulnerability assessment on a test system.</p>
+                        <ol>
+                            <li>Set up a vulnerable application (like DVWA or WebGoat) in a VM</li>
+                            <li>Run the Python vulnerability scanner script against it</li>
+                            <li>Use an automated scanner like OpenVAS or Nikto</li>
+                            <li>Compare the results from different tools</li>
+                            <li>Create a brief vulnerability report with:
+                                <ul>
+                                    <li>Executive summary</li>
+                                    <li>Vulnerability findings by severity</li>
+                                    <li>Remediation recommendations</li>
+                                    <li>Risk assessment</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-info mt-2">
+                            <small><i class="fas fa-info-circle me-1"></i>Use only systems you own or have explicit permission to test.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Common False Positives</h4>
+                <div class="alert alert-warning">
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Be Aware of False Positives</h6>
+                    <ul class="mb-0">
+                        <li><strong>Version-based detection:</strong> Scanners may flag software as vulnerable based on version numbers alone</li>
+                        <li><strong>Context-specific vulnerabilities:</strong> Some vulnerabilities may not be exploitable in specific environments</li>
+                        <li><strong>Compensating controls:</strong> Additional security measures may mitigate reported vulnerabilities</li>
+                        <li><strong>Custom applications:</strong> Generic scanners may not understand custom business logic</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 3 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (3 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

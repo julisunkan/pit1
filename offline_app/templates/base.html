@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d6efd">
+    <meta name="description" content="Learn ethical hacking and cybersecurity through comprehensive interactive lessons">
+    
+    <title>{% block title %}Ethical Hacking Tutorial{% endblock %}</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon-192.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon-512.png') }}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/mobile-app.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet">
+</head>
+<body class="mobile-app-body">
+    <!-- Mobile App Container -->
+    <div id="mobileApp" class="mobile-app-container responsive-container">
+        
+        <!-- Mobile Status Bar -->
+        <div class="mobile-status-bar">
+            <div class="status-left">
+                <span class="signal-strength">
+                    <i class="fas fa-signal"></i>
+                </span>
+                <span class="carrier">Replit</span>
+            </div>
+            <div class="status-center">
+                <span class="time" id="statusTime">12:00</span>
+            </div>
+            <div class="status-right">
+                <span class="battery">
+                    <i class="fas fa-battery-three-quarters"></i>
+                </span>
+                <span class="battery-percent">85%</span>
+            </div>
+        </div>
+
+        <!-- Mobile Header -->
+        <header class="mobile-app-header">
+            <div class="mobile-header-content">
+                {% if lesson_id is defined %}
+                <button class="header-btn back-btn" onclick="window.history.back()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="header-title">
+                    <h1>Lesson {{ lesson_id }}</h1>
+                    <span class="header-subtitle">{{ lesson.title if lesson else '' }}</span>
+                </div>
+                <button class="header-btn menu-btn" data-bs-toggle="offcanvas" data-bs-target="#lessonMenu">
+                    <i class="fas fa-ellipsis-vertical"></i>
+                </button>
+                {% else %}
+                <div class="header-title">
+                    <h1><i class="fas fa-shield-alt me-2"></i>EthicalHack</h1>
+                    <span class="header-subtitle">Learn Cybersecurity</span>
+                </div>
+                <button class="header-btn search-btn" onclick="toggleSearch()">
+                    <i class="fas fa-magnifying-glass"></i>
+                </button>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Mobile Content Area -->
+        <main class="mobile-app-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <a href="{{ url_for('index') }}" class="nav-item {% if not lesson_id is defined %}active{% endif %}">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{{ url_for('lesson', lesson_id=1) }}" class="nav-item {% if lesson_id is defined %}active{% endif %}">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Lessons</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showProgressModal()">
+                <i class="fas fa-chart-line"></i>
+                <span>Progress</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showSettingsModal()">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <!-- Mobile Lesson Menu (Offcanvas) -->
+        {% if lesson_id is defined %}
+        <div class="offcanvas offcanvas-end mobile-offcanvas" tabindex="-1" id="lessonMenu">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">
+                    <i class="fas fa-list me-2"></i>All Lessons
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="lesson-list">
+                    {% for lid, lesson_data in lessons.items() %}
+                    <a href="{{ url_for('lesson', lesson_id=lid) }}" 
+                       class="lesson-list-item {% if lid == lesson_id %}active{% endif %}">
+                        <div class="lesson-number">{{ lid }}</div>
+                        <div class="lesson-content">
+                            <h6>{{ lesson_data.title }}</h6>
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>{{ lesson_data.duration }}
+                            </small>
+                        </div>
+                        <div class="lesson-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Search Overlay -->
+        <div id="searchOverlay" class="search-overlay">
+            <div class="search-content">
+                <div class="search-header">
+                    <button class="search-close" onclick="toggleSearch()">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                    <form method="GET" action="{{ url_for('search') }}" class="search-form">
+                        <input type="text" name="q" class="search-input" placeholder="Search lessons..." 
+                               value="{{ search_query or '' }}" autofocus>
+                        <button type="submit" class="search-submit">
+                            <i class="fas fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Modal -->
+        <div class="modal fade" id="progressModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content mobile-modal">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-chart-line me-2"></i>Your Progress
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% set completed_count = completed_lessons|length if completed_lessons else 0 %}
+                        {% set total_count = lessons|length if lessons else 10 %}
+                        <div class="progress-stats">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#333" stroke-width="8"/>
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#0d6efd" stroke-width="8"
+                                            stroke-dasharray="{{ (completed_count / total_count * 282.74) if total_count > 0 else 0 }} 282.74"
+                                            stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                                </svg>
+                                <div class="progress-text">
+                                    <span class="progress-number">{{ completed_count }}</span>
+                                    <span class="progress-total">/{{ total_count }}</span>
+                                </div>
+                            </div>
+                            <div class="progress-info">
+                                <h6>{{ completed_count }} Lessons Completed</h6>
+                                <p class="text-muted">{{ ((completed_count / total_count * 100)|round(1)) if total_count > 0 else 0 }}% Progress</p>
+                            </div>
+                        </div>
+                        {% if completed_count > 0 %}
+                        <div class="mt-4">
+                            <form method="POST" action="{{ url_for('reset_progress') }}" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger w-100" 
+                                        onclick="return confirm('Reset all progress?')">
+                                    <i class="fas fa-redo me-2"></i>Reset Progress
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content mobile-modal">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-cog me-2"></i>Settings
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <div class="setting-icon">
+                                    <i class="fas fa-moon" id="darkModeIcon"></i>
+                                </div>
+                                <div class="setting-content">
+                                    <h6>Dark Mode</h6>
+                                    <small class="text-muted" id="darkModeDescription">Dark theme for cybersecurity focus</small>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="darkModeToggle" checked>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="setting-content">
+                                    <h6>Study Reminders</h6>
+                                    <small class="text-muted">Get notified to continue learning</small>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="setting-content">
+                                    <h6>About</h6>
+                                    <small class="text-muted">Ethical Hacking Tutorial v1.0</small>
+                                </div>
+                                <div class="setting-control">
+                                    <i class="fas fa-chevron-right text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Mobile App JavaScript -->
+    <script src="{{ url_for('static', filename='js/responsive.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mobile-app.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

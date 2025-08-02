@@ -22,11 +22,12 @@ Preferred communication style: Simple, everyday language.
 - Self-contained HTML app that works without any hosting
 - All 10 lessons embedded with full content extracted from Flask templates
 - Complete lesson content including interactive cards, code examples, and tables
+- Original Flask templates folder included for reference and development
 - Local progress tracking using browser localStorage
 - Responsive design automatically adapts to any device screen
 - PWA functionality with service worker for offline caching
 - Packaged as downloadable tar.gz file for easy distribution
-- Total offline app size: ~500KB including all dependencies
+- Total offline app size: ~500KB including all dependencies and templates
 
 ## System Architecture
 

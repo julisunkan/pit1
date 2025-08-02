@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Ethical Hacking Tutorial{% endblock %}
+
+{% block content %}
+<!-- Progress Card -->
+{% set completed_count = completed_lessons|length if completed_lessons else 0 %}
+{% set total_count = lessons|length if lessons else 10 %}
+<div class="progress-card mobile-card">
+    <div class="card-header">
+        <h6><i class="fas fa-chart-line me-2"></i>Your Progress</h6>
+        <span class="badge bg-primary">{{ completed_count }}/{{ total_count }}</span>
+    </div>
+    <div class="card-body">
+        <div class="progress-ring">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="circle"
+                      stroke-dasharray="{{ (completed_count / total_count * 100) if total_count > 0 else 0 }}, 100"
+                      d="M18 2.0845
+                        a 15.9155 15.9155 0 0 1 0 31.831
+                        a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <div class="percentage">{{ ((completed_count / total_count * 100)|round(0))|int if total_count > 0 else 0 }}%</div>
+        </div>
+        <div class="progress-info">
+            <p>{{ completed_count }} of {{ total_count }} lessons completed</p>
+            <button class="btn btn-primary btn-sm" onclick="showProgressModal()">
+                <i class="fas fa-eye me-1"></i>View Details
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Search Results Alert -->
+{% if search_query %}
+<div class="mobile-card">
+    <div class="alert alert-info mb-0">
+        <i class="fas fa-magnifying-glass me-2"></i>
+        Search results for "<strong>{{ search_query }}</strong>"
+        {% if search_results %}
+        ({{ search_results|length }} found)
+        {% else %}
+        (no results found)
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+{% if not search_query %}
+<div class="quick-actions mobile-card">
+    <div class="card-header">
+        <h6><i class="fas fa-bolt me-2"></i>Quick Actions</h6>
+    </div>
+    <div class="card-body">
+        <div class="action-grid">
+            <button class="action-btn" onclick="window.location.href='{{ url_for('lesson', lesson_id=1) }}'">
+                <i class="fas fa-play"></i>
+                <span>Start Learning</span>
+            </button>
+            <button class="action-btn" onclick="toggleSearch()">
+                <i class="fas fa-magnifying-glass"></i>
+                <span>Search Lessons</span>
+            </button>
+            <button class="action-btn" onclick="showProgressModal()">
+                <i class="fas fa-trophy"></i>
+                <span>View Progress</span>
+            </button>
+            <button class="action-btn" onclick="showSettingsModal()">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Lessons List -->
+<div class="lessons-section mobile-card">
+    <div class="card-header">
+        <h6>
+            <i class="fas fa-graduation-cap me-2"></i>
+            {% if search_query and search_results %}
+            Search Results
+            {% elif search_query %}
+            No Results Found
+            {% else %}
+            All Lessons
+            {% endif %}
+        </h6>
+    </div>
+    <div class="card-body p-0">
+        {% if search_query and not search_results %}
+        <div class="empty-state">
+            <i class="fas fa-magnifying-glass"></i>
+            <h6>No lessons found</h6>
+            <p>Try searching with different keywords</p>
+            <button class="btn btn-outline-primary btn-sm" onclick="window.location.href='{{ url_for('index') }}'">
+                View All Lessons
+            </button>
+        </div>
+        {% else %}
+        <div class="lesson-list">
+            {% set display_lessons = search_results if search_query and search_results else lessons.items() %}
+            {% for lesson_item in display_lessons %}
+                {% if search_query and search_results %}
+                    {% set lesson_id = lesson_item.id %}
+                    {% set lesson_data = lesson_item %}
+                {% else %}
+                    {% set lesson_id = lesson_item[0] %}
+                    {% set lesson_data = lesson_item[1] %}
+                {% endif %}
+                
+                <a href="{{ url_for('lesson', lesson_id=lesson_id) }}" class="lesson-item">
+                    <div class="lesson-number {% if lesson_id in completed_lessons %}completed{% endif %}">
+                        {% if lesson_id in completed_lessons %}
+                        <i class="fas fa-check"></i>
+                        {% else %}
+                        {{ lesson_id }}
+                        {% endif %}
+                    </div>
+                    <div class="lesson-content">
+                        <h6>{{ lesson_data.title }}</h6>
+                        <p>{{ lesson_data.description }}</p>
+                        <div class="lesson-meta">
+                            <span class="duration">
+                                <i class="fas fa-clock me-1"></i>{{ lesson_data.duration }}
+                            </span>
+                            {% if lesson_id in completed_lessons %}
+                            <span class="status completed">
+                                <i class="fas fa-check-circle me-1"></i>Completed
+                            </span>
+                            {% else %}
+                            <span class="status">
+                                <i class="fas fa-circle me-1"></i>Not Started
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="lesson-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Learning Path -->
+{% if not search_query %}
+<div class="learning-path mobile-card">
+    <div class="card-header">
+        <h6><i class="fas fa-route me-2"></i>Learning Path</h6>
+    </div>
+    <div class="card-body">
+        <div class="path-stages">
+            <div class="stage">
+                <div class="stage-icon beginner">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="stage-content">
+                    <h6>Beginner</h6>
+                    <p>Lessons 1-3: Fundamentals and basic concepts</p>
+                </div>
+            </div>
+            <div class="stage">
+                <div class="stage-icon intermediate">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="stage-content">
+                    <h6>Intermediate</h6>
+                    <p>Lessons 4-7: Practical techniques and tools</p>
+                </div>
+            </div>
+            <div class="stage">
+                <div class="stage-icon advanced">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="stage-content">
+                    <h6>Advanced</h6>
+                    <p>Lessons 8-10: Professional practices and ethics</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

