@@ -302,29 +302,232 @@ class MobileApp {
 
     // Initialize PWA features
     initializePWA() {
-        // Register service worker
+        this.registerServiceWorker();
+        this.handleInstallPrompt();
+        this.handleOnlineOffline();
+        this.initializeBackgroundSync();
+    }
+
+    // Register service worker
+    registerServiceWorker() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/static/sw.js')
                 .then(registration => {
-                    console.log('Service Worker registered:', registration);
+                    console.log('Service Worker registered successfully:', registration);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                this.showUpdateNotification();
+                            }
+                        });
+                    });
                 })
                 .catch(error => {
-                    console.log('Service Worker registration failed:', error);
+                    console.error('Service Worker registration failed:', error);
                 });
+
+            // Listen for messages from service worker
+            navigator.serviceWorker.addEventListener('message', event => {
+                this.handleServiceWorkerMessage(event.data);
+            });
         }
+    }
 
-        // Handle install prompt
+    // Handle install prompt
+    handleInstallPrompt() {
         let deferredPrompt;
+
         window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
             deferredPrompt = e;
-            this.showInstallPrompt();
+            this.showInstallBanner(deferredPrompt);
         });
 
-        // Handle app installed
         window.addEventListener('appinstalled', (e) => {
-            console.log('App installed');
-            this.showNotification('App installed successfully!', 'success');
+            console.log('PWA installed successfully');
+            this.showNotification('App installed! Access it from your home screen', 'success');
+            this.hideInstallBanner();
         });
+    }
+
+    // Handle online/offline status
+    handleOnlineOffline() {
+        window.addEventListener('online', () => {
+            this.showNotification('Connection restored - syncing data', 'success');
+            this.syncOfflineData();
+        });
+
+        window.addEventListener('offline', () => {
+            this.showNotification('You are offline - cached content available', 'warning');
+        });
+
+        // Initial status check
+        if (!navigator.onLine) {
+            setTimeout(() => {
+                this.showNotification('Offline mode - limited functionality', 'info');
+            }, 1000);
+        }
+    }
+
+    // Initialize background sync
+    initializeBackgroundSync() {
+        if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+            navigator.serviceWorker.ready.then(registration => {
+                return registration.sync.register('background-sync');
+            }).catch(error => {
+                console.log('Background sync registration failed:', error);
+            });
+        }
+    }
+
+    // Show install banner
+    showInstallBanner(deferredPrompt) {
+        const banner = document.createElement('div');
+        banner.id = 'install-banner';
+        banner.className = 'install-banner';
+        banner.innerHTML = `
+            <div class="install-content">
+                <div class="install-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="install-text">
+                    <h6>Install App</h6>
+                    <small>Add to home screen for quick access</small>
+                </div>
+                <div class="install-actions">
+                    <button class="btn btn-primary btn-sm" id="install-btn">Install</button>
+                    <button class="btn btn-outline-secondary btn-sm" id="dismiss-btn">Not Now</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(banner);
+
+        // Handle install button
+        banner.querySelector('#install-btn').addEventListener('click', () => {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(choiceResult => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                this.hideInstallBanner();
+            });
+        });
+
+        // Handle dismiss button
+        banner.querySelector('#dismiss-btn').addEventListener('click', () => {
+            this.hideInstallBanner();
+        });
+
+        // Auto hide after 10 seconds
+        setTimeout(() => {
+            this.hideInstallBanner();
+        }, 10000);
+    }
+
+    // Hide install banner
+    hideInstallBanner() {
+        const banner = document.getElementById('install-banner');
+        if (banner) {
+            banner.classList.add('fade-out');
+            setTimeout(() => banner.remove(), 300);
+        }
+    }
+
+    // Show update notification
+    showUpdateNotification() {
+        const notification = document.createElement('div');
+        notification.className = 'update-notification';
+        notification.innerHTML = `
+            <div class="update-content">
+                <i class="fas fa-sync-alt"></i>
+                <span>New version available!</span>
+                <button class="btn btn-sm btn-primary" onclick="location.reload()">Update</button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+
+        // Auto hide after 8 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 8000);
+    }
+
+    // Handle service worker messages
+    handleServiceWorkerMessage(data) {
+        switch (data.type) {
+            case 'BACKGROUND_SYNC':
+                this.showNotification(data.message, 'info');
+                break;
+            case 'CACHE_UPDATED':
+                this.showNotification('Content updated for offline use', 'success');
+                break;
+            case 'OFFLINE_READY':
+                this.showNotification('App ready for offline use', 'success');
+                break;
+        }
+    }
+
+    // Sync offline data
+    syncOfflineData() {
+        // Sync any offline lesson completions or progress
+        const offlineData = localStorage.getItem('offlineData');
+        if (offlineData) {
+            try {
+                const data = JSON.parse(offlineData);
+                // Process offline completions
+                if (data.completions && data.completions.length > 0) {
+                    data.completions.forEach(completion => {
+                        this.syncLessonCompletion(completion);
+                    });
+                }
+                // Clear synced data
+                localStorage.removeItem('offlineData');
+            } catch (error) {
+                console.error('Error syncing offline data:', error);
+            }
+        }
+    }
+
+    // Sync lesson completion
+    async syncLessonCompletion(completion) {
+        try {
+            const response = await fetch(`/complete/${completion.lessonId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ offline: true })
+            });
+            
+            if (response.ok) {
+                console.log(`Synced completion for lesson ${completion.lessonId}`);
+            }
+        } catch (error) {
+            console.error('Error syncing lesson completion:', error);
+        }
+    }
+
+    // Cache lesson for offline access
+    cacheLessonForOffline(lessonId) {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.active.postMessage({
+                    type: 'CACHE_LESSON',
+                    lessonId: lessonId
+                });
+            });
+        }
     }
 
     // Show install prompt

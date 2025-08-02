@@ -4,41 +4,64 @@
   "description": "Learn ethical hacking and cybersecurity through comprehensive interactive lessons",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#212529",
-  "theme_color": "#212529",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#0a0a0a",
+  "theme_color": "#0d6efd",
   "orientation": "portrait-primary",
   "scope": "/",
   "categories": ["education", "security"],
   "lang": "en",
   "icons": [
     {
-      "src": "/static/icon-192.png",
+      "src": "/static/icon-192.svg",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/static/icon-512.png",
+      "src": "/static/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml", 
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/icon-512.svg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "All Lessons",
-      "short_name": "Lessons",
-      "description": "View all available lessons",
-      "url": "/",
-      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
+      "name": "Start Learning",
+      "short_name": "Learn",
+      "description": "Start with Lesson 1",
+      "url": "/lesson/1",
+      "icons": [{ "src": "/static/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "View Progress", 
+      "short_name": "Progress",
+      "description": "Check your learning progress",
+      "url": "/?tab=progress",
+      "icons": [{ "src": "/static/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Search Lessons",
+      "short_name": "Search", 
+      "description": "Find specific lessons",
+      "url": "/search",
+      "icons": [{ "src": "/static/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" }]
     }
   ],
-  "screenshots": [
-    {
-      "src": "/static/screenshot1.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+  "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "focus-existing" 
+  }
 }

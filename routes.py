@@ -1,4 +1,4 @@
-from flask import render_template, request, session, jsonify, redirect, url_for
+from flask import render_template, request, session, jsonify, redirect, url_for, send_from_directory
 from app import app, db
 from models import LessonProgress, SearchQuery
 import uuid
@@ -175,3 +175,76 @@ def not_found(error):
     return render_template('index.html', 
                          lessons=LESSONS, 
                          error="Page not found"), 404
+
+# PWA Routes
+@app.route('/manifest.json')
+def manifest():
+    """Serve the web app manifest"""
+    return send_from_directory('static', 'manifest.json', mimetype='application/manifest+json')
+
+@app.route('/sw.js')
+def service_worker():
+    """Serve the service worker"""
+    return send_from_directory('static', 'sw.js', mimetype='application/javascript')
+
+@app.route('/offline')
+def offline():
+    """Offline fallback page"""
+    return render_template('index.html', 
+                         lessons=LESSONS, 
+                         offline=True)
+
+@app.route('/api/offline-sync', methods=['POST'])
+def offline_sync():
+    """Handle offline data synchronization"""
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    session_id = session.get('session_id')
+    if not session_id:
+        return jsonify({'error': 'No session'}), 400
+    
+    # Process offline lesson completions
+    if 'completions' in data:
+        for completion in data['completions']:
+            lesson_id = completion.get('lessonId')
+            if lesson_id and lesson_id in LESSONS:
+                # Check if already completed
+                existing = LessonProgress.query.filter_by(
+                    session_id=session_id,
+                    lesson_id=lesson_id
+                ).first()
+                
+                if not existing:
+                    progress = LessonProgress()
+                    setattr(progress, 'session_id', str(session_id))
+                    setattr(progress, 'lesson_id', int(lesson_id))
+                    setattr(progress, 'completed', True)
+                    db.session.add(progress)
+        
+        db.session.commit()
+    
+    return jsonify({'status': 'success', 'message': 'Data synchronized'})
+
+@app.route('/api/cache-status')
+def cache_status():
+    """Return cache status for PWA"""
+    # Get completed lessons for current session
+    session_id = session.get('session_id')
+    completed_lessons = []
+    
+    if session_id:
+        progress = LessonProgress.query.filter_by(
+            session_id=session_id,
+            completed=True
+        ).all()
+        completed_lessons = [p.lesson_id for p in progress]
+    
+    return jsonify({
+        'cached_lessons': list(LESSONS.keys()),
+        'completed_lessons': completed_lessons,
+        'total_lessons': len(LESSONS),
+        'offline_ready': True
+    })
