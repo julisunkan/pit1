@@ -8,6 +8,15 @@ This is a Flask-based educational web application that provides a comprehensive 
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### Migration from Replit Agent (August 2, 2025)
+- Successfully migrated project from Replit Agent to standard Replit environment
+- Converted PWA icons from SVG to PNG format for proper PWA compliance
+- All Flask routes, models, and static assets verified working
+- Database connectivity confirmed with SQLite backend
+- Application runs cleanly on port 5000 with gunicorn
+
 ## System Architecture
 
 ### Backend Architecture
