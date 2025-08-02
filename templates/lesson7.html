@@ -491,8 +491,8 @@ class PenetrationTestFramework:
                 },
                 {
                     'name': 'XSS',
-                    'payload': '<script>alert("XSS")</script>',
-                    'check': lambda r: '<script>' in r.text
+                    'payload': '&lt;script&gt;alert("XSS")&lt;/script&gt;',
+                    'check': lambda r: '&lt;script&gt;' in r.text
                 },
                 {
                     'name': 'SQL injection',

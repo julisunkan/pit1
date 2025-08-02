@@ -197,7 +197,7 @@ Password: anything</code></pre>
                             </div>
                             <div class="card-body">
                                 <p class="small">Malicious script permanently stored on target server</p>
-                                <code class="small">Comment: &lt;img src=x onerror=alert('XSS')&gt;</code>
+                                <code class="small">Comment: &amp;lt;img src=x onerror=alert('XSS')&amp;gt;</code>
                             </div>
                         </div>
                     </div>
@@ -365,10 +365,10 @@ class WebAppScanner:
         Test for Cross-Site Scripting vulnerabilities
         """
         xss_payloads = [
-            "<script>alert('XSS')</script>",
-            "<img src=x onerror=alert('XSS')>",
+            "&lt;script&gt;alert('XSS')&lt;/script&gt;",
+            "&amp;lt;img src=x onerror=alert('XSS')&amp;gt;",
             "javascript:alert('XSS')",
-            "<svg onload=alert('XSS')>",
+            "&amp;lt;svg onload=alert('XSS')&amp;gt;",
             "';alert('XSS');//"
         ]
         
