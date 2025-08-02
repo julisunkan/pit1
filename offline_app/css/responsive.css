@@ -1,0 +1,476 @@
+/* Responsive Design for Ethical Hacking Tutorial */
+
+/* Enhanced Responsive Variables */
+:root {
+    /* Breakpoints */
+    --breakpoint-xs: 320px;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1400px;
+
+    /* Container sizes for different screens */
+    --container-mobile: 100%;
+    --container-tablet: 720px;
+    --container-desktop: 960px;
+    --container-wide: 1140px;
+
+    /* Dynamic spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-xxl: 3rem;
+
+    /* Font sizes that scale */
+    --font-xs: clamp(0.7rem, 2.5vw, 0.75rem);
+    --font-sm: clamp(0.8rem, 2.5vw, 0.875rem);
+    --font-base: clamp(0.9rem, 2.5vw, 1rem);
+    --font-lg: clamp(1rem, 3vw, 1.125rem);
+    --font-xl: clamp(1.1rem, 3.5vw, 1.25rem);
+    --font-xxl: clamp(1.2rem, 4vw, 1.5rem);
+    --font-heading: clamp(1.5rem, 5vw, 2rem);
+
+    /* Dynamic touch targets */
+    --touch-target: max(44px, 11vw);
+    --button-height: max(40px, 10vw);
+}
+
+/* Base responsive container */
+.responsive-container {
+    width: 100%;
+    max-width: var(--container-mobile);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* Mobile-first responsive grid */
+.responsive-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: 1fr;
+}
+
+/* Responsive typography */
+.responsive-text {
+    font-size: var(--font-base);
+    line-height: 1.6;
+}
+
+.responsive-heading {
+    font-size: var(--font-heading);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Enhanced mobile app container for all screen sizes */
+.mobile-app-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100); /* Use custom vh for mobile */
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Handle safe areas for devices with notches */
+@supports (padding: max(0px)) {
+    .mobile-app-container {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+
+    .mobile-status-bar {
+        padding-top: max(0px, env(safe-area-inset-top));
+    }
+
+    .mobile-bottom-nav {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Responsive status bar */
+.mobile-status-bar {
+    height: max(24px, 6vw);
+    padding: 0 max(16px, 4vw);
+    font-size: clamp(10px, 3vw, 12px);
+}
+
+/* Responsive header */
+.mobile-app-header {
+    height: max(60px, 15vw);
+}
+
+.mobile-header-content {
+    padding: 0 max(16px, 4vw);
+}
+
+.header-btn {
+    width: var(--touch-target);
+    height: var(--touch-target);
+    font-size: clamp(14px, 4vw, 16px);
+}
+
+.header-title h1 {
+    font-size: var(--font-xl);
+}
+
+.header-subtitle {
+    font-size: var(--font-xs);
+}
+
+/* Responsive content area */
+.mobile-app-content {
+    padding: max(16px, 4vw);
+    padding-bottom: calc(max(80px, 20vw) + max(16px, 4vw));
+}
+
+/* Responsive cards */
+.mobile-card,
+.lesson-card {
+    margin-bottom: max(16px, 4vw);
+    border-radius: max(12px, 3vw);
+}
+
+.mobile-card .card-body,
+.lesson-card .card-body {
+    padding: max(16px, 4vw);
+}
+
+/* Responsive lesson items */
+.lesson-item {
+    padding: max(16px, 4vw);
+    gap: max(16px, 4vw);
+}
+
+.lesson-number {
+    width: var(--touch-target);
+    height: var(--touch-target);
+    font-size: clamp(14px, 4vw, 16px);
+}
+
+/* Responsive action buttons */
+.action-btn {
+    padding: max(20px, 5vw) max(16px, 4vw);
+    border-radius: max(8px, 2vw);
+    min-height: var(--button-height);
+}
+
+.action-btn i {
+    font-size: clamp(20px, 6vw, 24px);
+}
+
+.action-btn span {
+    font-size: var(--font-xs);
+}
+
+/* Responsive grid for actions */
+.action-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: max(12px, 3vw);
+}
+
+/* Small phones (320px - 575px) */
+@media (max-width: 575.98px) {
+    :root {
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1rem;
+    }
+
+    .responsive-container {
+        padding: 0 var(--spacing-sm);
+    }
+
+    .mobile-app-content {
+        padding: 12px;
+        padding-bottom: calc(70px + 12px);
+    }
+
+    .lesson-card .card-body {
+        padding: 1rem;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .header-title h1 {
+        font-size: 16px;
+    }
+
+    .mobile-status-bar {
+        height: 20px;
+        padding: 0 12px;
+        font-size: 10px;
+    }
+}
+
+/* Medium phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .responsive-container {
+        max-width: var(--container-tablet);
+        padding: 0 var(--spacing-md);
+    }
+
+    .mobile-app-container {
+        max-width: 480px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablets (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .responsive-container {
+        max-width: var(--container-desktop);
+    }
+
+    .mobile-app-container {
+        max-width: 600px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .lesson-card .card-body {
+        padding: 2rem;
+    }
+}
+
+/* Small desktops (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .responsive-container {
+        max-width: var(--container-wide);
+    }
+
+    .mobile-app-container {
+        max-width: 720px;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .responsive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Large desktops (1200px+) */
+@media (min-width: 1200px) {
+    .responsive-container {
+        max-width: 1140px;
+    }
+
+    .mobile-app-container {
+        max-width: 800px;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .responsive-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .lesson-card .card-body {
+        padding: 2.5rem;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-status-bar {
+        height: 20px;
+    }
+
+    .mobile-app-header {
+        height: 50px;
+    }
+
+    .mobile-app-content {
+        padding: 12px;
+        padding-bottom: calc(60px + 12px);
+    }
+
+    .lesson-card .card-body {
+        padding: 1rem;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .mobile-card,
+    .lesson-card {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode support (already implemented but ensuring consistency) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #1a1a1a;
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.8);
+    }
+}
+
+/* Responsive text sizing for better readability */
+.lesson-title {
+    font-size: var(--font-lg);
+    font-weight: 600;
+}
+
+.lesson-description {
+    font-size: var(--font-base);
+    line-height: 1.6;
+}
+
+.lesson-duration {
+    font-size: var(--font-sm);
+}
+
+/* Responsive code blocks */
+pre {
+    font-size: clamp(12px, 3vw, 14px);
+    padding: max(12px, 3vw);
+    border-radius: max(6px, 1.5vw);
+    overflow-x: auto;
+}
+
+code {
+    font-size: clamp(12px, 3vw, 13px);
+    padding: 2px max(4px, 1vw);
+    border-radius: max(3px, 0.75vw);
+}
+
+/* Responsive tables */
+.table-responsive {
+    font-size: var(--font-sm);
+}
+
+@media (max-width: 575.98px) {
+    .table-responsive {
+        font-size: clamp(11px, 3vw, 12px);
+    }
+}
+
+/* Responsive progress indicators */
+.progress {
+    height: max(8px, 2vw);
+    border-radius: max(4px, 1vw);
+}
+
+.progress-ring {
+    width: clamp(60px, 20vw, 80px);
+    height: clamp(60px, 20vw, 80px);
+}
+
+.percentage {
+    font-size: clamp(14px, 4.5vw, 18px);
+}
+
+/* Responsive offcanvas for lesson menu */
+@media (max-width: 575.98px) {
+    .offcanvas {
+        width: 85vw !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .offcanvas {
+        width: 350px !important;
+    }
+}
+
+/* Touch feedback styles */
+.touch-active {
+    transform: scale(0.95) !important;
+    opacity: 0.7 !important;
+}
+
+/* Keyboard visibility adjustments */
+.keyboard-visible .mobile-bottom-nav {
+    transform: translateY(100%);
+}
+
+.keyboard-visible .mobile-app-content {
+    padding-bottom: 1rem;
+}
+
+/* Responsive utilities */
+.hide-xs { display: none !important; }
+.hide-sm { display: none !important; }
+.hide-md { display: block !important; }
+.hide-lg { display: block !important; }
+.hide-xl { display: block !important; }
+
+@media (min-width: 576px) {
+    .hide-xs { display: block !important; }
+    .hide-sm { display: none !important; }
+    .show-sm { display: block !important; }
+}
+
+@media (min-width: 768px) {
+    .hide-sm { display: block !important; }
+    .hide-md { display: none !important; }
+    .show-md { display: block !important; }
+}
+
+@media (min-width: 992px) {
+    .hide-md { display: block !important; }
+    .hide-lg { display: none !important; }
+    .show-lg { display: block !important; }
+}
+
+@media (min-width: 1200px) {
+    .hide-lg { display: block !important; }
+    .hide-xl { display: none !important; }
+    .show-xl { display: block !important; }
+}
+
+/* Print styles */
+@media print {
+    .mobile-status-bar,
+    .mobile-app-header,
+    .mobile-bottom-nav,
+    .action-grid {
+        display: none !important;
+    }
+
+    .mobile-app-content {
+        padding: 0 !important;
+    }
+
+    .lesson-card {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+}

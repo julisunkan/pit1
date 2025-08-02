@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d6efd">
+    <meta name="description" content="Learn ethical hacking and cybersecurity through comprehensive interactive lessons - Offline Edition">
+    
+    <title>Ethical Hacking Tutorial - Offline Edition</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="./images/icon-192.png">
+    <link rel="icon" type="image/png" href="./images/icon-192.png">
+    <link rel="icon" type="image/png" href="./images/icon-512.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="./css/prism.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="./css/fontawesome.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="./css/mobile-app.css" rel="stylesheet">
+    <link href="./css/responsive.css" rel="stylesheet">
+    
+    <style>
+        /* Additional offline-specific styles */
+        .lesson-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lesson-menu-content {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: min(350px, 85vw);
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+        }
+        
+        .lesson-menu-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .lesson-menu-header h5 {
+            margin: 0;
+            color: #fff;
+        }
+        
+        .lesson-menu-header button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .lesson-menu-header button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lesson-menu-body {
+            padding: 1rem;
+        }
+        
+        .lesson-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        
+        .lesson-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .lesson-menu-item.completed {
+            background: rgba(13, 202, 240, 0.15);
+            border-color: #0dcaf0;
+        }
+        
+        .lesson-menu-item .lesson-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0dcaf0;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .lesson-menu-item .lesson-info {
+            flex: 1;
+        }
+        
+        .lesson-menu-item .lesson-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .lesson-menu-item .lesson-duration {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .lesson-menu-item .lesson-status {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .lesson-content {
+            line-height: 1.6;
+        }
+        
+        .lesson-content h2 {
+            color: #0dcaf0;
+            margin-bottom: 1rem;
+        }
+        
+        .lesson-content h3 {
+            color: #fff;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .lesson-content h4 {
+            color: #fff;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lesson-content p {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .lesson-content ul, .lesson-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .lesson-content li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .lesson-content pre {
+            background: #1a1a1a !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .lesson-content code {
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: #ff6b9d !important;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .progress-circle-large {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .progress-circle-large svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .progress-text-large {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .progress-number-large {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0d6efd;
+            display: block;
+        }
+        
+        .progress-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .lesson-progress-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        
+        .lesson-progress-item.completed {
+            background: rgba(25, 135, 84, 0.15);
+        }
+        
+        .lesson-status-icon {
+            width: 40px;
+            display: flex;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .lesson-details {
+            flex: 1;
+            margin: 0 1rem;
+        }
+        
+        .lesson-details h6 {
+            margin: 0 0 0.25rem 0;
+            color: #fff;
+        }
+        
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+        
+        .settings-section h6 {
+            color: #0dcaf0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .setting-label strong {
+            color: #fff;
+        }
+        
+        .setting-label small {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .toast-notification {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 110, 253, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hide scrollbars but keep functionality */
+        .lesson-menu-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .lesson-menu-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .lesson-menu-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        
+        .lesson-menu-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="mobile-app-body">
+    <!-- Content will be dynamically generated by JavaScript -->
+    
+    <!-- Bootstrap JS -->
+    <script src="./js/bootstrap.min.js"></script>
+    
+    <!-- Prism.js for code highlighting -->
+    <script src="./js/prism-core.min.js"></script>
+    <script>
+        // Basic Prism.js setup for offline use
+        window.Prism = window.Prism || {};
+        window.Prism.manual = true;
+        
+        // Define basic language support
+        Prism.languages.bash = {
+            'comment': /#.*/,
+            'string': /(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+            'variable': /\$\w+|\$\{[^}]+\}/,
+            'keyword': /\b(?:if|then|else|elif|fi|for|while|do|done|case|esac|function|return|exit|break|continue)\b/,
+            'function': /\b\w+(?=\s*\()/,
+            'number': /\b\d+\b/,
+            'operator': /[|&;()]/
+        };
+        
+        Prism.languages.sql = {
+            'comment': /--.*|\/\*[\s\S]*?\*\//,
+            'string': /(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+            'keyword': /\b(?:SELECT|FROM|WHERE|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TABLE|DATABASE|INDEX|JOIN|INNER|LEFT|RIGHT|ON|GROUP BY|ORDER BY|HAVING|LIMIT|UNION|NULL|NOT|AND|OR|IN|EXISTS|LIKE|BETWEEN)\b/i,
+            'function': /\b\w+(?=\s*\()/,
+            'number': /\b\d+(?:\.\d+)?\b/,
+            'operator': /[<>=!]+|[+\-*\/]/
+        };
+        
+        Prism.languages.html = {
+            'comment': /<!--[\s\S]*?-->/,
+            'prolog': /<\?[\s\S]*?\?>/,
+            'doctype': /<!DOCTYPE[\s\S]*?>/i,
+            'cdata': /<!\[CDATA\[[\s\S]*?]]>/i,
+            'tag': {
+                pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/,
+                inside: {
+                    'tag': {
+                        pattern: /^<\/?[^\s>\/]+/,
+                        inside: {
+                            'punctuation': /^<\/?/,
+                            'namespace': /^[^\s>\/:]+:/
+                        }
+                    },
+                    'attr-value': {
+                        pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,
+                        inside: {
+                            'punctuation': [/^=/, {
+                                pattern: /(^|[^\\])["']/,
+                                lookbehind: true
+                            }]
+                        }
+                    },
+                    'punctuation': /\/?>/,
+                    'attr-name': {
+                        pattern: /[^\s>\/]+/,
+                        inside: {
+                            'namespace': /^[^\s>\/:]+:/
+                        }
+                    }
+                }
+            },
+            'entity': /&#?[\da-z]{1,8};/i
+        };
+        
+        // Enhanced highlight function
+        Prism.highlightAll = function() {
+            const codeBlocks = document.querySelectorAll('pre code, code[class*="language-"]');
+            codeBlocks.forEach(block => {
+                const language = block.className.match(/language-(\w+)/);
+                if (language && Prism.languages[language[1]]) {
+                    const grammar = Prism.languages[language[1]];
+                    const code = block.textContent;
+                    const highlighted = Prism.highlight(code, grammar, language[1]);
+                    block.innerHTML = highlighted;
+                }
+            });
+        };
+        
+        // Basic highlight function
+        Prism.highlight = function(text, grammar, language) {
+            return text.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;')
+                      .replace(/'/g, '&#39;');
+        };
+    </script>
+    
+    <!-- Mobile App JavaScript -->
+    <script src="./js/responsive.js"></script>
+    <script src="./js/mobile-app.js"></script>
+    <script src="./js/offline-app.js"></script>
+    
+    <script>
+        // Initialize offline app functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Offline Ethical Hacking Tutorial loaded successfully!');
+        });
+    </script>
+</body>
+</html>
