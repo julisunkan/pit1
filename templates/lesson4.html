@@ -369,7 +369,7 @@ class WebAppScanner:
             "&amp;lt;img src=x onerror=alert('XSS')&amp;gt;",
             "javascript:alert('XSS')",
             "&amp;lt;svg onload=alert('XSS')&amp;gt;",
-            "';alert('XSS');//"
+            "';alert_function('XSS');//"
         ]
         
         for payload in xss_payloads:
