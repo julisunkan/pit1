@@ -7,39 +7,156 @@ class OfflineEthicalHackingApp {
                 description: 'Learn the fundamentals of ethical hacking, white hat vs black hat hackers, and the importance of cybersecurity.',
                 duration: '45 minutes',
                 content: `
-                    <h2>Introduction to Ethical Hacking</h2>
-                    <p>Welcome to the world of ethical hacking! This comprehensive course will teach you the fundamentals of cybersecurity and ethical hacking practices.</p>
-                    
                     <h3>What is Ethical Hacking?</h3>
-                    <p>Ethical hacking, also known as penetration testing or white-hat hacking, is the practice of intentionally probing systems for security vulnerabilities in order to fix them before malicious hackers can exploit them.</p>
-                    
-                    <h3>White Hat vs Black Hat vs Grey Hat</h3>
-                    <ul>
-                        <li><strong>White Hat Hackers:</strong> Ethical hackers who help organizations improve security</li>
-                        <li><strong>Black Hat Hackers:</strong> Malicious hackers who break into systems for personal gain</li>
-                        <li><strong>Grey Hat Hackers:</strong> Hackers who operate between ethical and malicious boundaries</li>
-                    </ul>
-                    
-                    <h3>Key Principles of Ethical Hacking</h3>
-                    <div class="alert alert-info">
-                        <strong>Remember:</strong> Always obtain proper authorization before testing any system!
+                    <p>Ethical hacking, also known as penetration testing or white-hat hacking, is the practice of intentionally probing systems, networks, and applications for security vulnerabilities in a legal and authorized manner.</p>
+
+                    <h4>Key Concepts</h4>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 bg-dark border-success">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-shield fa-2x text-success mb-2"></i>
+                                    <h6>White Hat Hackers</h6>
+                                    <p class="small">Ethical hackers who work to protect systems and help organizations improve security.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 bg-dark border-warning">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-ninja fa-2x text-warning mb-2"></i>
+                                    <h6>Gray Hat Hackers</h6>
+                                    <p class="small">Hackers who may violate laws but don't have malicious intent.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 bg-dark border-danger">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user-secret fa-2x text-danger mb-2"></i>
+                                    <h6>Black Hat Hackers</h6>
+                                    <p class="small">Malicious hackers who exploit vulnerabilities for personal gain or to cause harm.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <ol>
-                        <li>Get proper written authorization</li>
-                        <li>Respect privacy and confidentiality</li>
-                        <li>Report all findings responsibly</li>
-                        <li>Do no harm to systems or data</li>
-                        <li>Stay within legal boundaries</li>
+
+                    <h4>The Ethical Hacking Process</h4>
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-info-circle me-2"></i>Important Note</h6>
+                        <p class="mb-0">Always ensure you have explicit written permission before testing any system that you don't own. Unauthorized access is illegal and can result in serious legal consequences.</p>
+                    </div>
+
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">
+                            <strong>Planning and Reconnaissance</strong>
+                            <p class="mb-0">Gather information about the target system and define the scope of testing.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Scanning</strong>
+                            <p class="mb-0">Use tools to discover live systems, open ports, and services.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Gaining Access</strong>
+                            <p class="mb-0">Exploit vulnerabilities to gain unauthorized access to systems.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Maintaining Access</strong>
+                            <p class="mb-0">Establish persistent access to demonstrate the impact of vulnerabilities.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Analysis and Reporting</strong>
+                            <p class="mb-0">Document findings and provide recommendations for remediation.</p>
+                        </li>
                     </ol>
+
+                    <h4>Essential Skills for Ethical Hackers</h4>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-code text-info me-2"></i>Technical Skills</h6>
+                            <ul>
+                                <li>Programming (Python, JavaScript, C++)</li>
+                                <li>Networking fundamentals</li>
+                                <li>Operating systems (Linux, Windows)</li>
+                                <li>Web technologies</li>
+                                <li>Database systems</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-brain text-info me-2"></i>Soft Skills</h6>
+                            <ul>
+                                <li>Problem-solving abilities</li>
+                                <li>Attention to detail</li>
+                                <li>Communication skills</li>
+                                <li>Continuous learning mindset</li>
+                                <li>Ethical decision-making</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>Sample Code: Simple Port Scanner</h4>
+                    <p>Here's a basic example of a port scanner written in Python:</p>
                     
-                    <h3>Common Career Paths</h3>
+                    <pre><code class="language-python">#!/usr/bin/env python3
+import socket
+import sys
+from datetime import datetime
+
+def scan_port(target, port):
+    """
+    Scan a specific port on the target host
+    """
+    try:
+        # Create socket object
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        
+        # Attempt to connect
+        result = sock.connect_ex((target, port))
+        sock.close()
+        
+        if result == 0:
+            return True
+        else:
+            return False
+    except socket.gaierror:
+        return False
+
+def main():
+    target = input("Enter target IP: ")
+    
+    # Display scan start time
+    print(f"Starting port scan on {target}")
+    print(f"Time started: {datetime.now()}")
+    print("-" * 50)
+    
+    # Scan common ports
+    common_ports = [21, 22, 23, 25, 53, 80, 110, 443, 993, 995]
+    
+    for port in common_ports:
+        if scan_port(target, port):
+            print(f"Port {port}: Open")
+        else:
+            print(f"Port {port}: Closed")
+    
+    print("-" * 50)
+    print(f"Scan completed: {datetime.now()}")
+
+if __name__ == "__main__":
+    main()</code></pre>
+
+                    <div class="alert alert-warning">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Legal Warning</h6>
+                        <p class="mb-0">Only use this code on systems you own or have explicit permission to test. Unauthorized scanning may be illegal in your jurisdiction.</p>
+                    </div>
+
+                    <h4>Career Certifications</h4>
+                    <p>Consider pursuing these industry-recognized certifications:</p>
                     <ul>
-                        <li>Penetration Tester</li>
-                        <li>Security Consultant</li>
-                        <li>Vulnerability Researcher</li>
-                        <li>Security Analyst</li>
-                        <li>Chief Information Security Officer (CISO)</li>
+                        <li><strong>CEH (Certified Ethical Hacker):</strong> Entry-level ethical hacking certification</li>
+                        <li><strong>OSCP (Offensive Security Certified Professional):</strong> Hands-on penetration testing</li>
+                        <li><strong>CISSP (Certified Information Systems Security Professional):</strong> Management-level security</li>
+                        <li><strong>CompTIA Security+:</strong> Foundational cybersecurity knowledge</li>
                     </ul>
                 `
             },
@@ -48,37 +165,150 @@ class OfflineEthicalHackingApp {
                 description: 'Master network discovery techniques, port scanning, and information gathering methodologies.',
                 duration: '60 minutes',
                 content: `
-                    <h2>Network Scanning & Reconnaissance</h2>
-                    <p>Learn how to gather information about target networks and systems using various reconnaissance techniques.</p>
-                    
-                    <h3>Information Gathering Phases</h3>
-                    <ol>
-                        <li><strong>Passive Reconnaissance:</strong> Gathering information without directly interacting with the target</li>
-                        <li><strong>Active Reconnaissance:</strong> Directly probing the target system</li>
-                    </ol>
-                    
-                    <h3>Common Tools</h3>
-                    <pre><code class="language-bash"># Nmap - Network discovery and port scanning
-nmap -sS -O target_ip
-nmap -A -T4 target_ip
+                    <h3>Network Scanning & Reconnaissance</h3>
+                    <p>Reconnaissance is the first phase of any penetration test. It involves gathering as much information as possible about the target system, network, or organization before attempting to exploit vulnerabilities.</p>
 
-# Netcat - Network utility for reading/writing network connections
-nc -nv target_ip port
-
-# Ping - Test network connectivity
-ping target_ip</code></pre>
-                    
-                    <h3>Port Scanning Techniques</h3>
-                    <ul>
-                        <li><strong>TCP SYN Scan:</strong> Stealthy scanning method</li>
-                        <li><strong>TCP Connect Scan:</strong> Full TCP connection</li>
-                        <li><strong>UDP Scan:</strong> Scanning UDP services</li>
-                        <li><strong>FIN Scan:</strong> Sending FIN packets</li>
-                    </ul>
-                    
-                    <div class="alert alert-warning">
-                        <strong>Legal Notice:</strong> Only scan systems you own or have explicit permission to test!
+                    <h4>Types of Reconnaissance</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 bg-dark border-info">
+                                <div class="card-body">
+                                    <h6><i class="fas fa-eye text-info me-2"></i>Passive Reconnaissance</h6>
+                                    <p class="small">Gathering information without directly interacting with the target system. This includes:</p>
+                                    <ul class="small">
+                                        <li>WHOIS lookups</li>
+                                        <li>DNS enumeration</li>
+                                        <li>Social media research</li>
+                                        <li>Google dorking</li>
+                                        <li>Public records</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 bg-dark border-warning">
+                                <div class="card-body">
+                                    <h6><i class="fas fa-radar-dish text-warning me-2"></i>Active Reconnaissance</h6>
+                                    <p class="small">Directly interacting with the target system to gather information:</p>
+                                    <ul class="small">
+                                        <li>Port scanning</li>
+                                        <li>Network mapping</li>
+                                        <li>Service enumeration</li>
+                                        <li>OS fingerprinting</li>
+                                        <li>Banner grabbing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <h4>Network Scanning Techniques</h4>
+                    
+                    <h5>1. Host Discovery</h5>
+                    <p>Identifying live hosts on a network:</p>
+                    <pre><code class="language-bash"># Ping sweep to find live hosts
+nmap -sn 192.168.1.0/24
+
+# ARP scan for local network
+nmap -PR 192.168.1.0/24
+
+# TCP SYN ping
+nmap -PS 192.168.1.0/24</code></pre>
+
+                    <h5>2. Port Scanning</h5>
+                    <p>Different types of port scans serve different purposes:</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Scan Type</th>
+                                    <th>Nmap Option</th>
+                                    <th>Description</th>
+                                    <th>Stealth Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TCP Connect</td>
+                                    <td>-sT</td>
+                                    <td>Completes full TCP handshake</td>
+                                    <td><span class="badge bg-danger">Low</span></td>
+                                </tr>
+                                <tr>
+                                    <td>TCP SYN</td>
+                                    <td>-sS</td>
+                                    <td>Half-open scan, stealthier</td>
+                                    <td><span class="badge bg-warning">Medium</span></td>
+                                </tr>
+                                <tr>
+                                    <td>FIN Scan</td>
+                                    <td>-sF</td>
+                                    <td>Sends FIN packets</td>
+                                    <td><span class="badge bg-success">High</span></td>
+                                </tr>
+                                <tr>
+                                    <td>UDP Scan</td>
+                                    <td>-sU</td>
+                                    <td>Scans UDP services</td>
+                                    <td><span class="badge bg-info">Variable</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h5>3. Service Detection</h5>
+                    <pre><code class="language-bash"># Version detection
+nmap -sV target_ip
+
+# OS detection
+nmap -O target_ip
+
+# Aggressive scan (includes OS detection, version detection, script scanning)
+nmap -A target_ip
+
+# Script scanning for vulnerabilities
+nmap --script vuln target_ip</code></pre>
+
+                    <h4>DNS Enumeration</h4>
+                    <p>DNS provides valuable information about target infrastructure:</p>
+                    <pre><code class="language-bash"># DNS lookup tools
+dig example.com
+nslookup example.com
+host example.com
+
+# Zone transfer attempt
+dig axfr @nameserver example.com
+
+# Subdomain enumeration
+dnsrecon -d example.com -t std
+fierce -dns example.com</code></pre>
+
+                    <h4>WHOIS Information Gathering</h4>
+                    <pre><code class="language-bash"># Domain WHOIS lookup
+whois example.com
+
+# IP WHOIS lookup  
+whois 192.168.1.1
+
+# Using online tools for comprehensive information
+# - whois.net
+# - whois.domaintools.com</code></pre>
+
+                    <div class="alert alert-danger">
+                        <h6><i class="fas fa-exclamation-triangle me-2"></i>Legal Warning</h6>
+                        <p class="mb-0">Active reconnaissance techniques can be detected and may be considered hostile. Only perform these activities on systems you own or have explicit written permission to test.</p>
+                    </div>
+
+                    <h4>Practical Exercise</h4>
+                    <p>Try this basic network discovery exercise (on your own network only):</p>
+                    <ol>
+                        <li>Discover your local network range using <code>ip route</code> or <code>ipconfig</code></li>
+                        <li>Perform a ping sweep to find live hosts</li>
+                        <li>Run a basic port scan on discovered hosts</li>
+                        <li>Attempt service detection on open ports</li>
+                        <li>Research any services found using banner grabbing</li>
+                    </ol>
                 `
             },
             3: {
