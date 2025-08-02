@@ -11,11 +11,12 @@
 
 - ✅ 10 comprehensive ethical hacking lessons
 - ✅ Complete original Flask templates included
-- ✅ Interactive content with code examples
+- ✅ All external dependencies included locally (Bootstrap, Font Awesome, Prism.js)
+- ✅ Interactive content with code examples and syntax highlighting
 - ✅ Progress tracking with local storage
 - ✅ Responsive design for all device sizes
 - ✅ Dark theme optimized for cybersecurity learning
-- ✅ Complete offline functionality
+- ✅ Complete offline functionality with no external requests
 - ✅ PWA installation support
 
 ## System Requirements
